@@ -1,0 +1,1651 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style></head><body><title>簡報即戰力</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800&family=Noto+Serif+TC:wght@500;700&display=swap">
+<style>
+/* 版面概念：深藍章節頁首（沿用原簡報的深藍＋黃色重點）＋淺色內容區。六章連續捲動，章內以分頁與滑桿互動。 */
+:root{
+  --hh:56px;
+  --bg:#F3F5FB; --surface:#FFFFFF; --ink:#181C3A; --muted:#4A5278; --line:#D8DDF0;
+  --navy:#242852; --on-navy:#FFFFFF; --navy-mute:#C5CEF3;
+  --brand:#3B58A0; --on-brand:#FFFFFF; --hi:#FFC000; --on-hi:#242852; --soft:#E6EBFA;
+  --accent:#FFC000; --on-accent:#242852;
+  --good:#17703A; --good-bg:#E3F3E8; --warn:#7A4F00; --warn-bg:#FBF0D6; --bad:#B3261E; --bad-bg:#FBE7E5;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1226; --surface:#181C3E; --ink:#E9EDFB; --muted:#AEB8DE; --line:#2B3366;
+    --navy:#1B2050; --navy-mute:#B7C2EE;
+    --brand:#9DB6FF; --on-brand:#0F1226; --soft:#222A5C;
+    --good:#5FD28A; --good-bg:#17301F; --warn:#F2C14E; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1A1A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1226; --surface:#181C3E; --ink:#E9EDFB; --muted:#AEB8DE; --line:#2B3366;
+  --navy:#1B2050; --navy-mute:#B7C2EE;
+  --brand:#9DB6FF; --on-brand:#0F1226; --soft:#222A5C;
+  --good:#5FD28A; --good-bg:#17301F; --warn:#F2C14E; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1A1A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--font)}
+@media (min-width:900px){body{font-size:18px}}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+button{font-family:inherit}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4,p{margin:0}
+.muted{color:var(--muted)}
+
+/* 頂部導覽 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--hh);background:var(--navy);color:var(--on-navy)}
+.top .wrap{height:100%;display:flex;align-items:center;gap:12px}
+.logo{flex:none;font-weight:800;font-size:18px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo b{color:var(--hi)}
+.nav{flex:1;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;display:flex;align-items:center;min-height:40px;padding:0 13px;border-radius:999px;font-weight:700;font-size:15px;color:var(--navy-mute);text-decoration:none;white-space:nowrap}
+.nav a.cur{background:var(--hi);color:var(--on-hi)}
+
+/* 首頁 */
+.hero{background:var(--navy);color:var(--on-navy);padding-block:clamp(36px,7vw,80px) clamp(32px,5vw,56px)}
+.hero-grid{display:grid;gap:32px;align-items:center}
+@media (min-width:900px){.hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.14em;color:var(--hi)}
+.hero h1{font-size:clamp(30px,6vw,54px);line-height:1.22;font-weight:800;margin-top:10px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--hi)}
+.sub{margin-top:14px;font-size:clamp(17px,2.4vw,21px);color:var(--navy-mute)}
+.hero .cl2{color:#fff}
+.hero .lbl{color:#fff}
+.idx{list-style:none;margin:clamp(28px,4vw,44px) 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.idx a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;font-weight:700;line-height:1.35}
+.idx a:hover{background:rgba(255,255,255,.16)}
+.bub{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#4A66AC;color:#fff;font-weight:800;font-size:18px;line-height:1}
+.bub.big{width:60px;height:60px;font-size:26px;background:var(--navy);color:var(--hi)}
+
+/* 章 */
+.chap{padding-block:clamp(44px,7vw,80px) 8px;scroll-margin-top:calc(var(--hh) + env(safe-area-inset-top,0px))}
+.chap + .chap{border-top:1px solid var(--line)}
+.chead{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.chead h2{font-size:clamp(24px,4.2vw,36px);line-height:1.25;font-weight:800;text-wrap:balance}
+.kick{margin-top:6px;color:var(--muted);font-size:clamp(16px,2vw,19px)}
+.sh{display:flex;align-items:center;gap:10px;margin:clamp(36px,5vw,52px) 0 14px;font-size:clamp(20px,3vw,26px);font-weight:800;line-height:1.35}
+.sh::before{content:"";flex:none;width:6px;height:1.15em;border-radius:3px;background:var(--hi)}
+.lead{font-size:clamp(17px,2.2vw,20px);margin:0 0 14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;min-width:0}
+.card h3{font-size:20px;font-weight:800;margin-bottom:6px;color:var(--brand)}
+.card h4{font-size:18px;font-weight:800;margin-bottom:6px}
+.card p + p{margin-top:10px}
+.src{font-size:14px;color:var(--muted)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.quote{margin:16px 0 0;background:var(--navy);color:var(--on-navy);border-radius:16px;padding:22px 24px;font-size:clamp(18px,2.6vw,24px);line-height:1.65}
+.quote em{font-style:normal;font-weight:800;color:var(--hi)}
+.quote cite{display:block;margin-top:10px;font-size:15px;font-style:normal;color:var(--navy-mute)}
+.quote cite a{color:var(--hi)}
+.big-say{background:var(--navy);color:var(--on-navy);border-radius:18px;padding:clamp(24px,5vw,44px);text-align:center;font-size:clamp(22px,4.6vw,40px);font-weight:800;line-height:1.5}
+.big-say em{font-style:normal;color:var(--hi)}
+.note{background:var(--soft);border-radius:12px;padding:12px 16px;font-size:16px;line-height:1.65}
+.chips2{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chips2 span,.chips2 a{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;background:var(--soft);color:var(--ink);font-weight:700;font-size:15px;text-decoration:none}
+.chips2 a{color:var(--brand)}
+ul.dot{margin:8px 0 0;padding-left:1.2em}
+ul.dot li{margin:4px 0}
+
+/* 分頁元件 */
+.tbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tbb{min-height:48px;padding:0 18px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:16px}
+.tbb[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tbb small{font-weight:500;opacity:.8;margin-left:6px}
+.tbar.round{gap:10px}
+.tbar.round .tbb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;width:112px;height:112px;padding:0;border-radius:50%;font-size:20px;line-height:1.25;text-align:center}
+.tbar.round .tbb small{display:block;margin:0;font-size:12px;font-family:Georgia,serif}
+.tbar.round.sm .tbb{width:84px;height:84px;font-size:28px}
+.tbar.round .tbb[aria-selected="true"]{box-shadow:inset 0 0 0 4px var(--hi)}
+.tpanel{min-width:0}
+.tpanel[hidden]{display:none}
+
+/* 診斷、評分 */
+.diag{display:grid;gap:8px}
+.ck{display:flex;align-items:flex-start;gap:12px;min-height:48px;padding:10px 12px;border:2px solid var(--line);border-radius:12px;cursor:pointer;line-height:1.5}
+.ck input{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--brand)}
+.ck:has(input:checked){border-color:var(--brand);background:var(--soft)}
+.diagout{margin-top:14px;min-height:28px;font-weight:700}
+.diagout a{margin-right:10px}
+.rub{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:12px}
+.rub li{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:2px 12px;align-items:center}
+.rub .rl{font-weight:800}
+.rub .rp{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;color:var(--brand)}
+.rub .rbar{grid-column:1 / -1;height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.rub .rbar i{display:block;height:100%;background:var(--navy);border-radius:999px}
+.rub small{grid-column:1 / -1;color:var(--muted);font-size:15px}
+
+/* 流程樹 */
+.tree{display:grid;gap:10px;justify-items:center}
+.tn{padding:8px 18px;border-radius:10px;background:var(--soft);font-weight:700;text-align:center;border:2px solid var(--line);min-width:96px}
+.tn.cover,.tn.endp{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tn.toc{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.tn.tr{background:var(--hi);color:var(--on-hi);border-color:var(--hi)}
+.tcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.tcol{display:grid;gap:8px;justify-items:stretch}
+.flow3{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0}
+.flow3 .tn{font-size:20px}
+.flow3 .ar{font-weight:800;color:var(--muted);font-size:22px}
+.warn-big{margin-top:14px;border-radius:14px;background:var(--navy);color:#fff;padding:18px 20px;font-size:clamp(22px,4vw,34px);font-weight:800;text-align:center;line-height:1.4}
+.warn-big em{font-style:normal;color:var(--hi)}
+
+/* 色彩情緒 */
+.moods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin-top:6px}
+.mood{border-radius:12px;padding:14px;font-weight:700;line-height:1.55;font-size:16px;border:1px solid rgba(0,0,0,.12)}
+.mood b{display:block;font-size:20px;margin-bottom:4px}
+.icons{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
+.icons svg{width:44px;height:44px}
+.pick{display:grid;gap:12px}
+.pickout{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:14px;align-items:center;margin-top:10px}
+.pickout svg{width:120px;height:90px;background:var(--soft);border-radius:10px}
+
+/* 口頭報告、AI */
+.spk{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.spk .card{display:grid;gap:6px;align-content:start}
+.spk label{display:flex;gap:10px;align-items:center;font-weight:700;color:var(--brand);margin-top:4px;min-height:40px;cursor:pointer}
+.spk input{width:22px;height:22px;accent-color:var(--brand)}
+.prog{height:14px;border-radius:999px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--good);border-radius:999px;transition:width .2s}
+.pr{margin:8px 0 0;padding:12px 14px;border-radius:12px;background:var(--soft);font:400 16px/1.7 var(--font);white-space:pre-wrap;word-break:break-word}
+.cbtn{margin-top:8px;min-height:44px;padding:0 18px;border-radius:12px;border:2px solid var(--brand);background:var(--surface);color:var(--brand);font-weight:800;font-size:16px}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.tag-h{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:1px 10px;margin-bottom:6px}
+.tag-h.ai{background:var(--soft);color:var(--brand)}
+.tag-h.me{background:var(--hi);color:var(--on-hi)}
+.reveal{background:var(--navy);color:#fff;border-radius:18px;padding:clamp(24px,5vw,44px) clamp(16px,4vw,32px);min-height:220px;display:grid;place-items:center;text-align:center;font-size:clamp(24px,5vw,44px);font-weight:800;line-height:1.5}
+.reveal em{font-style:normal;color:var(--hi)}
+.reveal small{display:block;margin-top:12px;font-size:15px;font-weight:500;color:var(--navy-mute)}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--hi);outline:2px solid var(--navy)}
+.rrow{display:flex;gap:10px;margin-top:12px}
+.rrow .btn{flex:1}
+
+/* 計時、QR */
+.timer{display:grid;gap:12px;justify-items:center;text-align:center}
+.tdisp{font-size:clamp(44px,12vw,72px);font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.tph{font-weight:800;min-height:28px}
+.timer .prog{width:100%}
+.qrbox{display:grid;gap:12px;justify-items:start}
+.qrbox input[type=text]{width:100%;min-height:48px;padding:0 12px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--surface);color:var(--ink)}
+.qrimg{background:#fff;padding:12px;border-radius:12px;display:inline-block;min-height:48px}
+
+/* 實戰區 */
+.lbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.lbar .segb{position:relative;min-height:52px;font-size:16px}
+.lbar .segb.done::after{content:"✓";position:absolute;right:5px;top:3px;font-size:12px;color:var(--good);font-weight:800}
+.lbar .segb.on.done::after{color:var(--hi)}
+.lab-grid{display:grid;gap:0 28px}
+@media (min-width:900px){.lab-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}}
+.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hh));z-index:20;background:var(--bg);padding-block:10px 6px}
+@media (min-width:900px){.stage{top:calc(env(safe-area-inset-top,0px) + var(--hh) + 12px)}}
+@media (max-height:520px){.stage{position:static}}
+.lab-side{min-width:0}
+.panel h4{margin:0 0 10px;font-size:18px;color:var(--brand);font-weight:800}
+.chips{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hh));z-index:20;background:var(--bg);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding-block:10px 6px}
+.gwall{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr))}
+.gm{min-width:0}
+.cl2{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:800;color:var(--ink)}
+
+/* 清單與資源 */
+.res{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.res a{display:block;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);font-weight:800;line-height:1.4}
+.res a small{display:block;margin-top:2px;font-weight:400;color:var(--muted);font-size:15px}
+.res a:hover{border-color:var(--brand)}
+.books{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.book{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:4px;align-content:start}
+.book b{font-size:19px;line-height:1.4}
+.book span{color:var(--muted);font-size:15px}
+details.qa{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 18px}
+details.qa + details.qa{margin-top:10px}
+details.qa summary{cursor:pointer;min-height:52px;display:flex;align-items:center;font-weight:800;font-size:18px;line-height:1.5;padding-block:8px}
+details.qa[open] summary{color:var(--brand)}
+details.qa .ans{padding:2px 0 14px}
+.closing{margin-top:clamp(40px,6vw,72px)}
+footer.ft{margin-top:clamp(40px,6vw,72px);background:var(--navy);color:var(--navy-mute);padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));font-size:15px;line-height:1.7}
+footer.ft b{color:#fff}
+
+@media (max-width:560px){
+  .tbar.round{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .tbar.round .tbb,.tbar.round.sm .tbb{width:100%;height:auto;aspect-ratio:1;font-size:15px}
+  .tbar.round.sm .tbb{font-size:22px}
+  .tbar.round .tbb small{font-size:10px}
+}
+
+/* ===== 分頁式版面 ===== */
+main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.pg[hidden]{display:none}
+.pg > .wrap{padding-block:clamp(22px,4vw,44px) 8px}
+.ptop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ptop .bub{width:34px;height:34px;font-size:15px;background:var(--navy);color:var(--hi)}
+.pchap{font-weight:700;font-size:15px;color:var(--muted)}
+.ptitle{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:800;margin-bottom:20px;text-wrap:balance;outline:none}
+#p0 > .hero{padding-block:clamp(32px,6vw,64px) clamp(32px,5vw,48px)}
+#p0 .ft{margin-top:0}
+.start{display:inline-flex;align-items:center;min-height:52px;padding:0 28px;border-radius:999px;background:var(--hi);color:var(--on-hi);font-weight:800;font-size:18px;text-decoration:none}
+.menu{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--navy-mute);background:transparent;color:#fff;font-weight:700;font-size:15px}
+.nav a.cur{background:var(--hi);color:var(--on-hi)}
+
+.pbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.pprog{height:4px;background:var(--line)}
+.pprog i{display:block;height:100%;width:0;background:var(--hi);transition:width .2s}
+.pin{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding-block:8px}
+.pb{min-height:48px;padding:0 18px;border-radius:12px;border:2px solid var(--navy);background:var(--surface);color:var(--ink);font-weight:800;font-size:17px;white-space:nowrap}
+.pb.go{background:var(--navy);color:#fff}
+.pb[disabled]{opacity:.35}
+.pmid{display:grid;text-align:center;min-width:0;line-height:1.3}
+.pmid b{font-size:16px;font-variant-numeric:tabular-nums}
+.pmid span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:420px){.pb{padding:0 12px;font-size:16px}}
+@media (prefers-reduced-motion:reduce){.pprog i{transition:none}}
+
+.drawer{position:fixed;inset:0;z-index:70}
+.drawer[hidden]{display:none}
+.dback{position:absolute;inset:0;background:rgba(10,12,30,.55)}
+.dpanel{position:absolute;top:0;right:0;bottom:0;width:min(420px,92vw);background:var(--surface);color:var(--ink);overflow-y:auto;padding:max(16px,env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.dhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.dhd b{font-size:20px}
+.dhd button{min-height:44px;padding:0 16px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:700;font-size:16px}
+.dch{margin-top:14px;font-weight:800;color:var(--brand);font-size:16px}
+.dpg{display:block;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-size:16px;line-height:1.4}
+.dpg:hover{background:var(--soft)}
+.dpg.cur{background:var(--navy);color:#fff;font-weight:700}
+
+/* 範例專區 */
+.excard{display:grid;grid-template-columns:minmax(0,40%) minmax(0,1fr);gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink)}
+.excard:hover{border-color:var(--brand)}
+.excard img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:var(--soft)}
+.excard b{display:block;font-size:18px;line-height:1.4}
+.excard span{display:block;margin-top:4px;font-size:15px;color:var(--muted);line-height:1.5}
+.excard em{display:block;margin-top:8px;font-style:normal;font-weight:800;color:var(--brand)}
+@media (max-width:560px){.excard{grid-template-columns:1fr}}
+.viewer{outline:none}
+.vimg{position:relative;aspect-ratio:16/9;background:var(--soft);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.vimg img{display:block;width:100%;height:100%;object-fit:contain}
+.vcount{position:absolute;right:10px;bottom:10px;background:rgba(20,24,56,.85);color:#fff;font-size:14px;font-weight:700;padding:3px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+.vctl{display:flex;gap:10px;margin-top:10px}
+.vctl .btn{flex:1}
+.vnote{margin-top:12px;min-height:84px}
+.vnote .card{padding:14px 16px}
+.vjump{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.vjump span{font-weight:700;font-size:15px;color:var(--muted)}
+.vjump button{min-width:44px;min-height:40px;padding:0 12px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:15px}
+.vjump button.on{background:var(--hi);border-color:var(--hi);color:var(--on-hi)}
+.vthumbs{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.vthumbs button{flex:none;width:112px;padding:0;border:3px solid transparent;border-radius:8px;background:none;overflow:hidden;opacity:.75}
+.vthumbs button.on{border-color:var(--hi);opacity:1}
+.vthumbs img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+
+.book{grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
+.book img{width:96px;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:var(--soft)}
+.book .bt{display:grid;gap:4px;align-content:start}
+.buy{display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-weight:800;color:var(--brand);text-decoration:none;font-size:16px}
+.buy:hover{text-decoration:underline}
+.tkcard,.qalink{display:grid;gap:4px;padding:16px 18px;border-radius:16px;background:var(--surface);border:2px solid var(--line);text-decoration:none;color:var(--ink);line-height:1.5}
+.tkcard:hover,.qalink:hover{border-color:var(--brand)}
+.tkcard b,.qalink b{font-size:20px}
+.tkcard span:not(.tkic),.qalink span{color:var(--muted);font-size:16px}
+.tkcard i{font-style:normal;font-weight:800;color:var(--brand)}
+.tkic{font-size:30px;line-height:1}
+.qalink{background:var(--navy);color:var(--on-navy);border-color:var(--navy)}
+.qalink span{color:var(--on-navy);opacity:.85}
+.qalink[aria-disabled=true]{opacity:.6;pointer-events:none}
+.kp{display:grid;gap:12px}
+.kpi{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.kpi b{font-size:19px}.kpi p{margin:4px 0 0;color:var(--muted);font-size:16px;line-height:1.6}
+#tkpr .tkp{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+#tkpr .tkp b{font-size:18px}
+
+.g3{grid-template-columns:1fr}
+.g3 .card{padding:18px 22px}
+.g3 .card h4{font-size:clamp(19px,2.6vw,24px)}
+.g3 .card p{font-size:clamp(17px,2.2vw,20px)}
+
+.pi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:12px}
+.pi>b{font-size:18px}
+
+.tbar.round .tbb{font-size:18px;padding:0 6px;box-sizing:border-box}
+.tbar.round.sm .tbb{font-size:26px}
+.tbar:not(.round){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
+.tbar:not(.round) .tbb{display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;text-align:center}
+.tbar:not(.round) .tbb small{margin:0}
+@media (max-width:560px){.tbar.round .tbb{font-size:14px;padding:0 2px}.tbar.round.sm .tbb{font-size:21px}.tbar:not(.round){grid-template-columns:repeat(2,minmax(0,1fr))}}
+.eg{display:inline-block;margin-right:8px;padding:0 12px;border-radius:999px;background:var(--hi);color:var(--on-hi);font-weight:800;font-size:16px}
+
+/* 導覽兩行 */
+:root{--hh:100px}
+.top{height:auto}
+.top .wrap{height:auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px 14px;padding-block:8px}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;overflow:visible}
+.nav a{justify-content:center;min-height:38px;padding:0 8px}
+@media (max-width:700px){
+  :root{--hh:112px}
+  .top .wrap{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"logo menu" "nav nav"}
+  .logo{grid-area:logo}.menu{grid-area:menu}.nav{grid-area:nav}
+  .nav a{min-height:36px;font-size:14px;padding:0 4px}
+}
+
+.aq{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
+.aq p{margin:0}
+.aqr{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.aqb{min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:16px}
+.aqb.ok{background:var(--navy);color:#fff;border-color:var(--navy)}
+.aqb.ok::before{content:"✓ "}
+.aqb.no{border-style:dashed;text-decoration:line-through;opacity:.7}
+.aqf{margin-top:10px!important;font-weight:700;color:var(--brand);min-height:1.5em}
+@media (max-width:700px){.top .wrap{padding-block:6px;gap:4px 10px}.menu{min-height:36px;padding:0 14px;font-size:15px}.logo{font-size:17px}.nav a{min-height:34px}}
+
+.qrrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.qrc{display:grid;gap:6px;justify-items:center;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qrc b{font-size:19px}
+.qrc a{font-size:14px;color:var(--muted);word-break:break-all}
+.qrc .qrimg{border:1px solid var(--line)}
+
+.urlbox{display:grid;gap:6px;justify-items:start}
+.urlt{font-size:clamp(18px,3.2vw,26px);font-weight:800;color:var(--brand);word-break:break-all;line-height:1.4}
+
+.tl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.tl li{display:grid;grid-template-columns:7.5em 1fr;gap:2px 12px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+
+
+
+
+.task{margin-top:14px;background:var(--soft);border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.6}
+.task b{display:inline-block;background:var(--accent);color:var(--on-accent);border-radius:6px;padding:0 8px;margin-right:8px;font-size:14px}
+
+.stbox{position:relative}
+.slide{position:relative;width:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#fff}
+.in{position:absolute;inset:0;overflow:hidden}
+.tag{background:var(--ink);color:var(--bg);font-size:12px;font-weight:800;line-height:1;padding:5px 10px;border-radius:999px}
+.stinfo{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.hots{position:absolute;inset:0;z-index:2;border-radius:10px;overflow:hidden}
+.strow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;min-height:44px}
+.stl{font-size:14px;line-height:1.4;color:var(--muted);min-width:0}
+.peek{flex:none;font-weight:700;font-size:15px;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--brand);background:var(--surface);color:var(--brand);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
+.peek.hold{background:var(--brand);color:var(--on-brand)}
+
+.panel{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.panel h3{margin:0 0 10px;font-size:18px;line-height:1.4;color:var(--brand)}
+.ctrls{display:flex;flex-direction:column;gap:20px}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-weight:700;margin-bottom:8px}
+.lbl output,.lbl .cur{color:var(--brand);font-weight:800;font-variant-numeric:tabular-nums}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.segb{font-weight:700;font-size:16px;min-height:48px;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--ink);padding:0 4px}
+.segb.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var(--brand)}
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.swb{aspect-ratio:1;min-height:44px;padding:0;border-radius:12px;border:2px solid var(--line);font-weight:900;font-size:20px;line-height:1}
+.swb.on{outline:3px solid var(--brand);outline-offset:2px}
+.swb.on::after{content:"✓"}
+.tg{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:62px;padding:10px 12px;text-align:left;font-size:17px;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:12px}
+.tg b{display:block}
+.tg small{display:block;font-size:14px;line-height:1.4;color:var(--muted)}
+.tg .sw2{flex:none;position:relative;width:68px;height:34px;border-radius:999px;background:var(--line);color:var(--ink);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:flex-end;padding:0 10px}
+.tg .sw2::after{content:attr(data-t)}
+.tg .sw2 i{position:absolute;left:3px;top:3px;width:28px;height:28px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.tg.on{border-color:var(--brand)}
+.tg.on .sw2{background:var(--brand);color:var(--on-brand);justify-content:flex-start}
+.tg.on .sw2 i{left:37px;border-color:var(--on-brand)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1;min-width:0;min-height:48px;padding:0 16px;font-weight:700;font-size:16px;border-radius:12px;border:2px solid var(--brand);background:var(--brand);color:var(--on-brand)}
+.btn.ghost{background:var(--surface);color:var(--brand)}
+
+.meter{height:14px;background:var(--line);border-radius:999px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--good);border-radius:999px;transition:width .2s}
+.sum{margin:8px 0 0;font-weight:700}
+.fb{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.fb li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-size:16px;line-height:1.5}
+.bd{font-size:13px;font-weight:800;line-height:1.5;border-radius:6px;padding:1px 8px;white-space:nowrap}
+.bd.ok{background:var(--good-bg);color:var(--good)}
+.bd.warn{background:var(--warn-bg);color:var(--warn)}
+.bd.bad{background:var(--bad-bg);color:var(--bad)}
+
+.cmp{position:relative;width:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#fff;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.cmp .layer{position:absolute;inset:0}
+.cmp .bar{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 0 1px rgba(20,33,61,.6);pointer-events:none}
+.cmp .knob{position:absolute;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#fff;border:2px solid #14213D;color:#14213D;display:grid;place-items:center;font-weight:800;font-size:15px;pointer-events:none}
+.cl2{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:800;color:var(--ink)}
+.cmpnote{margin:8px 0 0;font-size:15px;color:var(--muted)}
+
+
+.ghd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ghd h3{margin:0}
+.ghd .bd{flex:none}
+
+.hot{position:absolute;padding:0;border:0;border-radius:6px;background:transparent;cursor:pointer}
+.hot[data-k="tiny"]{top:auto!important;bottom:1%;min-height:36px}
+.hot.found{outline:3px solid #22C55E;outline-offset:-2px;background:rgba(34,197,94,.16)}
+.hot.found::after{content:attr(data-n);position:absolute;left:4px;top:4px;min-width:22px;height:22px;padding:0 4px;display:grid;place-items:center;border-radius:999px;background:#16A34A;color:#fff;font-weight:800;font-size:13px;line-height:1}
+.hot.pulse{animation:pl .6s 3}
+@keyframes pl{50%{outline:4px solid #fff;outline-offset:-4px;background:rgba(255,255,255,.4)}}
+@media (prefers-reduced-motion:reduce){.hot.pulse{animation:none;outline:4px solid #fff;outline-offset:-4px}.meter div{transition:none}}
+
+.ghd h4{margin:0}
+.ghd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+
+</style>
+<header class="top"><div class="wrap">
+  <a class="logo" href="#p0">簡報<b>即戰力</b></a>
+  <nav class="nav" id="nav" aria-label="章節"></nav>
+  <button type="button" class="menu" id="menu" aria-haspopup="dialog">目錄</button>
+</div></header>
+
+<main id="main">
+
+<!-- 首頁 -->
+<section class="pg" id="p0" data-ch="0" data-t="首頁" hidden>
+<div class="hero"><div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">AI 時代的簡報設計與表達技巧</p>
+      <h1>簡報即戰力：<em>讓你的想法</em>更有影響力</h1>
+      <p class="sub">看懂原理，看見差異，當場動手改。先看，再玩，最後換你上場。</p>
+      <p style="margin-top:22px"><a class="start" href="#p1-1">開始 →</a></p>
+    </div>
+    <div id="heroCmp"></div>
+  </div>
+  <ol class="idx" id="idx"></ol>
+</div></div>
+</section>
+
+<!-- 一 -->
+<section class="pg" id="p1-1" data-ch="1" data-t="簡報是什麼？" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">一</span><span class="pchap">簡報力，就是你的競爭力！</span></div>
+  <h2 class="ptitle" tabindex="-1">簡報是什麼？好簡報？為何要學？</h2>
+  <div class="grid g3">
+    <article class="card"><h3>簡報是什麼？</h3><p>簡報是一種<b>「漸進式的說服」</b>過程。聽眾從原本的位置（想法、立場、情緒），一步步移動到講者設定的目標。這個過程需要<b>構思、設計與排練</b>。</p><p class="src">出處：簡報。小學堂</p></article>
+    <article class="card"><h3>何謂好簡報？</h3><p>好簡報不只是漂亮的投影片，而是讓聽眾<b>看得懂、記得住、願意行動</b>。投影片負責「一眼就懂」，講者負責「說服人心」。</p></article>
+    <article class="card"><h3>為何要學簡報？</h3><p>升學面試、專題報告、求職面試、職場提案，都要把想法清楚地說給別人聽。會簡報的人，更容易被看見。</p></article>
+  </div>
+  <blockquote class="quote">簡報可以改變世界。你或許不需要改變整個世界，但是你肯定可以利用<em>簡報改變你的世界</em>。<cite>Nancy Duarte 南西・杜爾特　<a href="https://www.youtube.com/watch?v=5hbtjZw7gws" target="_blank" rel="noopener">看她的 5 個簡報原則（影片，另開分頁）</a></cite></blockquote>
+</div></section>
+
+<section class="pg" id="p1-2" data-ch="1" data-t="學生簡報做不好的原因" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">一</span><span class="pchap">簡報力，就是你的競爭力！</span></div>
+  <h2 class="ptitle" tabindex="-1">學生簡報做不好的原因？先診斷自己</h2>
+  <div class="card">
+    <p class="lead" style="font-size:17px">勾選你常遇到的狀況，下面會告訴你該先看哪一章。</p>
+    <div class="diag" id="diag"></div>
+    <div class="diagout" id="diagout" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="pg" id="p1-3" data-ch="1" data-t="老師怎麼看你的簡報" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">一</span><span class="pchap">簡報力，就是你的競爭力！</span></div>
+  <h2 class="ptitle" tabindex="-1">老師怎麼看你的簡報？</h2>
+  <p class="lead"><span class="eg">舉例</span>下面是其中一種評分規準，每位老師、每個課程的比例都不一樣。</p>
+  <div class="card">
+    <p class="muted" style="font-size:16px">舉例：期末發表評分規準（發表時間 7 分鐘）</p>
+    <ul class="rub">
+      <li><span class="rl">一、前言與結論</span><span class="rp">10%</span><span class="rbar"><i style="width:20%"></i></span><small>需前後呼應</small></li>
+      <li><span class="rl">二、內容</span><span class="rp">50%</span><span class="rbar"><i style="width:100%"></i></span><small>架構邏輯、內容完整度、知識含量等</small></li>
+      <li><span class="rl">三、資料彙整</span><span class="rp">10%</span><span class="rbar"><i style="width:20%"></i></span><small>資料來源</small></li>
+      <li><span class="rl">四、簡報設計</span><span class="rp">15%</span><span class="rbar"><i style="width:30%"></i></span><small>字型一致、大小、字數、圖文相符</small></li>
+      <li><span class="rl">五、團隊合作</span><span class="rp">15%</span><span class="rbar"><i style="width:30%"></i></span><small>口條、默契、報告流暢度等</small></li>
+    </ul>
+    <p class="note" style="margin-top:16px">內容占一半，設計占 15%。<b>想的清楚，才能講的清楚</b>，所以先想清楚，再做漂亮。</p>
+  </div>
+</div></section>
+
+<section class="pg" id="p1-4" data-ch="1" data-t="簡報 4P 流程" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">一</span><span class="pchap">簡報力，就是你的競爭力！</span></div>
+  <h2 class="ptitle" tabindex="-1">簡報 4P 流程：整個旅程的地圖</h2>
+  <div id="ts4p"></div>
+</div></section>
+
+<!-- 二 -->
+<section class="pg" id="p2-1" data-ch="2" data-t="分 4 階段做簡報" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">分 4 階段做簡報</h2>
+  <p class="lead">先搭框架，再填內容，最後才設計。</p>
+  <div id="ts4stage"></div>
+</div></section>
+
+<section class="pg" id="p2-2" data-ch="2" data-t="設計 3 元素" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">設計關鍵決策 3 元素</h2>
+  <div class="flow3">
+    <span class="tn">設計美感</span><span class="ar">→</span><span class="tn">邏輯架構</span><span class="ar">→</span><span class="tn">視覺動線</span>
+  </div>
+  <div class="grid g3" style="margin-top:10px">
+    <div class="card"><h4>設計美感</h4><p>色、字、圖搭配得舒服，看起來專業。</p></div>
+    <div class="card"><h4>邏輯架構</h4><p>內容的先後順序清楚，聽眾不會迷路。</p></div>
+    <div class="card"><h4>視覺動線</h4><p>眼睛從標題走到重點的路線順暢。</p></div>
+  </div>
+</div></section>
+
+<section class="pg" id="p2-3" data-ch="2" data-t="4 項原則" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">4 項原則：對齊、放大、對比、重複</h2>
+  <p class="lead">每一項都有 BEFORE／AFTER，左右拖曳看差別。</p>
+  <div id="ts4rule"></div>
+</div></section>
+
+<section class="pg" id="p2-4" data-ch="2" data-t="4 種表現" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">4 種表現：色、文、圖、數</h2>
+  <div id="ts4show"></div>
+</div></section>
+
+<section class="pg" id="p2-5" data-ch="2" data-t="減法設計" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">減法設計：文字、色彩、元素</h2>
+  <div class="grid g3">
+    <div class="card"><h4>減文字</h4><p>整句改關鍵字，一頁一重點。</p></div>
+    <div class="card"><h4>減色彩</h4><p>主色、輔色、強調色，3 種就夠。</p></div>
+    <div class="card"><h4>減元素</h4><p>刪掉不幫助理解的裝飾，留下重點。</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h4>以知識點為拆分</h4><p>用<b>色塊</b>區分視覺區域，用<b>畫線</b>標出重點。一塊一個知識點，眼睛就知道從哪裡讀。</p></div>
+    <div class="card"><div data-gt="擁擠封面 → 簡潔封面" data-note="1"></div></div>
+  </div>
+</div></section>
+
+<section class="pg" id="p2-7" data-ch="2" data-t="留白藝術" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">留白藝術：空白不是浪費</h2>
+  <p class="lead">留白讓重點呼吸。看起來「空」的地方，其實是在告訴觀眾：看這裡。</p>
+  <div id="wscmp"></div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h4>四周留邊</h4><p>文字和圖片不要貼著投影片邊緣，四周至少留出一指寬。</p></div>
+    <div class="card"><h4>行距與段距</h4><p>行距約 1.2 到 1.5 倍，段落之間再多留一點，眼睛才有地方休息。</p></div>
+    <div class="card"><h4>一頁一焦點</h4><p>最重要的東西放大，周圍的空間留給它。留白越大，那個東西越顯眼。</p></div>
+  </div>
+  <h3 class="sh">做簡報時怎麼留白？</h3>
+  <div id="wstips"></div>
+  <p class="note" style="margin-top:14px">功能名稱和位置會依軟體版本、系統不同而略有差異。找不到時，在軟體的搜尋列輸入功能名稱就能找到。</p>
+</div></section>
+
+<section class="pg" id="p2-6" data-ch="2" data-t="24 組範例牆" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">二</span><span class="pchap">簡報設計力：讓你的內容一眼就懂！</span></div>
+  <h2 class="ptitle" tabindex="-1">24 組 BEFORE／AFTER 範例牆</h2>
+  <p class="lead">老師講解時、自己課後複習時都好用。可以依主題篩選。</p>
+  <div id="gal"></div>
+  <p class="note" style="margin-top:18px">更多美感排版技巧：<a href="https://www.facebook.com/watch/?v=1524874437687140" target="_blank" rel="noopener">日本「Layout song」教你 4 大排版美學技巧（影片，另開分頁）</a></p>
+</div></section>
+
+<!-- 三 -->
+<section class="pg" id="p3-1" data-ch="3" data-t="想的清楚才能講的清楚" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">三</span><span class="pchap">表達影響力：讓觀眾願意聽、記得住！</span></div>
+  <h2 class="ptitle" tabindex="-1">投影片只是輔助，說服人的是你</h2>
+  <div class="big-say">想的清楚，<br><em>才能講的清楚</em></div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h4>先想目的</h4><p>這場簡報要改變聽眾什麼？</p></div>
+    <div class="card"><h4>再想觀眾</h4><p>他們是誰？在乎什麼？</p></div>
+    <div class="card"><h4>最後練習</h4><p>用聲音、手勢、停頓，把想法交給對方。</p></div>
+  </div>
+</div></section>
+
+<section class="pg" id="p3-2" data-ch="3" data-t="明確用途目的" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">三</span><span class="pchap">表達影響力：讓觀眾願意聽、記得住！</span></div>
+  <h2 class="ptitle" tabindex="-1">明確簡報的用途目的：你想改變聽眾什麼？</h2>
+  <div id="ts4aim"></div>
+</div></section>
+
+<section class="pg" id="p3-3" data-ch="3" data-t="分析目標觀眾" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">三</span><span class="pchap">表達影響力：讓觀眾願意聽、記得住！</span></div>
+  <h2 class="ptitle" tabindex="-1">分析本次目標觀眾</h2>
+  <div class="card">
+    <p class="lead" style="font-size:17px">上台前，先回答這四個問題：</p>
+    <div class="grid g3" style="margin-top:6px">
+      <div class="card"><h4>1. 他們是誰？</h4><p>年齡、身分、人數。</p></div>
+      <div class="card"><h4>2. 他們已經知道什麼？</h4><p>哪些不用再解釋，哪些要從頭講。</p></div>
+      <div class="card"><h4>3. 他們在乎什麼、擔心什麼？</h4><p>從他們的角度出發，才能講到心裡。</p></div>
+      <div class="card"><h4>4. 聽完後，我希望他們做什麼？</h4><p>這就是這場簡報的目的。</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="pg" id="p3-4" data-ch="3" data-t="口頭報告 8 個重點" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">三</span><span class="pchap">表達影響力：讓觀眾願意聽、記得住！</span></div>
+  <h2 class="ptitle" tabindex="-1">口頭報告的 8 個練習重點</h2>
+  <p class="lead">走動、站姿、手勢、音量、停頓、服裝、團隊合作、轉折。勾選你願意先練習的項目。</p>
+  <div class="spk" id="spk"></div>
+  <div class="prog" style="margin-top:14px"><i id="spkbar"></i></div>
+  <p class="diagout" id="spkout"></p>
+</div></section>
+
+<section class="pg" id="p3-5" data-ch="3" data-t="7 分鐘計時練習" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">三</span><span class="pchap">表達影響力：讓觀眾願意聽、記得住！</span></div>
+  <h2 class="ptitle" tabindex="-1">7 分鐘計時練習</h2>
+  <div class="card">
+    <p class="muted" style="font-size:16px;margin-bottom:10px">對照第一章的評分範例（發表 7 分鐘）。建議配速：前言 45 秒、內容 5 分 30 秒、結論 45 秒。</p>
+    <div class="timer" role="timer">
+      <div class="tdisp" id="tdisp">7:00</div>
+      <div class="tph" id="tph">按「開始」計時</div>
+      <div class="prog"><i id="tbar"></i></div>
+      <div class="rrow" style="width:100%;max-width:420px"><button type="button" class="btn" id="tgo">開始</button><button type="button" class="btn ghost" id="trs">重設</button></div>
+    </div>
+  </div>
+  <h3 class="sh">時間安排建議</h3>
+  <div class="card">
+    <h4>7 分鐘怎麼分？（三個重點的版本）</h4>
+    <ul class="tl">
+      <li><span class="tm">0:00–0:45</span><b>前言</b><small>問候、主題、這場要讓你們得到什麼</small></li>
+      <li><span class="tm">0:45–2:35</span><b>重點一</b><small>一個重點約 1 分 50 秒：說結論、舉例、小結</small></li>
+      <li><span class="tm">2:35–4:25</span><b>重點二</b><small>同上，換人時說一句銜接的話</small></li>
+      <li><span class="tm">4:25–6:15</span><b>重點三</b><small>同上，最重要的放最後</small></li>
+      <li><span class="tm">6:15–7:00</span><b>結論</b><small>呼應開頭，一句話收尾，加上行動呼籲</small></li>
+    </ul>
+    <p class="note" style="margin-top:12px">一頁大約 1 分鐘，7 分鐘大約 7 到 8 頁。多人報告時，每個人先抓好自己的分鐘數。</p>
+  </div>
+  <div class="two" style="margin-top:14px">
+    <div class="card"><h4>準備時間怎麼排？</h4><ul class="dot"><li><b>前期：想清楚。</b>先定目的、觀眾、大綱，不要急著開軟體。</li><li><b>中期：做投影片。</b>先搭框架，再填內容，最後才設計。</li><li><b>後期：練習。</b>至少完整講 3 次，最好留一半以上的時間給練習。</li><li>報告前一天只做小修，不要大改。</li></ul></div>
+    <div class="card"><h4>練習與當天</h4><ul class="dot"><li>第 1 次：照稿講，量時間。第 2 次：只看關鍵字。第 3 次：找人聽，請他回饋。</li><li>超過時間就刪中間，不要刪結尾。</li><li>當天提早到場，先測試投影與電腦。</li><li>上台前深呼吸，開場前 3 句話先背熟。</li></ul></div>
+  </div>
+</div></section>
+
+<!-- 四 -->
+<section class="pg" id="p4-1" data-ch="4" data-t="為什麼要這麼麻煩？" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">四</span><span class="pchap">AI 神助攻：打造你的高效簡報！</span></div>
+  <h2 class="ptitle" tabindex="-1">用 AI 做初稿，你來做決定</h2>
+  <div id="reveal"></div>
+</div></section>
+
+<section class="pg" id="p4-2" data-ch="4" data-t="AI 在 4P 能幫什麼" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">四</span><span class="pchap">AI 神助攻：打造你的高效簡報！</span></div>
+  <h2 class="ptitle" tabindex="-1">AI 在 4P 每一步能幫什麼？</h2>
+  <p class="lead">每一步都附上可複製的提示詞，把【】換成你的內容就能用。</p>
+  <div id="ts4ai"></div>
+</div></section>
+
+<section class="pg" id="p4-3" data-ch="4" data-t="AI 守則與工具" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">四</span><span class="pchap">AI 神助攻：打造你的高效簡報！</span></div>
+  <h2 class="ptitle" tabindex="-1">用 AI 的 4 個守則</h2>
+  <div class="grid g4">
+    <div class="card"><h4>查證事實</h4><p>AI 會寫得很像真的，數字與資料要自己找來源確認。</p></div>
+    <div class="card"><h4>保護個資</h4><p>不要貼上姓名、電話、班級名單等個人資料。</p></div>
+    <div class="card"><h4>標示來源</h4><p>圖片與文字都要確認授權，並寫出處。</p></div>
+    <div class="card"><h4>保留你的聲音</h4><p>講稿用自己的話說，並遵守學校的使用規定。</p></div>
+  </div>
+  <h3 class="sh">簡報製作工具</h3>
+  <div class="chips2"><span>PowerPoint</span><span>Keynote</span><span>Canva</span><span>Google Slides</span><span>Gamma</span><span>…and more</span></div>
+  <p class="muted" style="margin-top:10px;font-size:16px">工具會一直換，原則不會變：對齊、放大、對比、重複。</p>
+</div></section>
+
+<!-- 五 -->
+<section class="pg" id="p5-1" data-ch="5" data-t="簡報大改造" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">五</span><span class="pchap">簡報即戰力：實戰改造挑戰！</span></div>
+  <h2 class="ptitle" tabindex="-1">簡報大改造：12 個常見難題</h2>
+  <p class="lead">提升美感與閱讀性，從這 12 個難題開始，其中 3 個是字太多的問題。每個都能拖曳比較前後。</p>
+  <div id="tscase"></div>
+</div></section>
+
+<section class="pg" id="p5-2" data-ch="5" data-t="現場練習區" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">五</span><span class="pchap">簡報即戰力：實戰改造挑戰！</span></div>
+  <h2 class="ptitle" tabindex="-1">現場練習區：用手機一起做</h2>
+  <p class="lead">每個單元都是：看亂版本，動手改，馬上比較 BEFORE／AFTER。講者先示範，再請大家用自己的手機做。</p>
+  <div id="labs"></div>
+</div></section>
+
+<section class="pg" id="p5-3" data-ch="5" data-t="讓大家用手機進來" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">五</span><span class="pchap">簡報即戰力：實戰改造挑戰！</span></div>
+  <h2 class="ptitle" tabindex="-1">讓大家用手機進來</h2>
+  <div class="card">
+    <div class="qrbox">
+      <p style="font-size:16px">貼上這個網站的網址，產生 QR Code 投影給大家掃。</p>
+      <input type="text" id="qrurl" inputmode="url" aria-label="網站網址" placeholder="https://…">
+      <button type="button" class="btn" id="qrgo" style="max-width:220px">產生 QR Code</button>
+      <div id="qrout"></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="pg" id="p5-4" data-ch="5" data-t="健檢清單與改造挑戰" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">五</span><span class="pchap">簡報即戰力：實戰改造挑戰！</span></div>
+  <h2 class="ptitle" tabindex="-1">簡報健檢清單</h2>
+  <div class="card">
+    <p class="lead" style="font-size:17px">做完簡報後逐項檢查。全部打勾，就可以放心上台。</p>
+    <div class="prog"><i id="clbar"></i></div>
+    <p class="diagout" id="clout"></p>
+    <div class="grid g2" id="cl"></div>
+    <div class="rrow"><button type="button" class="btn ghost" id="clrs" style="max-width:220px">全部清除</button></div>
+  </div>
+  <h3 class="sh">5 分鐘改造挑戰</h3>
+  <div class="grid g3">
+    <div class="card"><h4>1. 拿出一頁</h4><p>選一頁你自己做過的投影片，最好是文字很多的那頁。</p></div>
+    <div class="card"><h4>2. 套用四原則</h4><p>對齊、放大、對比、重複，加上減法：刪到只剩重點。</p></div>
+    <div class="card"><h4>3. 交換比較</h4><p>和旁邊的人交換，各自講出：改了什麼、為什麼。</p></div>
+  </div>
+</div></section>
+
+<section class="pg" id="p6-1" data-ch="6" data-t="同學問過的問題" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">六</span><span class="pchap">Q&amp;A：交流與分享</span></div>
+  <h2 class="ptitle" tabindex="-1">同學問過的問題</h2>
+  <details class="qa"><summary>在嘗試新的軟體時不了解功能；使用手機製作簡報時，不方便更改字體及版面佈置，怎麼辦？</summary>
+    <div class="ans"><ul class="dot"><li>新軟體先從<b>範本</b>開始，只學 5 個功能：母片、對齊、色票、圖示、動畫。</li><li>手機適合做草稿與蒐集素材，字體與版面留到電腦定稿。</li><li>把字型與顏色先定在母片，之後就不用一頁一頁改。</li><li>卡住時，問 AI 或搜尋「軟體名稱＋你要做的事」，通常有教學影片。</li></ul></div></details>
+  <details class="qa"><summary>做報告時，該怎麼跟組員配合？</summary>
+    <div class="ans"><ul class="dot"><li>先一起定好<b>框架與母片</b>（字型、顏色），再分頭做內容。</li><li>用雲端共同編輯，每個人負責固定的章節。</li><li>最後留時間，請一個人統一整理風格。</li><li>彩排時練習「交棒」，每次換人說一句銜接的話。</li></ul></div></details>
+  <details class="qa"><summary>上台很緊張，腦袋一片空白怎麼辦？</summary>
+    <div class="ans"><ul class="dot"><li>開場前 3 句話<b>背到不用想</b>，開口順了，後面就會跟上。</li><li>空白時<b>停一下、深呼吸、看一眼小抄的關鍵字</b>。觀眾只會覺得你在思考。</li><li>上台前多出聲練習，至少完整講 3 次，最好找人聽。</li><li>緊張是正常的。把力氣放在「讓聽眾聽懂」，而不是「不要出錯」。</li></ul></div></details>
+  <details class="qa"><summary>一頁到底要放多少字才夠？</summary>
+    <div class="ans"><ul class="dot"><li>一頁一個重點。標題一句，內文最多 3 個關鍵詞或短句。</li><li>投影片是給觀眾「看」的，細節用「說」的。<b>你說的和螢幕上的不要一樣</b>。</li><li>需要完整文字時，另外做一份講義或備份頁，不要塞在投影片上。</li></ul></div></details>
+  <details class="qa"><summary>可以用 AI 幫我做簡報嗎？老師會不會覺得是作弊？</summary>
+    <div class="ans"><ul class="dot"><li>先確認<b>老師或課程的規定</b>。有的允許、有的限制，不確定就問。</li><li>AI 適合拿來：拆大綱、找例子方向、模擬提問。<b>選什麼、查證、怎麼說，要自己做</b>。</li><li>AI 給的資料可能出錯，數字與出處一定要自己查證。</li><li>用了就誠實標註，並且要能自己解釋每一頁的內容。</li></ul></div></details>
+  <details class="qa"><summary>時間不夠、講不完怎麼辦？</summary>
+    <div class="ans"><ul class="dot"><li>先決定「<b>沒講也沒關係的部分</b>」，時間不夠就跳過它。</li><li>排練時用計時器，一頁大約 1 分鐘，7 分鐘約 7 到 8 頁。</li><li>結尾一定要留時間，寧可刪中間，也不要沒有結尾。</li><li>在稿子上標出「最短版」的路線，現場快速切換。</li></ul></div></details>
+  <details class="qa"><summary>被問到答不出來的問題怎麼辦？</summary>
+    <div class="ans"><ul class="dot"><li>先<b>複述問題</b>，確認自己聽對，也爭取一點思考時間。</li><li>知道的先講，不知道就誠實說：「這部分我還沒查到，會再確認後回覆您。」</li><li>事前先預測 3 個可能被問的問題，備好簡短回答。</li><li>誠實比亂答更讓人信任。</li></ul></div></details>
+</div></section>
+
+<section class="pg" id="p6-2" data-ch="6" data-t="書籍與學習資源" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">六</span><span class="pchap">Q&amp;A：交流與分享</span></div>
+  <h2 class="ptitle" tabindex="-1">書籍推薦與學習資源</h2>
+  <div class="books">
+    <div class="book"><img src="ex/books/infographic.jpg" alt="《資訊圖表設計術》書封" loading="lazy"><div class="bt"><b>《資訊圖表設計術》</b><span>讓人秒懂的資訊圖表。Re-lab 團隊。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E8%B3%87%E8%A8%8A%E5%9C%96%E8%A1%A8%E8%A8%AD%E8%A8%88%E8%A1%93%20Re-lab/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/logic.jpg" alt="《簡報邏輯》書封" loading="lazy"><div class="bt"><b>《簡報邏輯》</b><span>The Logic of Presentation。鄭冠中。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E7%B0%A1%E5%A0%B1%E9%82%8F%E8%BC%AF%20%E9%84%AD%E5%86%A0%E4%B8%AD/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/wangxing.jpg" alt="《忘形流簡報思考術》書封" loading="lazy"><div class="bt"><b>《忘形流簡報思考術》</b><span>找對思考邏輯，讓你的想法被看見。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%BF%98%E5%BD%A2%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%80%9D%E8%80%83%E8%A1%93/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/chicken.jpg" alt="《如何幫雞洗澡》書封" loading="lazy"><div class="bt"><b>《如何幫雞洗澡》</b><span>How to Wash a Chicken。提姆・寇金斯（Tim Calkins）。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%A6%82%E4%BD%95%E5%B9%AB%E9%9B%9E%E6%B4%97%E6%BE%A1%20%E5%AF%87%E9%87%91%E6%96%AF/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+  </div>
+  <p class="muted" style="margin-top:10px">購買連結為博客來的書名搜尋結果，請以實際版本與價格為準。</p>
+  <h3 class="sh">學習資源</h3>
+  <ul class="res">
+    <li><a href="https://www.bfa.com.tw/" target="_blank" rel="noopener">BFA 簡報<small>bfa.com.tw</small></a></li>
+    <li><a href="https://artofslide.blogspot.com/" target="_blank" rel="noopener">SlideArtToasters 簡報藝術烘焙坊<small>artofslide.blogspot.com</small></a></li>
+    <li><a href="https://www.facebook.com/groups/1080149785351887/?locale=zh_TW" target="_blank" rel="noopener">10 分鐘學簡報交流社團<small>Facebook 社團</small></a></li>
+    <li><a href="https://www.facebook.com/slidenovice/?locale=zh_TW" target="_blank" rel="noopener">簡報初學者<small>Facebook 粉絲專頁</small></a></li>
+    <li><a href="https://www.youtube.com/channel/UC7J5oNMG7Yo9elaj4U32c6w" target="_blank" rel="noopener">鄭冠中 培訓師<small>YouTube 頻道</small></a></li>
+    <li><a href="https://www.youtube.com/@papayaclass" target="_blank" rel="noopener">Papaya 電腦教室<small>YouTube 頻道</small></a></li>
+  </ul>
+  <p class="muted" style="margin-top:10px">…and more</p>
+</div></section>
+
+<section class="pg" id="p6-3" data-ch="6" data-t="結語" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">六</span><span class="pchap">Q&amp;A：交流與分享</span></div>
+  <h2 class="ptitle" tabindex="-1">謝謝大家，歡迎交流</h2>
+  <div class="big-say">工具只是配角，<br><em>你</em>，才是真正的主角。</div>
+  <p class="muted" style="margin-top:18px;font-size:15px">內容整合自原簡報〈簡報力大爆發：打造超吸睛簡報〉。簡報的定義引自「簡報。小學堂」，5 個簡報原則出自 Nancy Duarte。</p>
+</div></section>
+
+<!-- Takeaway -->
+<section class="pg" id="pt-1" data-ch="t" data-t="今天的重點" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">今天帶走的 6 件事</h2>
+  <div class="kp">
+    <div class="kpi"><span class="bub">一</span><div><b>簡報是溝通，不是秀投影片</b><p>照 4P 走：準備、製作、練習、報告。先想清楚，再做漂亮。</p></div></div>
+    <div class="kpi"><span class="bub">二</span><div><b>設計：一頁一重點，做減法</b><p>色、字、圖、版面。對比要夠、對齊要齊、重點放大，留白讓重點呼吸。</p></div></div>
+    <div class="kpi"><span class="bub">三</span><div><b>表達：想的清楚才講的清楚</b><p>先定目的、再看觀眾，開口前 3 句背熟，用計時器練習。</p></div></div>
+    <div class="kpi"><span class="bub">四</span><div><b>AI 是助手，不是替身</b><p>拆大綱、濃縮文字、模擬提問交給 AI；取捨、查證、說自己的話自己來。</p></div></div>
+    <div class="kpi"><span class="bub">五</span><div><b>動手改，才會真的會</b><p>拿自己的投影片，用健檢清單一次改一個地方，看前後差別。</p></div></div>
+    <div class="kpi"><span class="bub">六</span><div><b>工具只是配角，你才是主角</b><p>遇到問題，回到 Q&amp;A 找答案。</p></div></div>
+  </div>
+  <div class="two" style="margin-top:18px">
+    <div class="card"><span class="tag-h me">給老師</span><ul class="dot"><li>示範時，一次只改一個地方，讓學生說出差在哪。</li><li>用範例牆與簡報大改造，讓學生先挑毛病再動手。</li><li>作業：交一張「改造前後對照」。</li></ul></div>
+    <div class="card"><span class="tag-h ai">給學生</span><ul class="dot"><li>挑一頁自己做過的投影片，當作練習材料。</li><li>改完用 7 分鐘計時，講給同學聽。</li><li>卡住時，用 AI 指令專區的提示詞幫忙。</li></ul></div>
+  </div>
+</div></section>
+
+<section class="pg" id="pt-2" data-ch="t" data-t="AI 指令專區" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">AI 指令專區</h2>
+  <p class="lead">把【 】換成你自己的內容，貼給任何 AI 就能用。依 4P 分成四組。</p>
+  <div class="card" style="margin-bottom:14px"><h4>好指令的 4 個要素</h4><p><b>角色</b>（你是誰）＋<b>情境</b>（對誰、多久）＋<b>任務</b>（要做什麼）＋<b>格式</b>（幾頁、幾字）。不夠好就追問：「再短一點」「換成更口語」「給我另外 3 種」。</p></div>
+  <div id="tkpr"></div>
+</div></section>
+
+<section class="pg" id="pt-3" data-ch="t" data-t="練習專區與 QR" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">練習專區</h2>
+  <p class="lead">回家後再練一次。老師拿去示範，學生拿去自學。</p>
+  <div class="two">
+    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/lab.html" target="_blank" rel="noopener"><span class="tkic">📱</span><b>手機版練習站</b><span>色彩、字型、圖片、版面、找問題。單手就能做。</span><i>開啟 ↗</i></a>
+    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/practice.html" target="_blank" rel="noopener"><span class="tkic">💻</span><b>網站版練習區</b><span>電腦大畫面的練習頁：現場練習區、簡報大改造 12 題、簡報健檢清單。</span><i>開啟 ↗</i></a>
+    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/practice.html#k2" target="_blank" rel="noopener"><span class="tkic">🔧</span><b>簡報大改造 12 題</b><span>字太多、圖表太花、只有 Thank you…，拖曳看前後。</span><i>開啟 ↗</i></a>
+    <a class="tkcard" href="#p6-2"><span class="tkic">📚</span><b>書籍與學習資源</b><span>四本書加上好用的社團與頻道。</span><i>前往 →</i></a>
+  </div>
+  <h3 class="sh">Takeaway 網址</h3>
+  <div class="card urlbox"><p class="muted" style="margin:0 0 6px">把今天帶走的重點、AI 指令、練習連結，都放在這一頁。</p><a class="urlt" id="tkurl" href="https://chaifish-teacher.github.io/slideworkshop/takeaway.html" target="_blank" rel="noopener">https://chaifish-teacher.github.io/slideworkshop/takeaway.html</a><button type="button" class="cbtn" id="tkurlcp">複製網址</button></div>
+  <h3 class="sh">送給你的話</h3>
+  <div class="big-say" style="font-size:clamp(20px,4vw,32px)">每一份好簡報，<br>都是從<em>不完美的第一版</em>改出來的。</div>
+  <ul class="dot enc" style="margin-top:16px">
+    <li><b>緊張，代表你在乎。</b>把它變成多練一次的力氣。</li>
+    <li><b>一次只進步一點點就夠了。</b>今天改一頁，下次就會改得更快。</li>
+    <li><b>你的想法值得被看見、被聽見。</b>簡報只是幫你把它好好交給別人。</li>
+    <li><b>不用做到完美，先上台。</b>每一次站上去，都是在累積實力。</li>
+  </ul>
+  <p class="big-say" style="margin-top:16px;font-size:clamp(20px,4vw,30px)">工具只是配角，<em>你</em>，才是真正的主角。</p>
+</div></section>
+
+</main>
+
+<div class="pbar" id="pbar">
+  <div class="pprog"><i id="pgprog"></i></div>
+  <div class="wrap pin">
+    <button type="button" class="pb" id="pprev">‹ 上一頁</button>
+    <div class="pmid"><b id="pnum"></b><span id="pname"></span></div>
+    <button type="button" class="pb go" id="pnext">下一頁 ›</button>
+  </div>
+</div>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="dback" id="dback"></div>
+  <aside class="dpanel" role="dialog" aria-label="目錄">
+    <div class="dhd"><b>目錄</b><button type="button" id="dclose">關閉</button></div>
+    <div id="dlist"></div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var el=function(h){var t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstElementChild};
+var clone=function(o){return JSON.parse(JSON.stringify(o))};
+var uid=0;
+var SANS='font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;';
+/* ---------- 色彩計算 ---------- */
+function lum(h){var c=[1,3,5].map(function(i){return parseInt(h.substr(i,2),16)/255}).map(function(v){return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+function ratio(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+var PAL=[['#FFFFFF','白'],['#EEF1F5','淺灰'],['#1F3A5F','深藍'],['#111827','黑'],['#C2410C','橘'],['#E53935','紅'],['#00A650','綠'],['#FFE600','黃'],['#39FF14','螢光綠'],['#6D28D9','紫']];
+var NAME={};PAL.forEach(function(p){NAME[p[0]]=p[1]});
+
+/* ---------- 控制元件 ---------- */
+function mkSeg(label,opts,get,set){
+  var w=el('<div><div class="lbl">'+label+'</div><div class="seg"></div></div>'),seg=$('.seg',w);
+  opts.forEach(function(o){var b=el('<button type="button" class="segb">'+o[1]+'</button>');b._v=o[0];b.onclick=function(){set(o[0])};seg.appendChild(b)});
+  w._sync=function(){seg.querySelectorAll('.segb').forEach(function(b){var on=get()===b._v;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)})};
+  return w;
+}
+function mkRange(label,min,max,step,get,set,fmt){
+  var id='rg'+(++uid);
+  var w=el('<div><label class="lbl" for="'+id+'"><span>'+label+'</span><output></output></label><input id="'+id+'" type="range" min="'+min+'" max="'+max+'" step="'+step+'"></div>');
+  var inp=$('input',w),out=$('output',w);
+  inp.oninput=function(){set(+inp.value)};
+  w._sync=function(){inp.value=get();out.textContent=fmt(get())};
+  return w;
+}
+function mkToggle(label,hint,get,set){
+  var w=el('<button type="button" class="tg" role="switch"><span><b>'+label+'</b><small>'+hint+'</small></span><span class="sw2"><i></i></span></button>');
+  w.onclick=function(){set(!get())};
+  w._sync=function(){var on=get();w.setAttribute('aria-checked',on);w.classList.toggle('on',on);$('.sw2',w).dataset.t=on?'開':'關'};
+  return w;
+}
+function mkSwatch(label,get,set){
+  var w=el('<div><div class="lbl"><span>'+label+'</span><span class="cur"></span></div><div class="sw"></div></div>'),box=$('.sw',w);
+  PAL.forEach(function(p){
+    var b=el('<button type="button" class="swb" aria-label="'+p[1]+'" style="background:'+p[0]+';color:'+(lum(p[0])>.4?'#111827':'#fff')+'"></button>');
+    b._c=p[0];b.onclick=function(){set(p[0])};box.appendChild(b);
+  });
+  w._sync=function(){$('.cur',w).textContent=NAME[get()]||'';box.querySelectorAll('.swb').forEach(function(b){var on=get()===b._c;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)})};
+  return w;
+}
+
+/* ---------- 前後比較 ---------- */
+function mkCompare(host){
+  host.innerHTML='<div class="cmp"><div class="layer la"></div><div class="layer lb"></div><div class="bar"></div><div class="knob">⇆</div></div><div class="cl2"><span>◀ BEFORE</span><span>AFTER ▶</span></div>'+
+    '<label class="lbl" style="margin:10px 0 0" for="cr'+(++uid)+'"><span>左右拖曳比較</span></label><input id="cr'+uid+'" type="range" min="0" max="100" value="50">';
+  var box=$('.cmp',host),la=$('.la',host),lb=$('.lb',host),bar=$('.bar',host),kn=$('.knob',host),r=$('input',host);
+  function up(){var p=+r.value;lb.style.clipPath='inset(0 '+(100-p)+'% 0 0)';bar.style.left=p+'%';kn.style.left=p+'%'}
+  r.addEventListener('input',up);up();
+  function drag(e){var rc=box.getBoundingClientRect();r.value=Math.max(0,Math.min(100,(e.clientX-rc.left)/rc.width*100));up()}
+  box.addEventListener('pointerdown',function(e){box.setPointerCapture(e.pointerId);drag(e);box.onpointermove=drag});
+  box.addEventListener('pointerup',function(){box.onpointermove=null});
+  box.addEventListener('pointercancel',function(){box.onpointermove=null});
+  return {set:function(before,after){lb.innerHTML=before;la.innerHTML=after}};
+}
+
+/* ---------- 圖片素材：用程式畫一張 4:3 風景 ---------- */
+var sc={};
+function sceneURL(n){
+  if(sc[n])return sc[n];
+  var c=document.createElement('canvas');c.width=n;c.height=Math.round(n*.75);
+  var x=c.getContext('2d');x.scale(n/640,n/640);
+  var g=x.createLinearGradient(0,0,0,480);g.addColorStop(0,'#9FD3FF');g.addColorStop(.55,'#FFF0C4');x.fillStyle=g;x.fillRect(0,0,640,480);
+  x.fillStyle='#FFB703';x.beginPath();x.arc(470,170,72,0,Math.PI*2);x.fill();
+  x.fillStyle='#7A9CC6';x.beginPath();x.moveTo(0,340);x.lineTo(150,210);x.lineTo(310,340);x.fill();
+  x.fillStyle='#5C86B5';x.beginPath();x.moveTo(230,340);x.lineTo(430,225);x.lineTo(640,340);x.fill();
+  x.fillStyle='rgba(255,255,255,.92)';
+  [[80,350,110,26],[250,362,140,30],[430,352,120,26],[560,366,100,28]].forEach(function(e){x.beginPath();x.ellipse(e[0],e[1],e[2],e[3],0,0,Math.PI*2);x.fill()});
+  x.fillStyle='#3F7352';x.fillRect(0,385,640,95);
+  x.fillStyle='#6B4A2B';x.fillRect(98,380,16,80);
+  x.fillStyle='#2E8B57';x.beginPath();x.arc(106,350,56,0,Math.PI*2);x.fill();
+  return (sc[n]=c.toDataURL());
+}
+
+/* ---------- 找問題用資料 ---------- */
+var ISS={
+  contrast:['標題對比不足','深紫色標題放在深紅色背景上，幾乎看不見。','改成白色或淺黃色。'],
+  text:['文字太多','整段講稿，觀眾不會想讀。','只留 3 到 5 個關鍵字，其餘用說的。'],
+  font:['字型太多','同一行用了三種字型，畫面很雜。','全頁統一 1 到 2 種字型。'],
+  stretch:['圖片被拉伸','圓形笑臉被拉成橢圓。','用角落縮放或鎖定長寬比。'],
+  tiny:['字太小','聯絡資訊小到後排看不到。','至少 18pt，重要資訊要放大。'],
+  edge:['貼邊又歪斜','橘色貼紙貼著右邊緣，還歪了一邊。','拉回邊界內，與其他內容對齊。']
+};
+var HOT=[['contrast',[3,3,58,15]],['text',[3,21,59,30]],['font',[3,62,62,14]],['stretch',[64,14,33,28]],['tiny',[3,85,62,13]],['edge',[70,60,30,22]]];
+var FACE='<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" style="display:block"><circle cx="50" cy="50" r="46" fill="#FFC83D" stroke="#fff" stroke-width="3"/><circle cx="35" cy="40" r="5" fill="#333"/><circle cx="65" cy="40" r="5" fill="#333"/><path d="M30 62 Q50 80 70 62" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/></svg>';
+function chBad(){
+  return '<div class="in" style="background:#7A1F2B;'+SANS+'">'+
+  '<div style="position:absolute;left:4cqw;top:5cqw;font-size:6cqw;font-weight:800;color:#3B2A8A">英語社團招生</div>'+
+  '<div style="position:absolute;left:4cqw;top:21%;width:58%;font-size:1.7cqw;line-height:1.3;color:#fff">英語社團每週三放學後在英語專業教室活動，內容包含英語會話練習、英文歌曲欣賞、單字比賽、電影欣賞、簡報練習、演講比賽、聖誕節慶祝活動、英語話劇排練以及校外參訪等等，歡迎所有對英語有興趣的同學加入，不需要任何基礎，只要願意開口說就可以。</div>'+
+  '<div style="position:absolute;left:4cqw;top:64%;font-size:3cqw;color:#FFE08A;white-space:nowrap"><span style="font-family:cursive;font-style:italic">活動時間</span> <span style="font-family:serif;font-weight:700">每週三</span> <span style="font-family:monospace">放學後</span></div>'+
+  '<div style="position:absolute;left:66%;top:17%;width:29%;height:23%">'+FACE+'</div>'+
+  '<div style="position:absolute;left:4cqw;bottom:2cqw;font-size:1.1cqw;color:#CCC">聯絡：英語科辦公室 分機 123　報名截止：11/30</div>'+
+  '<div style="position:absolute;right:0;bottom:20%;background:#FF9800;color:#fff;font-size:2.6cqw;font-weight:700;padding:1cqw 2cqw;transform:rotate(-6deg)">立即報名！</div></div>';
+}
+function chFix(){
+  return '<div class="in" style="background:#fff;padding:6cqw 7cqw;'+SANS+'">'+
+  '<div style="height:1.2cqw;width:11cqw;background:#C2410C;margin-bottom:2.4cqw"></div>'+
+  '<div style="font-size:7.4cqw;font-weight:800;color:#1F4E79;line-height:1.2">英語社團招生</div>'+
+  '<div style="font-size:4.2cqw;color:#222;margin-top:3.4cqw;line-height:1.55">每週三放學後<br>會話、電影、單字比賽<br><b style="color:#C2410C">零基礎也能加入</b></div>'+
+  '<div style="position:absolute;right:8cqw;top:12cqw;width:24cqw;height:24cqw">'+FACE.replace('preserveAspectRatio="none"','preserveAspectRatio="xMidYMid meet"').replace('stroke="#fff"','stroke="#1F4E79"')+'</div>'+
+  '<div style="position:absolute;left:7cqw;bottom:5cqw;font-size:2.8cqw;color:#333">報名：英語科辦公室　11/30 截止</div></div>';
+}
+
+/* ---------- 五個單元 ---------- */
+var LABS=[
+
+{ id:'color', name:'色彩',
+  task:'這張投影片是黃底白字，後排的人看不到。選出背景色、文字色、強調色，讓三項檢查都通過。',
+  init:{bg:'#FFE600',tx:'#FFFFFF',ac:'#39FF14'},
+  render:function(s){
+    return '<div class="in" style="background:'+s.bg+';color:'+s.tx+';padding:6cqw 7cqw;'+SANS+'">'+
+    '<div style="font-size:6.4cqw;font-weight:800;line-height:1.25">旅遊英語：機場報到</div>'+
+    '<div style="font-size:4.4cqw;line-height:1.5;margin-top:3.4cqw">出示<b style="color:'+s.ac+'">護照</b>與機票</div>'+
+    '<div style="font-size:4.4cqw;line-height:1.5">詢問行李<b style="color:'+s.ac+'">託運</b>規定</div>'+
+    '<div style="font-size:4.4cqw;line-height:1.5">確認<b style="color:'+s.ac+'">登機門</b>與時間</div></div>';
+  },
+  controls:function(L,b){return [
+    mkSwatch('背景色',b('bg')[0],b('bg')[1]),
+    mkSwatch('文字色',b('tx')[0],b('tx')[1]),
+    mkSwatch('強調色（只用在關鍵字）',b('ac')[0],b('ac')[1])];},
+  fb:function(s){
+    var it=[],ok=0,r=ratio(s.tx,s.bg),ra=ratio(s.ac,s.bg);
+    if(r>=7){it.push(['ok','文字對比 '+r.toFixed(1)+'：很清楚，適合投影。']);ok++}
+    else if(r>=4.5)it.push(['warn','文字對比 '+r.toFixed(1)+'：勉強能讀，投影時會變淡，請再拉開明暗。']);
+    else it.push(['bad','文字對比 '+r.toFixed(1)+'：看不清楚，背景和文字要一深一淺。']);
+    if(s.ac===s.tx)it.push(['bad','強調色和文字一樣，就沒有強調的效果。']);
+    else if(ra>=4.5){it.push(['ok','強調色對比 '+ra.toFixed(1)+'：關鍵字跳得出來。']);ok++}
+    else it.push(['bad','強調色對比 '+ra.toFixed(1)+'：關鍵字反而更難看清楚。']);
+    if(s.bg==='#39FF14'||s.bg==='#FFE600')it.push(['bad','大面積螢光底色，看久會累，也很刺眼。']);
+    else{it.push(['ok','背景色不刺眼，看久也舒服。']);ok++}
+    return {items:it,ok:ok,total:3};
+  }
+},
+
+{ id:'font', name:'字型',
+  task:'標題小、內文更小、行距擠、字型花俏。把四個設定調到適合投影的範圍。',
+  init:{t:26,b:14,l:1.0,f:'fancy'},
+  render:function(s){
+    var F={sans:'"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif',serif:'"Noto Serif TC","Songti TC","PMingLiU",serif',kai:'"BiauKai","Kaiti TC","DFKai-SB","STKaiti",serif',fancy:'"Brush Script MT","Segoe Script","Snell Roundhand","Comic Sans MS",cursive'};
+    var P=0.10417, extra=s.f==='fancy'?'font-style:italic;letter-spacing:.06em;':'';
+    return '<div class="in" style="background:#fff;padding:6cqw 7cqw;font-family:'+F[s.f]+';'+extra+'">'+
+    '<div style="font-size:'+(s.t*P)+'cqw;font-weight:800;color:#1F4E79;line-height:1.2">英語社團招生</div>'+
+    '<div style="font-size:'+(s.b*P)+'cqw;line-height:'+s.l+';color:#333;margin-top:2cqw"><div>每週三 16:10 社課時間</div><div>Welcome to Our English Club!</div><div>歡迎一起練習英語簡報</div></div></div>';
+  },
+  controls:function(L,b){return [
+    mkRange('標題字級',24,66,2,b('t')[0],b('t')[1],function(v){return v+' pt'}),
+    mkRange('內文字級',10,40,2,b('b')[0],b('b')[1],function(v){return v+' pt'}),
+    mkRange('行距',1,2.2,.1,b('l')[0],b('l')[1],function(v){return v.toFixed(1)+' 倍'}),
+    mkSeg('字型',[['sans','黑體'],['serif','明體'],['kai','楷體'],['fancy','花俏']],b('f')[0],b('f')[1])];},
+  fb:function(s){
+    var it=[],ok=0;
+    if(s.t>=36){it.push(['ok','標題 '+s.t+'pt：夠大，一眼就看到。']);ok++}
+    else if(s.t>=30)it.push(['warn','標題 '+s.t+'pt：再大一點，建議 36pt 以上。']);
+    else it.push(['bad','標題 '+s.t+'pt：太小，標題要是全頁最醒目的字。']);
+    if(s.b>=24&&s.b<=32){it.push(['ok','內文 '+s.b+'pt：適合投影。']);ok++}
+    else if(s.b>32)it.push(['warn','內文 '+s.b+'pt：偏大，容易放不下，可以刪減文字。']);
+    else if(s.b>=18)it.push(['warn','內文 '+s.b+'pt：偏小，後排會吃力，建議 24pt 以上。']);
+    else it.push(['bad','內文 '+s.b+'pt：太小，後排完全看不到。']);
+    if(s.l>=1.2&&s.l<=1.6){it.push(['ok','行距 '+s.l.toFixed(1)+' 倍：閱讀舒服。']);ok++}
+    else if(s.l<1.2)it.push([s.l<1.1?'bad':'warn','行距 '+s.l.toFixed(1)+' 倍：太擠，建議 1.2 到 1.5 倍。']);
+    else it.push(['warn','行距 '+s.l.toFixed(1)+' 倍：太鬆，行與行會分家。']);
+    if(s.f==='sans'){it.push(['ok','黑體：筆畫粗細平均，投影最清楚。']);ok++}
+    else if(s.f==='serif')it.push(['warn','明體：細筆畫投影時容易糊，適合印刷或大標題。']);
+    else if(s.f==='kai')it.push(['warn','楷體：偏手寫，不適合放大段內文。']);
+    else it.push(['bad','花俏字型：難閱讀，不建議用在簡報。']);
+    return {items:it,ok:ok,total:4};
+  }
+},
+
+{ id:'image', name:'圖片',
+  task:'圖片模糊、被拉寬、文字看不清楚、也沒有出處。把四項都修好。',
+  init:{res:48,lock:false,bar:false,src:false},
+  render:function(s){
+    var title='<div style="font-size:5.4cqw;font-weight:800;line-height:1.25">Sunrise at Alishan</div><div style="font-size:3.8cqw;font-weight:700">阿里山日出</div>';
+    var txt=s.bar?
+      '<div style="position:absolute;left:0;right:0;top:9%;background:rgba(31,58,95,.9);color:#fff;padding:2.4cqw 6cqw;'+SANS+'">'+title+'</div>':
+      '<div style="position:absolute;left:6cqw;top:9%;color:#fff;'+SANS+'">'+title+'</div>';
+    return '<img alt="" src="'+sceneURL(s.res)+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:'+(s.lock?'cover':'fill')+';image-rendering:'+(s.res<640?'pixelated':'auto')+'">'+txt+
+      (s.src?'<div style="position:absolute;right:2cqw;bottom:1.6cqw;font-size:2cqw;color:#fff;background:rgba(0,0,0,.55);padding:.4cqw 1.2cqw;border-radius:.6cqw;'+SANS+'">圖片來源：自行繪製（範例）</div>':'');
+  },
+  controls:function(L,b){return [
+    mkSeg('圖片清晰度',[[48,'模糊'],[160,'普通'],[640,'清晰']],b('res')[0],b('res')[1]),
+    mkToggle('鎖定長寬比','縮放時比例不變。關閉時圖片被硬拉寬。',b('lock')[0],b('lock')[1]),
+    mkToggle('文字底下加色塊','半透明色塊讓圖上的字看得清楚。',b('bar')[0],b('bar')[1]),
+    mkToggle('標註圖片出處','尊重創作者，也避免侵權。',b('src')[0],b('src')[1])];},
+  fb:function(s){
+    var it=[],ok=0;
+    if(s.res>=640){it.push(['ok','圖片清晰，細節都看得到。']);ok++}
+    else if(s.res>=160)it.push(['warn','解析度普通，放成全頁大圖會有點糊，請換高解析度的圖。']);
+    else it.push(['bad','圖片出現方塊，像素不夠，換一張高解析度的圖。']);
+    if(s.lock){it.push(['ok','比例正確，太陽還是圓的。']);ok++}else it.push(['bad','圖片被拉寬，太陽變成橢圓。']);
+    if(s.bar){it.push(['ok','文字底下有色塊，字很清楚。']);ok++}else it.push(['bad','白字落在亮天空上，幾乎看不見。']);
+    if(s.src){it.push(['ok','已標註出處。']);ok++}else it.push(['bad','沒有標註圖片出處。']);
+    return {items:it,ok:ok,total:4};
+  }
+},
+
+{ id:'layout', name:'版面',
+  task:'整頁像講稿，字多又歪。打開四個調整，讓它變成一眼就懂的投影片。',
+  init:{x:false,a:false,t:false,s:false},
+  render:function(s){
+    var T=[['抵達機場後，請先找到所屬航空公司的報到櫃檯，並且準備好護照、電子機票以及訂位代號等相關文件','找櫃檯、備護照'],
+           ['櫃檯人員會詢問是否有行李要託運，同時會確認行李的重量以及是否有不能攜帶的物品，請如實回答','託運行李、確認重量'],
+           ['報到完成後會拿到登機證，請記得確認登機門號碼與登機時間，並且提早前往等候','看登機門、提早到']];
+    var shift=[0,6,2.5];
+    var ti=s.t?'font-size:7.2cqw;font-weight:800;color:#1F4E79;':'font-size:3.4cqw;font-weight:500;color:#777;';
+    var li=T.map(function(r,i){
+      return '<div style="font-size:'+(s.x?4.4:1.9)+'cqw;line-height:1.3;color:#333;margin:'+(s.x?3:.7)+'cqw 0 0 '+(s.a?0:shift[i])+'cqw">'+(s.x?r[1]:r[0])+'</div>';
+    }).join('');
+    return '<div class="in" style="background:#fff;padding:'+(s.s?'7cqw 8cqw':'1.6cqw')+';'+SANS+'">'+
+      '<div style="'+ti+'text-align:'+(s.a?'left':'center')+'">機場報到流程</div>'+li+'</div>';
+  },
+  controls:function(L,b){return [
+    mkToggle('刪成關鍵字','長句改成幾個字，觀眾一眼就懂。',b('x')[0],b('x')[1]),
+    mkToggle('全部靠左對齊','標題與內容共用同一條左邊界。',b('a')[0],b('a')[1]),
+    mkToggle('放大標題','標題變大變粗，建立層次。',b('t')[0],b('t')[1]),
+    mkToggle('加大留白','四周留出空間，畫面不擁擠。',b('s')[0],b('s')[1])];},
+  fb:function(s){
+    var d=[['x','文字改成關鍵字，一眼就懂。','整句講稿，觀眾不會想讀。'],['a','標題與內容共用左邊界，視線不亂跳。','標題置中，內容忽內忽外，沒有對齊。'],['t','標題放大，一看就知道這頁在講什麼。','標題太小，看不出層次。'],['s','四周留白，畫面有呼吸感。','文字貼近邊緣，畫面擁擠。']];
+    var it=[],ok=0;d.forEach(function(r){if(s[r[0]]){ok++;it.push(['ok',r[1]])}else it.push(['bad',r[2]])});
+    return {items:it,ok:ok,total:4};
+  }
+},
+
+{ id:'find', name:'找問題',
+  task:'這張招生投影片藏了 6 個排版問題。用手指點你覺得有問題的地方，找不到可以按提示。',
+  init:{found:[]},
+  hots:true, tagMain:'問題版', tagPeek:'修正版', peekText:'按住看修正版',
+  render:function(){return chBad()},
+  peekRender:function(){return chFix()},
+  cmpPair:function(){return [chBad(),chFix()]},
+  caption:function(L){return '已找到 '+L.s.found.length+' / 6 個，點投影片上的問題'},
+  controls:function(L){
+    var w=el('<div class="row"><button type="button" class="btn ghost" id="hint">提示</button><button type="button" class="btn ghost" id="all">顯示全部</button></div>');
+    $('#hint',w).onclick=function(){
+      var left=HOT.filter(function(h){return L.s.found.indexOf(h[0])<0});
+      if(!left.length){say(L,'6 個都找到了');return}
+      var h=$('.hot[data-k="'+left[0][0]+'"]',L.sec);h.classList.remove('pulse');void h.offsetWidth;h.classList.add('pulse');say(L,'提示：看看閃動的地方');
+    };
+    $('#all',w).onclick=function(){L.s.found=HOT.map(function(h){return h[0]});say(L,'答案全部顯示');update(L)};
+    return [w];
+  },
+  fb:function(s){
+    var it=[];
+    HOT.forEach(function(h){if(s.found.indexOf(h[0])>=0)it.push(['ok',ISS[h[0]][0]+'：'+ISS[h[0]][1]+'　改法：'+ISS[h[0]][2]])});
+    if(s.found.length<6)it.unshift(['warn','還有 '+(6-s.found.length)+' 個沒找到，點投影片上你覺得有問題的地方。']);
+    return {items:it,ok:s.found.length,total:6};
+  }
+}
+];
+
+/* ---------- 範例區：滑動對照 ---------- */
+var S=function(bg,pad,inner){return '<div class="in" style="background:'+bg+';padding:'+pad+';'+SANS+'">'+inner+'</div>'};
+var D=function(css,txt){return '<div style="'+css+'">'+txt+'</div>'};
+var TT='font-size:5.5cqw;font-weight:800;color:#1F4E79;';
+var BAR='<div style="height:1cqw;width:10cqw;background:#C2410C;margin-bottom:2cqw"></div>';
+var OR=function(t){return '<b style="color:#C2410C">'+t+'</b>'};
+function plane(vb){
+  return '<svg viewBox="'+vb+'" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">'+
+  '<defs><linearGradient id="pk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fc4f5"/><stop offset="1" stop-color="#e8f6ff"/></linearGradient></defs>'+
+  '<rect width="160" height="90" fill="url(#pk)"/><rect y="76" width="160" height="14" fill="#9aa3a8"/>'+
+  '<rect x="8" y="28" width="2.4" height="52" fill="#444"/><rect x="3" y="32" width="12" height="1.6" fill="#444"/><rect x="4" y="38" width="10" height="1.6" fill="#444"/>'+
+  '<rect x="20" y="68" width="9" height="12" fill="#777"/><rect x="19" y="66" width="11" height="3" fill="#555"/>'+
+  '<rect x="118" y="42" width="16" height="38" fill="#b0a8a0"/><rect x="121" y="47" width="4" height="4" fill="#dfe6ec"/><rect x="127" y="47" width="4" height="4" fill="#dfe6ec"/>'+
+  '<rect x="143" y="58" width="3.4" height="22" fill="#6b4a2b"/><circle cx="144.7" cy="52" r="13" fill="#3b8f4a"/>'+
+  '<polygon points="76,44 84,44 90,34 83,34" fill="#cfd8e3" stroke="#1F4E79" stroke-width=".7"/><polygon points="60,44 67,44 63,35 59,35" fill="#cfd8e3" stroke="#1F4E79" stroke-width=".7"/>'+
+  '<ellipse cx="80" cy="45" rx="22" ry="5" fill="#fff" stroke="#1F4E79" stroke-width=".8"/><polygon points="76,46 86,46 92,56 85,56" fill="#e3e9f1" stroke="#1F4E79" stroke-width=".7"/>'+
+  '<circle cx="90" cy="44" r="1" fill="#1F4E79"/><circle cx="85" cy="44.5" r="1" fill="#1F4E79"/><circle cx="80" cy="44.5" r="1" fill="#1F4E79"/><circle cx="75" cy="44.5" r="1" fill="#1F4E79"/></svg>';
+}
+function chart(cols,title,tc){
+  var d=[['日本',42],['美國',25],['英國',18],['澳洲',15]];
+  return S('#fff','5cqw 7cqw',D('font-size:5cqw;font-weight:800;color:'+tc,title)+'<div style="display:flex;gap:4cqw;align-items:flex-end;height:30cqw;margin-top:3cqw">'+d.map(function(x,i){return '<div style="flex:1;text-align:center;font-size:2.8cqw"><div style="font-weight:700">'+x[1]+'%</div><div style="height:'+(x[1]*.45)+'cqw;background:'+cols[i]+'"></div><div>'+x[0]+'</div></div>'}).join('')+'</div>'+D('font-size:2cqw;color:#555;margin-top:1.5cqw','範例資料：最想出國留學的國家'));
+}
+var SUN='background:radial-gradient(circle at 72% 40%,#fff3b0 0 7%,transparent 7.5%),linear-gradient(#ff9966,#ffd6a5 58%,#2f6f4f 58%)';
+var SKY='background:radial-gradient(circle at 72% 30%,#fff8d0 0 8%,transparent 8.5%),linear-gradient(#cfeaff,#fff9e0 60%,#a8d98f 60%)';
+var cardH=function(t,b){return D('font-weight:800;color:#1F4E79;font-size:3.6cqw',t)+D('font-size:2.6cqw;color:#333',b)};
+var cbox='background:#E8F0F8;border:.3cqw solid #1F4E79;padding:2cqw;';
+var para='簡報的文字不需要太多，但行距要讓眼睛有地方休息，這樣每一行才能清楚分開，也比較容易閱讀。';
+var rows=[['會話課',45,38,12,5],['電影欣賞',50,30,15,5],['單字比賽',30,40,20,10],['英語話劇',35,35,20,10]];
+var mini=function(bg,tcss,t,extra){return '<div style="flex:1;aspect-ratio:16/9;background:'+bg+';position:relative;border:.3cqw solid #999;overflow:hidden">'+(extra||'')+D('position:absolute;'+tcss,t)+D('position:absolute;left:8%;right:8%;top:55%;height:10%;background:rgba(100,100,100,.35)','')+D('position:absolute;left:8%;right:30%;top:72%;height:10%;background:rgba(100,100,100,.35)','')+'</div>'};
+var trio=function(m){return S('#f3f4f6','10cqw 5cqw',D('font-size:3cqw;font-weight:700;color:#444;margin-bottom:3cqw','社團簡報的前三頁')+'<div style="display:flex;gap:3cqw">'+m.join('')+'</div>')};
+var GT='left:8%;top:14%;font-size:2.6cqw;font-weight:800;color:#1F4E79;';
+var GB='<div style="position:absolute;left:0;top:0;width:100%;height:5%;background:#C2410C"></div>';
+var G=[];
+function g(c,t,n,b,a){G.push({c:c,t:t,n:n,b:b,a:a})}
+
+/* 色彩 */
+g('色彩','配色混亂 → 清爽','彩虹色換成「深藍標題＋橘色強調」，關鍵字才看得到。',
+  '<div class="in" style="background:linear-gradient(135deg,#ffee00,#ff7a00);padding:6cqw 7cqw;'+SANS+'">'+D('font-size:6cqw;font-weight:800;color:#ff2d95','旅遊英語：機場報到')+D('font-size:3.8cqw;margin-top:3cqw;color:#00e676','① 出示護照與機票')+D('font-size:3.8cqw;margin-top:1.5cqw;color:#2979ff','② 詢問行李託運規定')+D('font-size:3.8cqw;margin-top:1.5cqw;color:#d500f9','③ 確認登機門與時間')+'</div>',
+  S('#fff','6cqw 7cqw',BAR+D('font-size:6cqw;font-weight:800;color:#1F4E79','旅遊英語：機場報到')+D('font-size:3.8cqw;margin-top:3cqw;color:#333','① 出示'+OR('護照')+'與機票')+D('font-size:3.8cqw;margin-top:1.5cqw;color:#333','② 詢問行李'+OR('託運')+'規定')+D('font-size:3.8cqw;margin-top:1.5cqw;color:#333','③ 確認'+OR('登機門')+'與時間')));
+g('色彩','每個字都強調 → 只強調關鍵','強調色用在每個字，就等於沒有強調。只留最重要的詞。',
+  S('#fff','6cqw 7cqw',D(TT,'搭機前的三個重點')+D('font-size:4cqw;margin-top:3cqw;line-height:1.7','<div><span style="color:#d00;font-weight:800;text-decoration:underline;background:#ff0">提早 3 小時</span> <span style="color:#00a;font-weight:800;font-style:italic">抵達機場</span></div><div><span style="color:#080;font-weight:800;background:#fcf">護照與機票</span> <span style="color:#c60;font-weight:800;text-decoration:underline">隨身攜帶</span></div><div><span style="color:#909;font-weight:800;background:#cff">液體需要</span> <span style="color:#d00;font-weight:800;font-style:italic">另外檢查</span></div>')),
+  S('#fff','6cqw 7cqw',D(TT,'搭機前的三個重點')+D('font-size:4cqw;margin-top:3cqw;line-height:1.7;color:#333','<div>提早'+OR(' 3 小時')+'抵達機場</div><div>護照與機票隨身攜帶</div><div>液體需要另外檢查</div>')));
+g('色彩','彩虹圖表 → 突出一根','每根柱子一種顏色，眼睛不知道看哪裡。把想講的那根上色，其他變灰。',
+  chart(['#ff1744','#00e676','#2979ff','#ffea00'],'留學調查結果','#d500f9'),
+  chart(['#C2410C','#B8C4D2','#B8C4D2','#B8C4D2'],'最想去的國家：日本最多','#1F4E79'));
+g('色彩','灰底黑字 → 深底淺字','兩個顏色都暗，字糊成一團。改成深藍底白字，對比立刻拉開。',
+  S('#4A4A4A','6cqw 7cqw',D('font-size:6cqw;font-weight:800;color:#111','校外教學通知')+D('font-size:4cqw;margin-top:3cqw;color:#222;line-height:1.6','集合時間：7:30<br>集合地點：校門口<br>攜帶物品：水壺、雨具')),
+  S('#1F3A5F','6cqw 7cqw',D('font-size:6cqw;font-weight:800;color:#fff','校外教學通知')+D('font-size:4cqw;margin-top:3cqw;color:#E8EEF7;line-height:1.6','集合時間：<b style="color:#FFB347">7:30</b><br>集合地點：校門口<br>攜帶物品：水壺、雨具')));
+g('色彩','顏色不符主題 → 符合主題','「健康飲食」用了黑底紅字，感覺像警告。換成清爽綠色，情緒才對。',
+  S('#1c1c1c','6cqw 7cqw',D('font-size:6cqw;font-weight:800;color:#e11d48','均衡飲食 健康生活')+D('font-size:4cqw;margin-top:3cqw;color:#e11d48;line-height:1.6','多吃蔬菜水果<br>少喝含糖飲料<br>規律運動')),
+  S('#F1F8F3','6cqw 7cqw',D('font-size:6cqw;font-weight:800;color:#1B5E3A','均衡飲食 健康生活')+D('font-size:4cqw;margin-top:3cqw;color:#2F4F3A;line-height:1.6','多吃'+OR('蔬菜水果')+'<br>少喝含糖飲料<br>規律運動')));
+g('色彩','花俏漸層底 → 單色底','漸層底讓字有的地方清楚、有的地方消失。文字區用單色最穩。',
+  S('linear-gradient(135deg,#ff5f6d,#ffc371,#47e5bc,#6a82fb)','6cqw 7cqw',D('font-size:6cqw;font-weight:800;color:#fff','英語演講比賽')+D('font-size:4cqw;margin-top:3cqw;color:#fff;line-height:1.6','報名：11/30 截止<br>地點：視聽教室<br>主題：我的夢想')),
+  S('#fff','6cqw 7cqw',BAR+D('font-size:6cqw;font-weight:800;color:#1F4E79','英語演講比賽')+D('font-size:4cqw;margin-top:3cqw;color:#333;line-height:1.6','報名：'+OR('11/30')+' 截止<br>地點：視聽教室<br>主題：我的夢想')));
+
+/* 字型 */
+g('字型','四種字型 → 統一一種','字型太多，視線一直跳。標題和內文用同一種，立刻乾淨。',
+  S('#fff','6cqw 7cqw',D('font-size:5.5cqw;font-weight:800;font-family:serif;color:#1F4E79','社團活動時間表')+D('font-size:4cqw;margin-top:3cqw;font-family:Comic Sans MS,cursive','週一　口說練習')+D('font-size:3.2cqw;margin-top:1.5cqw;font-family:serif;font-style:italic','週三　電影欣賞')+D('font-size:4.6cqw;margin-top:1.5cqw;font-family:monospace;font-weight:800','週五　單字比賽')),
+  S('#fff','6cqw 7cqw',D(TT,'社團活動時間表')+D('font-size:4cqw;margin-top:3cqw;color:#333','週一　口說練習')+D('font-size:4cqw;margin-top:1.5cqw;color:#333','週三　電影欣賞')+D('font-size:4cqw;margin-top:1.5cqw;color:#333','週五　單字比賽')));
+g('字型','行距 1.0 → 1.5','行距太擠，眼睛找不到下一行。放寬到 1.5 倍，閱讀舒服很多。',
+  S('#fff','6cqw 7cqw',D(TT,'閱讀的舒適度')+D('font-size:3.4cqw;line-height:1;margin-top:3cqw;width:75%;color:#333',para)),
+  S('#fff','6cqw 7cqw',D(TT,'閱讀的舒適度')+D('font-size:3.4cqw;line-height:1.5;margin-top:3cqw;width:75%;color:#333',para)));
+g('字型','中英文拼貼 → 協調','英文字型、大小都和中文不搭。統一字型，再用橘色粗體標出英文。',
+  S('#fff','6cqw 7cqw',D(TT,'今日單字')+D('font-size:4cqw;margin-top:3cqw;color:#333','<span style="font-family:Times New Roman,serif;font-style:italic;font-size:2.2cqw">Departure</span> 起飛')+D('font-size:4cqw;margin-top:2cqw;color:#333','<span style="font-family:Comic Sans MS,cursive;font-size:2.6cqw">Boarding Pass</span> 登機證')+D('font-size:4cqw;margin-top:2cqw;color:#333','<span style="font-family:monospace;font-size:5.6cqw">Gate</span> 登機門')),
+  S('#fff','6cqw 7cqw',D(TT,'今日單字')+D('font-size:4cqw;margin-top:3cqw;color:#333',OR('Departure')+' 起飛')+D('font-size:4cqw;margin-top:2cqw;color:#333',OR('Boarding Pass')+' 登機證')+D('font-size:4cqw;margin-top:2cqw;color:#333',OR('Gate')+' 登機門')));
+g('字型','全部粗體 → 只粗關鍵字','整頁都粗，就沒有重點了。粗體只留給最重要的詞。',
+  S('#fff','6cqw 7cqw',D('font-size:5.5cqw;font-weight:900;color:#1F4E79','機場安檢規則')+D('font-size:3.8cqw;font-weight:900;margin-top:3cqw;line-height:1.6;color:#222','液體要裝在 100 毫升以下的容器<br>電腦要從包包拿出來<br>外套與皮帶要脫下')),
+  S('#fff','6cqw 7cqw',D(TT,'機場安檢規則')+D('font-size:3.8cqw;font-weight:400;margin-top:3cqw;line-height:1.6;color:#222','液體要裝在 '+OR('100 毫升')+'以下的容器<br>'+OR('電腦')+'要從包包拿出來<br>'+OR('外套與皮帶')+'要脫下')));
+g('字型','英文全大寫 → 一般大小寫','整段大寫很難讀，也像在大吼。句子用正常大小寫。',
+  S('#fff','6cqw 7cqw',D('font-size:5.5cqw;font-weight:800;color:#1F4E79;text-transform:uppercase','welcome to our club')+D('font-size:3.4cqw;margin-top:3cqw;line-height:1.1;color:#333;text-transform:uppercase;font-weight:700','we meet every wednesday after school. please bring your notebook and a pen. everyone is welcome.')),
+  S('#fff','6cqw 7cqw',D(TT,'Welcome to our club')+D('font-size:3.8cqw;margin-top:3cqw;line-height:1.55;color:#333','We meet every '+OR('Wednesday')+' after school.<br>Please bring your notebook and a pen.<br>Everyone is welcome.')));
+g('字型','三行一樣大 → 有層次','標題、副標、內文大小一樣，看不出先看哪裡。拉開字級就有層次。',
+  S('#fff','6cqw 7cqw',D('font-size:3.8cqw;color:#222;font-weight:600','英語話劇公演')+D('font-size:3.8cqw;color:#222;font-weight:600;margin-top:1.4cqw','聖誕節特別場')+D('font-size:3.8cqw;color:#222;font-weight:600;margin-top:1.4cqw','12/24 晚上 7 點，視聽教室')),
+  S('#fff','6cqw 7cqw',BAR+D('font-size:7.4cqw;color:#1F4E79;font-weight:800;line-height:1.2','英語話劇公演')+D('font-size:4.2cqw;color:#C2410C;font-weight:700;margin-top:1.6cqw','聖誕節特別場')+D('font-size:3.6cqw;color:#444;margin-top:3cqw','12/24 晚上 7 點，視聽教室')));
+
+/* 圖片 */
+g('圖片','雜物太多 → 裁切主角','原圖有電線桿、垃圾桶、大樹搶走注意力。裁掉後飛機才是主角。拖曳時注意左右兩邊的差別。',
+  plane('0 0 160 90'),plane('50 26 60 33.75'));
+g('圖片','小圖加長文 → 大圖加標語','小圖旁邊塞一大段字，觀眾不會讀。大圖加一句標語更有說服力。',
+  S('#fff','4cqw 5cqw',D(TT,'阿里山')+'<div style="display:flex;gap:3cqw;margin-top:2cqw"><div style="flex:none;width:18cqw;height:12cqw;'+SUN+'"></div><div style="font-size:2cqw;line-height:1.35;color:#333">阿里山位於嘉義縣，是臺灣著名的旅遊景點，以日出、雲海、森林鐵路與櫻花聞名，每年吸引許多國內外旅客前往，旅客可以搭乘小火車欣賞沿途風景，也可以在清晨前往祝山觀日平台等待日出，建議事先查詢天氣與交通資訊，並準備保暖衣物。</div></div>'),
+  '<div class="in" style="'+SUN+'"></div>'+D('position:absolute;left:0;right:0;bottom:0;background:rgba(31,78,121,.88);padding:3cqw 6cqw;color:#fff;'+SANS,'<div style="font-size:5.5cqw;font-weight:800">阿里山日出</div><div style="font-size:3cqw">雲海之上，等待第一道光</div>'));
+g('圖片','字壓在照片上 → 加色塊','白字放在亮色照片上看不清楚。加一條半透明色塊就解決。',
+  '<div class="in" style="'+SKY+'"></div>'+D('position:absolute;left:6cqw;top:12cqw;color:#fff;font-size:4.5cqw;font-weight:700;'+SANS,'Welcome to Alishan<br>歡迎來到阿里山'),
+  '<div class="in" style="'+SKY+'"></div>'+D('position:absolute;left:0;right:0;top:14cqw;background:rgba(31,78,121,.88);padding:3cqw 6cqw;color:#fff;font-size:4.5cqw;font-weight:800;'+SANS,'Welcome to Alishan<br>歡迎來到阿里山'));
+g('圖片','大小不一 → 整齊格線','四張圖大小、位置各自為政。統一尺寸、排成格線，畫面立刻整齊。',
+  S('#fff','4cqw 5cqw',D('font-size:4.6cqw;font-weight:800;color:#1F4E79','社團活動花絮')+D('position:absolute;left:6cqw;top:16cqw;width:28cqw;height:19cqw;background:linear-gradient(135deg,#f6a,#fc8)','')+D('position:absolute;left:38cqw;top:22cqw;width:20cqw;height:24cqw;background:linear-gradient(135deg,#6cf,#8e8)','')+D('position:absolute;left:62cqw;top:14cqw;width:32cqw;height:16cqw;background:linear-gradient(135deg,#fc6,#f88)','')+D('position:absolute;left:14cqw;top:38cqw;width:16cqw;height:14cqw;background:linear-gradient(135deg,#a8f,#6cf)','')),
+  S('#fff','4cqw 5cqw',D('font-size:4.6cqw;font-weight:800;color:#1F4E79','社團活動花絮')+'<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:2.5cqw;margin-top:3cqw">'+['#f6a,#fc8','#6cf,#8e8','#fc6,#f88','#a8f,#6cf'].map(function(c){return '<div style="aspect-ratio:3/4;background:linear-gradient(135deg,'+c+')"></div>'}).join('')+'</div>'));
+g('圖片','裝飾太多 → 一張主圖','到處貼小圖案，反而搶走重點。留一張有意義的主圖就夠。',
+  S('#fffbe6','5cqw 6cqw',D('font-size:5cqw;font-weight:800;color:#d33','★ 我的暑假旅行 ★')+D('position:absolute;left:6%;top:48%;width:9cqw;height:9cqw;border-radius:50%;background:#f9a825','')+D('position:absolute;left:78%;top:20%;width:12cqw;height:12cqw;background:#e91e63;transform:rotate(25deg)','')+D('position:absolute;left:62%;top:62%;width:10cqw;height:10cqw;border-radius:50%;background:#26a69a','')+D('position:absolute;left:28%;top:70%;width:8cqw;height:8cqw;background:#7e57c2;transform:rotate(45deg)','')+D('font-size:3.4cqw;margin-top:3cqw;color:#555;width:60%','我去了很多地方，玩得很開心，吃了很多好吃的東西。')),
+  '<div class="in" style="'+SUN+'"></div>'+D('position:absolute;left:0;right:0;bottom:0;background:rgba(31,78,121,.88);padding:3cqw 6cqw;color:#fff;'+SANS,'<div style="font-size:5cqw;font-weight:800">我的暑假旅行</div><div style="font-size:3cqw">第一次看見日出</div>'));
+
+/* 版面 */
+g('版面','講稿全貼 → 重點三條','整段講稿觀眾不會讀。刪成關鍵字，編號與標題讓結構一眼看懂。',
+  '<div class="in" style="background:#f3efe6;padding:1cqw;'+SANS+'">'+D('font-size:2.6cqw;color:#555;font-family:Comic Sans MS,cursive','如何準備英語演講')+D('font-size:1.7cqw;line-height:1.25;color:#333;margin-top:.8cqw;font-family:serif','準備英語演講時，首先必須要先確定演講的主題，接著要蒐集相關的資料，然後開始撰寫講稿，並且要多次練習發音與語調，還要注意時間的控制，最後還要準備簡報與道具，同時也要想好可能被問到的問題，演講當天要提早到場測試設備，上台前深呼吸，保持微笑與觀眾眼神接觸，說話速度不要太快，如果忘詞也不要慌張。')+D('font-size:1.7cqw;color:#c00;margin-top:.8cqw;font-weight:700','重點：多練習！多練習！多練習！')+'</div>',
+  S('#fff','6cqw 7cqw',BAR+D('font-size:6cqw;font-weight:800;color:#1F4E79','如何準備英語演講')+'<div style="display:flex;gap:4cqw;margin-top:5cqw">'+[['1','選主題'],['2','寫講稿'],['3','反覆練習']].map(function(x){return '<div style="flex:1;border-top:.8cqw solid #1F4E79;padding-top:1.5cqw"><div style="font-size:3cqw;color:#C2410C;font-weight:800">'+x[0]+'</div><div style="font-size:4cqw;font-weight:700;color:#222">'+x[1]+'</div></div>'}).join('')+'</div>'));
+g('版面','各自為政 → 整齊對齊','三個方塊大小、位置都不同。對齊並等寬，畫面就有秩序。',
+  S('#fff','6cqw 7cqw',D(TT,'三種練習方式')+D('position:absolute;left:5cqw;top:24cqw;width:24cqw;'+cbox,cardH('會話','每週一次小組練習'))+D('position:absolute;left:35cqw;top:31cqw;width:20cqw;'+cbox,cardH('單字','每天十個字'))+D('position:absolute;left:64cqw;top:21cqw;width:31cqw;'+cbox,cardH('簡報','每月上台一次'))),
+  S('#fff','6cqw 7cqw',D(TT,'三種練習方式')+'<div style="display:flex;gap:3cqw;margin-top:6cqw">'+[['會話','每週一次小組練習'],['單字','每天十個字'],['簡報','每月上台一次']].map(function(x){return '<div style="flex:1;'+cbox+'">'+cardH(x[0],x[1])+'</div>'}).join('')+'</div>'));
+g('版面','滿滿表格 → 一個大數字','整張表格的數字沒人看得完。挑最重要的一個數字放大。',
+  S('#fff','4cqw 5cqw',D(TT,'社團滿意度調查')+'<table style="border-collapse:collapse;font-size:2cqw;margin-top:2cqw;width:100%"><tr style="background:#E8F0F8">'+['項目','非常滿意','滿意','普通','不滿意'].map(function(h){return '<th style="border:1px solid #999;padding:.6cqw">'+h+'</th>'}).join('')+'</tr>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td style="border:1px solid #999;padding:.6cqw;text-align:'+(i?'center':'left')+'">'+c+(i?'%':'')+'</td>'}).join('')+'</tr>'}).join('')+'</table>'),
+  S('#fff','6cqw 7cqw',D(TT,'社團滿意度調查')+D('font-size:18cqw;font-weight:800;color:#C2410C;line-height:1.1;margin-top:3cqw','83%')+D('font-size:4cqw;color:#333','的同學對「會話課」感到滿意')+D('font-size:2cqw;color:#555;margin-top:2cqw','範例資料')));
+g('版面','三頁各自為政 → 母片統一','三頁標題位置、顏色、字型都不同。用母片統一，像同一套簡報。',
+  trio([mini('#fde68a','right:6%;top:8%;font-size:2.6cqw;font-weight:800;color:#b91c1c;font-family:serif','社團簡介'),mini('#1f2937','left:0;right:0;text-align:center;top:25%;font-size:3.2cqw;color:#fff;font-family:Comic Sans MS,cursive','活動內容'),mini('#bbf7d0','left:6%;bottom:6%;font-size:2cqw;color:#065f46','報名方式')]),
+  trio([mini('#fff',GT,'社團簡介',GB),mini('#fff',GT,'活動內容',GB),mini('#fff',GT,'報名方式',GB)]));
+g('版面','文字清單 → 並列卡片','五條文字清單擠在左上角。拆成三個步驟並列，流程更清楚。',
+  S('#fff','5cqw 6cqw',D('font-size:4cqw;font-weight:800;color:#1F4E79','搭機流程')+D('font-size:2.4cqw;line-height:1.5;color:#333;margin-top:1.5cqw','・提早到機場，並且準備好證件<br>・到航空公司櫃檯辦理報到<br>・託運行李並領取登機證<br>・通過安檢<br>・前往登機門等候')),
+  S('#fff','6cqw 7cqw',BAR+D(TT,'搭機流程')+'<div style="display:flex;gap:3cqw;margin-top:5cqw">'+[['報到','櫃檯領登機證'],['安檢','液體與電腦拿出'],['登機','準時到登機門']].map(function(x){return '<div style="flex:1;background:#E8F0F8;padding:2.5cqw"><div style="font-size:5cqw;font-weight:800;color:#1F4E79">'+x[0]+'</div><div style="font-size:2.8cqw;color:#333;margin-top:1cqw">'+x[1]+'</div></div>'}).join('')+'</div>'));
+g('版面','擁擠封面 → 簡潔封面','封面塞滿資訊，標題反而小。留白、放大標題，其餘資訊縮到角落。',
+  S('#e8f5e9','2cqw 3cqw',D('font-size:3cqw;text-align:center;color:#333','○○高級商工職業學校　應用英語科')+D('font-size:3.6cqw;text-align:center;font-weight:700;color:#2e7d32;margin-top:1cqw','旅遊英語期末報告')+D('font-size:2.2cqw;text-align:center;margin-top:1cqw;color:#444','指導老師：王老師　班級：應英三甲　座號：12　姓名：陳小明')+D('font-size:2.2cqw;text-align:center;color:#444','日期：115 年 11 月　地點：視聽教室　主題：機場英語')),
+  S('#fff','8cqw 8cqw',BAR+D('font-size:8cqw;font-weight:800;color:#1F4E79;line-height:1.2','旅遊英語<br>期末報告')+D('position:absolute;left:8cqw;bottom:6cqw;font-size:2.8cqw;color:#555','應英三甲　陳小明　115 年 11 月')));
+g('版面','只有 Thank you → 有用的結尾','結尾頁空蕩蕩。放上三個重點回顧和聯絡方式，觀眾才帶得走東西。',
+  S('#fff9c4','5cqw 6cqw',D('font-size:12cqw;font-weight:800;color:#f57f17;text-align:center;font-family:Comic Sans MS,cursive;margin-top:3cqw','Thank you!!!')),
+  S('#fff','6cqw 7cqw',BAR+D('font-size:6.4cqw;font-weight:800;color:#1F4E79','謝謝聆聽')+D('font-size:3.8cqw;color:#333;margin-top:3cqw;line-height:1.6',OR('記住三件事')+'<br>對比要夠　字要夠大　一頁一重點')+D('position:absolute;left:7cqw;bottom:5cqw;font-size:2.8cqw;color:#555','問題歡迎提問　english@school.example')));
+
+
+/* ================= 實作區引擎（五個單元） ================= */
+var labRoot=$('#labs'),ltabs=[],lsecs=[];
+var lbar=el('<div class="lbar" role="tablist" aria-label="練習單元"></div>');
+labRoot.appendChild(lbar);
+function say(L,msg){
+  var s=$('.stl',L.sec);s.textContent=msg;clearTimeout(L.tm);
+  L.tm=setTimeout(function(){s.textContent=L.caption(L)},2600);
+}
+function update(L){
+  var slide=$('.slide',L.sec),tag=$('.tag',L.sec),pk=$('.peek',L.sec);
+  slide.innerHTML=L.peek?L.peekRender():L.render(L.s);
+  tag.textContent=L.peek?L.tagPeek:L.tagMain;
+  pk.classList.toggle('hold',L.peek);
+  var hs=$('.hots',L.sec);
+  if(hs){hs.hidden=L.peek;$$('.hot',hs).forEach(function(h){h.classList.toggle('found',L.s.found.indexOf(h.dataset.k)>=0)})}
+  if(!L.sayOn)$('.stl',L.sec).textContent=L.caption(L);
+  var r=L.fb(L.s);
+  $('.fb',L.sec).innerHTML=r.items.map(function(i){return '<li><span class="bd '+i[0]+'">'+(i[0]==='ok'?'✔ 通過':i[0]==='warn'?'⚠ 注意':'✖ 要改')+'</span><span>'+i[1]+'</span></li>'}).join('');
+  $('.meter div',L.sec).style.width=(r.ok/r.total*100)+'%';
+  $('.sum',L.sec).textContent=r.ok===r.total?(L.id==='find'?'6 個全部找到了！往下拖曳比較問題版和修正版。':'全部通過！按住上方按鈕看 BEFORE，再往下拖曳比較。'):(L.id==='find'?'已找到 '+r.ok+' / '+r.total+' 個':'已通過 '+r.ok+' / '+r.total+' 項');
+  ltabs[L.i].classList.toggle('done',r.ok===r.total);
+  var pair=L.cmpPair?L.cmpPair():[L.render(L.init),L.render(L.s)];
+  L.cmp.set(pair[0],pair[1]);
+  var same=JSON.stringify(L.s)===JSON.stringify(L.init);
+  $('.cmpnote',L.sec).textContent=L.id==='find'?'左邊是問題版，右邊是修正版。':(same?'目前和 BEFORE 一樣，先到上方調整設定。':'左邊是調整前，右邊是你的版本。');
+  L.syncs.forEach(function(f){f()});
+}
+function showLab(i){
+  LABS.forEach(function(l,j){l.sec.hidden=j!==i;ltabs[j].classList.toggle('on',j===i);ltabs[j].setAttribute('aria-selected',j===i)});
+}
+function build(L,i){
+  L.i=i;L.s=clone(L.init);L.peek=false;L.syncs=[];
+  L.tagMain=L.tagMain||'AFTER・你的版本';L.tagPeek=L.tagPeek||'BEFORE・原始版本';
+  L.peekRender=L.peekRender||function(){return L.render(L.init)};
+  L.caption=L.caption||function(){return '你的版本，即時更新'};
+  var sec=el('<section hidden>'+
+    '<div class="task"><b>任務</b>'+L.task+'</div>'+
+    '<div class="lab-grid"><div class="stage"><div class="stbox"><div class="slide"></div>'+(L.hots?'<div class="hots"></div>':'')+'</div>'+
+      '<div class="strow"><div class="stinfo"><span class="tag"></span><span class="stl"></span></div><button type="button" class="peek">'+(L.peekText||'按住看 BEFORE')+'</button></div></div>'+
+    '<div class="lab-side"><div class="panel ctrls"></div>'+
+      '<div class="panel"><h4>檢查結果</h4><div class="meter"><div></div></div><p class="sum"></p><ul class="fb"></ul></div></div></div>'+
+    '<div class="panel"><h4>BEFORE／AFTER 比較</h4><div class="cmphost"></div><p class="cmpnote"></p></div></section>');
+  L.sec=sec;
+  var b=function(k){return [function(){return L.s[k]},function(v){L.s[k]=v;update(L)}]};
+  var c=$('.ctrls',sec);
+  L.controls(L,b).forEach(function(w){c.appendChild(w);if(w._sync)L.syncs.push(w._sync)});
+  var rs=el('<button type="button" class="btn ghost">'+(L.hots?'重新開始':'全部重來')+'</button>');
+  rs.onclick=function(){L.s=clone(L.init);if(L.hots)say(L,'已重新開始');update(L)};c.appendChild(rs);
+  L.cmp=mkCompare($('.cmphost',sec));
+  var pk=$('.peek',sec);
+  var on=function(e){e.preventDefault();L.peek=true;update(L)},off=function(){if(L.peek){L.peek=false;update(L)}};
+  pk.addEventListener('pointerdown',on);
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){pk.addEventListener(t,off)});
+  pk.addEventListener('contextmenu',function(e){e.preventDefault()});
+  pk.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();if(!L.peek)on(e)}});
+  pk.addEventListener('keyup',function(e){if(e.key===' '||e.key==='Enter')off()});
+  if(L.hots){
+    var hs=$('.hots',sec);
+    HOT.forEach(function(h,k){
+      var r=h[1],btn=el('<button type="button" class="hot" data-k="'+h[0]+'" data-n="'+(k+1)+'" aria-label="投影片區塊 '+(k+1)+'" style="left:'+r[0]+'%;top:'+r[1]+'%;width:'+r[2]+'%;height:'+r[3]+'%"></button>');
+      btn.onclick=function(e){
+        e.stopPropagation();
+        if(L.s.found.indexOf(h[0])>=0){say(L,'這個找到了：'+ISS[h[0]][0]);return}
+        L.s.found.push(h[0]);update(L);say(L,'找到了！'+ISS[h[0]][0]);
+      };
+      hs.appendChild(btn);
+    });
+    hs.addEventListener('click',function(){say(L,'這裡沒有問題，再看看別處')});
+  }
+  labRoot.appendChild(sec);
+  var tb=el('<button type="button" class="segb" role="tab" aria-selected="false">'+L.name+'</button>');
+  tb.onclick=function(){showLab(i)};lbar.appendChild(tb);ltabs.push(tb);
+  update(L);
+}
+LABS.forEach(build);
+showLab(0);
+
+/* ================= 共用：分頁、比較、複製 ================= */
+function gItem(t){for(var i=0;i<G.length;i++)if(G[i].t===t)return G[i];return null}
+function mountG(h){
+  var x=gItem(h.getAttribute('data-gt'));if(!x)return;
+  h.className='gm';
+  h.innerHTML='<div class="gc"></div>'+(h.hasAttribute('data-note')?'<p class="cmpnote"><b>'+x.t+'：</b>'+x.n+'</p>':'');
+  mkCompare($('.gc',h)).set(x.b,x.a);
+}
+function mkTs(host,items,opt){
+  opt=opt||{};var id='ts'+(++uid);
+  var bar=el('<div class="tbar'+(opt.round?' round'+(opt.sm?' sm':''):'')+'" role="tablist"></div>');
+  var wrap=el('<div></div>'),btns=[],pans=[];
+  items.forEach(function(it,i){
+    var b=el('<button type="button" class="tbb" role="tab" id="'+id+'t'+i+'" aria-controls="'+id+'p'+i+'" aria-selected="false">'+it.label+(it.sub?'<small>'+it.sub+'</small>':'')+'</button>');
+    var p=el('<div class="tpanel" role="tabpanel" id="'+id+'p'+i+'" aria-labelledby="'+id+'t'+i+'" hidden><div class="card">'+it.html+'</div></div>');
+    b.onclick=function(){sel(i,true)};
+    b.addEventListener('keydown',function(e){
+      var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!k)return;
+      e.preventDefault();sel((i+k+items.length)%items.length,true);
+    });
+    bar.appendChild(b);wrap.appendChild(p);btns.push(b);pans.push(p);
+    $$('[data-gt]',p).forEach(mountG);
+    if(it.init)it.init(p);
+  });
+  function sel(i,f){btns.forEach(function(b,j){b.setAttribute('aria-selected',j===i);b.tabIndex=j===i?0:-1;pans[j].hidden=j!==i});if(f)btns[i].focus()}
+  host.appendChild(bar);host.appendChild(wrap);sel(0,false);
+}
+function copyText(text,btn,pre){
+  function done(m){btn.textContent=m;setTimeout(function(){btn.textContent='複製'},2000)}
+  function fb(){try{var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done('已選取，請按複製')}catch(e){done('請手動選取')}}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){done('已複製')},fb)}else fb();
+}
+function progress(inputs,bar,out,total,msg){
+  function up(){var n=inputs.filter(function(c){return c.checked}).length;bar.style.width=(n/total*100)+'%';out.textContent=msg(n,total)}
+  inputs.forEach(function(c){c.addEventListener('change',up)});up();
+}
+function checks(host,list,onchange){
+  host.innerHTML=list.map(function(t){return '<label class="ck"><input type="checkbox"><span>'+t+'</span></label>'}).join('');
+  var ins=$$('input',host);ins.forEach(function(c){c.addEventListener('change',onchange)});return ins;
+}
+
+/* ================= 首頁 ================= */
+mkCompare($('#heroCmp')).set(gItem('講稿全貼 → 重點三條').b,gItem('講稿全貼 → 重點三條').a);
+
+/* ================= 一 ================= */
+(function(){
+  var DG=[['不知道要講什麼，想到哪講到哪',['c3']],['資料很多，不知道怎麼排',['c2']],['投影片看起來又亂又醜',['c2','c5']],['上台緊張，講太快或一直唸稿',['c3']],['不熟軟體，做很久',['c4']],['小組合作，進度對不上',['c3','c6']]];
+  var PGL={c2:'p2-1',c3:'p3-1',c4:'p4-1',c5:'p5-1',c6:'p6-1'};var CN={c2:'第二章：簡報設計力',c3:'第三章：表達影響力',c4:'第四章：AI 神助攻',c5:'第五章：實戰改造',c6:'第六章：Q&amp;A'};
+  var host=$('#diag'),out=$('#diagout');
+  var ins=checks(host,DG.map(function(d){return d[0]}),function(){
+    var set=[];ins.forEach(function(c,i){if(c.checked)DG[i][1].forEach(function(k){if(set.indexOf(k)<0)set.push(k)})});
+    out.innerHTML=set.length?'建議先看：'+set.map(function(k){return '<a href="#'+PGL[k]+'">'+CN[k]+'</a>'}).join(''):'';
+  });
+  mkTs($('#ts4p'),[
+    {label:'事前準備',sub:'Prepare',html:'<h4>事前準備 Prepare</h4><p>先蒐集<b>資料</b>，整理成<b>資訊</b>，再搭出<b>架構</b>。想清楚再動手。</p><div class="chips2"><a href="#p3-1">第三章：先想清楚</a><a href="#p2-1">第二章：搭框架</a></div>'},
+    {label:'簡報製作',sub:'Power Point',html:'<h4>簡報製作 Power Point</h4><p>把架構做成一眼就懂的投影片。工具有 PowerPoint、Keynote、Canva、Google Slides、Gamma…and more。</p><p>製作與練習會來回修改：練習時發現講不順，就回頭改投影片。</p><div class="chips2"><a href="#p2-1">第二章：設計力</a><a href="#p4-1">第四章：AI 助攻</a></div>'},
+    {label:'練習準備',sub:'Practice',html:'<h4>練習準備 Practice</h4><p>練習的重點有：走動、站姿、手勢、音量、停頓、服裝、團隊合作、轉折。</p><div class="chips2"><a href="#p3-4">第三章：口頭報告 8 個重點</a></div>'},
+    {label:'口頭報告',sub:'Present',html:'<h4>口頭報告 Present</h4><p>把練習過的內容，用聲音、表情與眼神交給觀眾。</p><div class="chips2"><a href="#p3-5">第三章：7 分鐘計時練習</a></div>'}
+  ],{round:true});
+})();
+
+/* ================= 二 ================= */
+(function(){
+  mkTs($('#ts4stage'),[
+    {label:'1 搭框架',html:'<h4>第 1 步：搭好簡報框架結構</h4><p class="muted" style="margin-bottom:12px">先決定每一頁扮演什麼角色。</p><div class="tree"><div class="tn cover">封面頁</div><div class="tn toc">目錄頁</div><div class="tcols">'+[0,1,2].map(function(){return '<div class="tcol"><div class="tn tr">過渡頁</div><div class="tn">正文頁</div><div class="tn">正文頁</div></div>'}).join('')+'</div><div class="tn endp">結尾頁</div></div>'},
+    {label:'2 明確目的',html:'<h4>第 2 步：明確簡報的用途目的</h4><p>這場簡報要改變聽眾的<b>資訊、能力、行為</b>，還是<b>信念</b>？</p><div class="chips2"><a href="#p3-2">到第三章看四種目的</a></div>'},
+    {label:'3 分析觀眾',html:'<h4>第 3 步：分析本次目標觀眾</h4><p>聽眾是誰、已經知道什麼、在乎什麼？不同觀眾，要講的重點也不同。</p><div class="chips2"><a href="#p3-3">到第三章做觀眾分析</a></div>'},
+    {label:'4 分階段製作',html:'<h4>第 4 步：分階段性製作簡報</h4><div class="flow3"><span class="tn cover">搭好框架結構</span><span class="ar">→</span><span class="tn toc">再填入內容</span><span class="ar">→</span><span class="tn tr">最後才設計</span></div><p>先搭框架，再填內容，讓資訊更完整；最後才設計，讓美觀更一致。</p><div class="warn-big">千萬不要<em>邊做邊設計</em></div>'}
+  ]);
+
+  mkTs($('#ts4rule'),[
+    {label:'對齊',html:'<h4>簡報沒對齊，看起來顯得雜亂</h4><p class="muted" style="margin-bottom:12px">標題、文字、圖片的邊緣對齊，畫面自然整齊。</p><div data-gt="各自為政 → 整齊對齊" data-note="1"></div>'},
+    {label:'放大',html:'<h4>放大能讓重點顯而易見</h4><p class="muted" style="margin-bottom:12px">最重要的東西，放到最大。</p><div data-gt="滿滿表格 → 一個大數字" data-note="1"></div>'},
+    {label:'對比',html:'<h4>善用對比，強調頁面重點</h4><p class="muted" style="margin-bottom:12px">大小、粗細、顏色拉開差距，重點才跳得出來。</p><div data-gt="每個字都強調 → 只強調關鍵" data-note="1"></div>'},
+    {label:'重複',html:'<h4>好的設計都滿足重複風格</h4><p class="muted" style="margin-bottom:12px">顏色、字型、風格貫穿整份簡報，用母片統一。</p><div data-gt="三頁各自為政 → 母片統一" data-note="1"></div>'}
+  ],{round:true,sm:true});
+
+  var MD=[['紅','#C00000','#FFFFFF','充滿能量．引人注目．朝氣蓬勃．摩登高級'],['橘','#E09000','#2A1800','明亮開放．雀躍安心．正向色彩．好搭暖色'],['黃','#FFE600','#2A2400','活潑積極．緩和緊張'],['綠','#78AB00','#10200A','放鬆療癒．安心平靜．自然安穩'],['藍','#044A8C','#FFFFFF','信賴誠實．沉著理性．專業商務'],['紫','#A0148C','#FFFFFF','智慧奢豪．神秘嚴肅'],['黑','#000000','#FFFFFF','魄力權威．厚重強大'],['白','#FFFFFF','#181C3A','純淨簡單．嶄新冷靜']];
+  var moods='<div class="moods">'+MD.map(function(m){return '<div class="mood" style="background:'+m[1]+';color:'+m[2]+'"><b>'+m[0]+'</b>'+m[3]+'</div>'}).join('')+'</div>';
+  var P={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>'};
+  function ic(k,a){return '<svg viewBox="0 0 24 24" aria-hidden="true" '+a+'>'+P[k]+'</svg>'}
+  var same=['home','user','star','pin'].map(function(k){return ic(k,'fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"')}).join('');
+  var mix=[ic('home','fill="#C00000" stroke="none"'),ic('user','fill="none" stroke="#46B39C" stroke-width="3.6" stroke-linecap="round"'),ic('star','fill="#FFC000" stroke="#242852" stroke-width="2.4"'),ic('pin','fill="none" stroke="#7A3FB0" stroke-width=".9" style="width:30px;height:30px"')].join('');
+  var CH=[['趨勢','Trend','折線圖、面積圖','看一段時間的變化','<polyline points="8,70 32,50 56,58 80,28 108,14" fill="none" stroke="#4A66AC" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>'],
+          ['比較','Comparison','長條圖、橫條圖','比較誰大誰小','<rect x="14" y="40" width="18" height="40" fill="#8DA2E0"/><rect x="40" y="18" width="18" height="62" fill="#4A66AC"/><rect x="66" y="52" width="18" height="28" fill="#8DA2E0"/><rect x="92" y="34" width="18" height="46" fill="#8DA2E0"/>'],
+          ['組成','Composition','圓餅圖、堆疊圖','看整體裡各占多少','<g transform="translate(60 45) rotate(-90)"><circle r="26" fill="none" stroke="#4A66AC" stroke-width="20" stroke-dasharray="90 163"/><circle r="26" fill="none" stroke="#FFC000" stroke-width="20" stroke-dasharray="48 163" stroke-dashoffset="-90"/><circle r="26" fill="none" stroke="#8DA2E0" stroke-width="20" stroke-dasharray="25 163" stroke-dashoffset="-138"/></g>'],
+          ['關係','Relationship','散佈圖、泡泡圖','看兩件事有沒有關聯','<circle cx="22" cy="68" r="5" fill="#4A66AC"/><circle cx="40" cy="56" r="5" fill="#4A66AC"/><circle cx="58" cy="50" r="5" fill="#4A66AC"/><circle cx="72" cy="36" r="5" fill="#4A66AC"/><circle cx="90" cy="30" r="5" fill="#4A66AC"/><circle cx="102" cy="18" r="5" fill="#FFC000"/>']];
+  mkTs($('#ts4show'),[
+    {label:'色',html:'<h4>色：顏色會說話</h4><p class="muted" style="margin-bottom:10px">選色先想「這個主題要給人什麼感覺」。</p>'+moods+'<p class="note" style="margin-top:14px">選好之後，記得檢查對比度。第五章的練習區有「對比度測試機」可以試。</p><div style="margin-top:14px" data-gt="顏色不符主題 → 符合主題" data-note="1"></div>'},
+    {label:'文',html:'<h4>文：像標語，不像作文</h4><ul class="dot"><li><b>條列式</b>：用關鍵字，不用整句</li><li><b>一頁一重點</b>：善用動畫，一個重點一個重點出現</li><li><b>背景單純</b>：不要搶走文字的注意</li><li><b>圖文相符</b>：圖要幫助理解，不是填空</li></ul><div style="margin-top:14px" data-gt="講稿全貼 → 重點三條" data-note="1"></div>'},
+    {label:'圖',html:'<h4>圖：圖示風格要一致</h4><p class="muted" style="margin-bottom:6px">同一套線條粗細、圓角、顏色，看起來才像一組。</p><div><b>風格一致</b><div class="icons" style="color:var(--ink)">'+same+'</div></div><div style="margin-top:10px"><b>風格混雜</b><div class="icons">'+mix+'</div></div><p style="margin-top:12px"><b>圖示網站</b></p><div class="chips2"><a href="https://www.flaticon.com/free-icons/web" target="_blank" rel="noopener">Flaticon</a><a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Google Fonts - icon</a><a href="https://www.freepik.com/" target="_blank" rel="noopener">Freepik</a></div><p class="note" style="margin-top:12px">也可以善用<b>色塊與線條</b>：用色塊分區，用線條連結或強調。</p><div style="margin-top:14px" data-gt="大小不一 → 整齊格線" data-note="1"></div>'},
+    {label:'數',html:'<h4>數：資訊視覺化</h4><p class="muted" style="margin-bottom:10px">先想「我要表達什麼」，再挑圖表。</p><div class="pick"><div class="seg" id="chseg"></div><div class="pickout"><div id="chtxt"></div><svg id="chsvg" viewBox="0 0 120 90" aria-hidden="true"></svg></div></div><div style="margin-top:14px" data-gt="彩虹圖表 → 突出一根" data-note="1"></div>',
+      init:function(p){
+        var seg=$('#chseg',p),txt=$('#chtxt',p),svg=$('#chsvg',p),bs=[];
+        CH.forEach(function(c,i){var b=el('<button type="button" class="segb">'+c[0]+'</button>');b.onclick=function(){go(i)};seg.appendChild(b);bs.push(b)});
+        function go(i){var c=CH[i];bs.forEach(function(b,j){b.classList.toggle('on',i===j);b.setAttribute('aria-pressed',i===j)});txt.innerHTML='<b>'+c[0]+' '+c[1]+'</b><br>'+c[3]+'<br>適合：'+c[2];svg.innerHTML=c[4]}
+        go(0);
+      }}
+  ],{round:true,sm:true});
+
+  /* 範例牆 */
+  var gal=$('#gal');
+  gal.innerHTML='<div class="chips" id="gchips"></div><div class="gwall" id="gwall"></div>';
+  var cards=[];
+  G.forEach(function(x){
+    var card=el('<div class="card"><div class="ghd"><h4>'+x.t+'</h4><span class="bd ok">'+x.c+'</span></div><div class="gc"></div><p class="cmpnote"><b>改了什麼：</b>'+x.n+'</p></div>');
+    $('#gwall').appendChild(card);mkCompare($('.gc',card)).set(x.b,x.a);cards.push([x.c,card]);
+  });
+  var chips=$('#gchips'),cb=[];
+  ['全部','色彩','字型','圖片','版面'].forEach(function(c,i){
+    var b=el('<button type="button" class="segb'+(i?'':' on')+'" aria-pressed="'+(i===0)+'">'+c+'</button>');
+    b.onclick=function(){cb.forEach(function(o){var on=o===b;o.classList.toggle('on',on);o.setAttribute('aria-pressed',on)});cards.forEach(function(p){p[1].hidden=!(c==='全部'||p[0]===c)})};
+    chips.appendChild(b);cb.push(b);
+  });
+})();
+
+/* ================= 三 ================= */
+(function(){
+  var AIM=[['改變資訊',['團隊進度會議','最終財務報告','季度報告','專案討論會議','新聞報導'],'學生例子：班會報告、社團成果報告、校外參訪心得、活動籌備進度、分組報告進度','讓聽眾「知道」。重點是清楚、正確、有條理，聽完能複述'],
+           ['改變能力',['學術論文','課堂講課','工作坊','新人訓練','技能示範'],'學生例子：教同學使用一個軟體、專題教學、手作課、英文發音教學、運動技巧示範','讓聽眾「會做」。重點是步驟、示範、讓人能馬上試試看'],
+           ['改變行為',['工作面試','產品發表','業務推銷','募款說明','活動招募'],'學生例子：升學面試、說服同學參加活動、社團招生、義賣邀請、競賽拉票','讓聽眾「去做」。重點是好處、證據，最後一定要有明確的行動呼籲'],
+           ['改變信念',['畢業典禮演講','TED 演講','佈道','公益倡議','政見發表'],'學生例子：畢業致詞、公益倡議、環保宣導、反霸凌宣導、分享人生故事','讓聽眾「相信」。重點是故事、情感與價值，很難靠數據一次說服']];
+  mkTs($('#ts4aim'),AIM.map(function(a){return {label:a[0].replace('改變','改變聽眾'),html:'<h4>'+a[0].replace('改變','改變聽眾')+'</h4><p>'+a[3]+'。</p><div class="chips2">'+a[1].map(function(x){return '<span>'+x+'</span>'}).join('')+'</div><p class="note" style="margin-top:14px">'+a[2]+'。目的不同，內容與說法就不同。</p>'}}));
+  /* 練習：這是哪一種目的？ */
+  var AQ=[['向全班報告這週班會的決議事項',0,'聽眾只要「知道」決議是什麼，所以是改變資訊。'],
+          ['教同學用 Canva 做出一張海報',1,'目的是讓同學「學會」，所以是改變能力。'],
+          ['升學面試時介紹自己，希望被錄取',2,'希望對方做出「錄取」的決定，所以是改變行為。'],
+          ['社團博覽會上，邀請新生加入你的社團',2,'目的是讓人「報名」，所以是改變行為。'],
+          ['畢業致詞，鼓勵學弟妹相信自己做得到',3,'談的是價值與信念，所以是改變信念。'],
+          ['向校長報告社團今年的成果',0,'讓校長「了解」成果，所以是改變資訊。'],
+          ['教大家怎麼泡出一杯手沖咖啡',1,'要讓大家回去「會做」，所以是改變能力。'],
+          ['公益倡議：讓大家重視流浪動物',3,'要讓人在心裡改變看法，所以是改變信念。']];
+  var aq=$('#aimq');
+  if(aq){
+    aq.innerHTML=AQ.map(function(q,i){return '<div class="aq" data-i="'+i+'"><p><b>'+(i+1)+'.</b> '+q[0]+'</p><div class="aqr">'+AIM.map(function(a,j){return '<button type="button" class="aqb" data-j="'+j+'">'+a[0]+'</button>'}).join('')+'</div><p class="aqf" aria-live="polite"></p></div>'}).join('');
+    $$('.aq',aq).forEach(function(w){var q=AQ[+w.getAttribute('data-i')];
+      $$('.aqb',w).forEach(function(bt){bt.onclick=function(){var j=+bt.getAttribute('data-j'),f=$('.aqf',w);
+        $$('.aqb',w).forEach(function(x){x.classList.remove('ok','no')});
+        if(j===q[1]){bt.classList.add('ok');f.textContent='✓ 答對了。'+q[2]}else{bt.classList.add('no');f.textContent='✗ 再想想。提示：這場簡報最後希望聽眾「做到」什麼？'}}})});
+  }
+
+
+  var SP=[['走動','有目的地移動：換主題時才走，不要來回踱步。'],['站姿','雙腳與肩同寬，身體朝向觀眾，不背對螢幕。'],['手勢','手放在腰到胸之間，配合重點比劃，不插口袋。'],['音量','讓最後一排聽得到，重點處放慢、加重。'],['停頓','重要的話說完停兩秒，讓觀眾消化。'],['服裝','整潔、符合場合，不要搶走觀眾的注意。'],['團隊合作','事先分好段落，交棒時說一句銜接的話。'],['轉折','換段落時用過渡句：「接下來我們看…」，讓觀眾跟上。']];
+  var sp=$('#spk');
+  sp.innerHTML=SP.map(function(s){return '<div class="card"><h4>'+s[0]+'</h4><p>'+s[1]+'</p><label><input type="checkbox">我會先練習</label></div>'}).join('');
+  progress($$('input',sp),$('#spkbar'),$('#spkout'),8,function(n,t){return n?'你選了 '+n+' 項。每次只練 1 到 2 項，效果最好。':'勾選你想先練習的項目'});
+
+  var T=420,left=T,iv=null,go=$('#tgo');
+  var PH=[[0,45,'前言：開場，抓住注意力'],[45,375,'內容：講清楚重點'],[375,420,'結論：呼應開頭']];
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return m+':'+(r<10?'0':'')+r}
+  function draw(){
+    var el_=T-left;$('#tdisp').textContent=fmt(left);$('#tbar').style.width=(el_/T*100)+'%';
+    var ph='';if(left===0)ph='時間到';else if(left===T&&!iv)ph='按「開始」計時';else PH.forEach(function(p){if(el_>=p[0]&&el_<p[1])ph=p[2]});
+    $('#tph').textContent=ph;
+  }
+  function stop(){clearInterval(iv);iv=null;go.textContent=left===0?'開始':(left===T?'開始':'繼續')}
+  go.onclick=function(){
+    if(iv){stop();draw();return}
+    if(left===0)left=T;
+    go.textContent='暫停';iv=setInterval(function(){left--;if(left<=0){left=0;stop()}draw()},1000);draw();
+  };
+  $('#trs').onclick=function(){stop();left=T;go.textContent='開始';draw()};
+  draw();
+})();
+
+/* ================= 四 ================= */
+(function(){
+  var R=['為什麼<em>要這麼麻煩</em>呢？','AI？<br>模版？','因為其它人用的都是<em>傳統</em>的方式','因為其它人用的都是<em>一樣</em>的方式','工具只是配角，<br><em>你</em>，才是真正的主角'];
+  var host=$('#reveal'),i=0;
+  host.innerHTML='<div class="reveal" aria-live="polite"><div id="rtx"></div></div><div class="dots" id="rdots"></div><div class="rrow"><button type="button" class="btn" id="rnx"></button><button type="button" class="btn ghost" id="rpl"></button></div>';
+  var dots=$('#rdots');R.forEach(function(){dots.appendChild(document.createElement('i'))});
+  function draw(){$('#rtx').innerHTML=R[i];$$('i',dots).forEach(function(d,j){d.classList.toggle('on',j===i)});$('#rnx').textContent=i===R.length-1?'再看一次':'下一步 →'}
+  var rt=null,auto=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function rnext(){i=(i+1)%R.length;draw()}
+  function rtick(){if(host.offsetParent!==null)rnext()}
+  function rstart(){clearInterval(rt);if(auto)rt=setInterval(rtick,4000)}
+  function rlabel(){$('#rpl').textContent=auto?'暫停自動播放':'自動播放'}
+  $('#rnx').onclick=function(){rnext();rstart()};
+  $('#rpl').onclick=function(){auto=!auto;if(!auto)clearInterval(rt);else rstart();rlabel()};
+  rlabel();rstart();draw();
+
+  var AI=window.__AI=[
+    {label:'事前準備',sub:'Prepare',help:['把主題拆成大綱','列出聽眾可能問的問題','整理資料重點'],own:['決定目的與聽眾','查證資料來源','取捨要講什麼'],prs:[
+      ['排出大綱','我要對【高二應用英語科同學】做【7 分鐘】簡報，主題是【旅遊英語】。目的是讓聽眾【學會 3 句機場常用英語】。請列出 5 段式大綱，每段一句重點，並列出聽眾最可能問的 3 個問題。'],
+      ['分析觀眾','請你扮演【高二學生】。我要報告【主題】，請告訴我：你最在意什麼、哪些詞你可能聽不懂、什麼樣的例子你會有感覺。'],
+      ['找例子與資料方向','我要講【主題】。請給我 3 個適合高中生的生活化例子，並列出 3 個可以查證數據的搜尋關鍵字。不要直接給數字，我會自己查來源。'],
+      ['想開場','請給我 5 種開場方式（提問、小故事、數據、對比、一個畫面），主題是【主題】，每種寫一句示範。']]},
+    {label:'簡報製作',sub:'Power Point',help:['把大綱改成每頁標題與關鍵字','建議版型、配色與圖示方向','把長句濃縮成短語'],own:['檢查對齊、對比、字級','統一風格','刪到只剩重點'],prs:[
+      ['大綱轉投影片','請把下面大綱改成 8 頁投影片。每頁只有 1 個重點，標題不超過 12 個字，內文最多 3 個關鍵詞，並為每頁建議一個適合的圖示。\n\n【貼上大綱】'],
+      ['標題改成結論','請把下面每一頁的標題改成「結論式標題」，12 個字以內，讓人只看標題就知道重點。例如「報名人數成長 3 倍」。\n\n【貼上各頁標題】'],
+      ['配色建議','我的簡報主題是【主題】，聽眾是【高中生】。請給我一組主色、輔色、強調色（附 HEX 色碼），並說明哪個用在背景、標題、重點，文字與背景的對比要夠。'],
+      ['版面建議','這一頁有「標題＋3 個重點＋1 張圖」。請用文字描述 3 種版面配置（例如左圖右文、上圖下文、滿版圖加色塊），並說明各自適合的情境。'],
+      ['做減法','請以簡報設計老師的角度看下面這頁的文字：哪些可以刪？哪些可以改成數字或圖示？請列出修改前後對照。\n\n【貼上這頁文字】']]},
+    {label:'練習準備',sub:'Practice',help:['扮演評審來提問','把書面語改成口語','估算每段的時間'],own:['親自出聲練習','錄影檢查手勢與站姿','找同學試講'],prs:[
+      ['評審提問','你是一位挑剔但友善的評審。請針對下面的講稿問我 5 個問題，並指出哪幾句太長、不好念。\n\n【貼上講稿】'],
+      ['控制時間','這份講稿我要在 7 分鐘內講完。請估算每段大約幾分鐘，並標出可以刪掉的句子。\n\n【貼上講稿】'],
+      ['改成英文口語','我要用英文報告。請把下面講稿改成高中生念得出來的口語英文，每句不超過 12 個字，並標出較難發音的單字。\n\n【貼上講稿】'],
+      ['緩和緊張','我上台會緊張。請給我 3 個上台前 2 分鐘就能做的小練習，以及開場前 3 句要背熟的話。']]},
+    {label:'口頭報告',sub:'Present',help:['整理關鍵字小抄','準備 Q&A 備案'],own:['眼神與聲音','臨場應變','說自己的話'],prs:[
+      ['關鍵字小抄','請把下面講稿濃縮成 1 張只有關鍵字的小抄，每段最多 5 個詞，並預測 3 個可能被問的問題與簡短回答。\n\n【貼上講稿】'],
+      ['模擬 Q&A','請你扮演台下觀眾，針對下面這份簡報提出 5 個尖銳的問題，並替我草擬 30 秒的回答。我會自己改成自己的話。\n\n【貼上簡報重點】'],
+      ['想結尾','請給我 3 種結尾：呼應開頭、一句行動呼籲、一個畫面。主題是【主題】，每種寫一句示範。']]}
+  ];
+  $('#ts4ai').insertAdjacentHTML('beforebegin','<div class="card" style="margin-bottom:14px"><h4>好指令的 4 個要素</h4><p><b>角色</b>（你是誰）＋<b>情境</b>（對誰、多久）＋<b>任務</b>（要做什麼）＋<b>格式</b>（幾頁、幾字、用什麼呈現）。不夠好就追問：「再短一點」「換成更口語」「給我另外 3 種」。</p></div>');
+  mkTs($('#ts4ai'),AI.map(function(a){
+    return {label:a.label,sub:a.sub,html:'<div class="two"><div><span class="tag-h ai">AI 可以幫你</span><ul class="dot">'+a.help.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div><div><span class="tag-h me">你要自己做</span><ul class="dot">'+a.own.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div></div><p style="margin-top:14px"><b>提示詞範本（'+a.prs.length+' 則）</b></p>'+a.prs.map(function(){return '<div class="pi"><b></b><pre class="pr"></pre><button type="button" class="cbtn">複製</button></div>'}).join(''),
+      init:function(p){$$('.pi',p).forEach(function(w,i){var t=a.prs[i];$('b',w).textContent=t[0];var pre=$('.pr',w);pre.textContent=t[1];var bt=$('.cbtn',w);bt.onclick=function(){copyText(t[1],bt,pre)}})}};
+  }));
+})();
+
+/* ================= 五 ================= */
+(function(){
+  var CUP='<svg viewBox="0 0 120 90" style="position:absolute;left:6%;top:20%;width:46%;height:auto" aria-hidden="true"><ellipse cx="55" cy="78" rx="48" ry="9" fill="#e9e4dc"/><path d="M15 38h80c0 28-14 40-40 40S15 66 15 38z" fill="#f4f1ea"/><ellipse cx="55" cy="38" rx="40" ry="8" fill="#5b3418"/><ellipse cx="55" cy="38" rx="34" ry="5.5" fill="#a8693a"/><path d="M95 44c16-2 18 14 2 20" fill="none" stroke="#f4f1ea" stroke-width="6" stroke-linecap="round"/></svg>';
+  var SUMMIT='<svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><defs><linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f43"/><stop offset=".6" stop-color="#ffd48a"/><stop offset="1" stop-color="#fff1cf"/></linearGradient></defs><rect width="160" height="90" fill="url(#sk2)"/><circle cx="118" cy="42" r="14" fill="#fff6d8" opacity=".9"/><path d="M0 90V62l30-14 28 18 30-26 32 30 40-22V90z" fill="#3b2f2a"/><path d="M96 90V70l12-8 16 6v22z" fill="#241a17"/><g stroke="#120c0a" stroke-width="2" stroke-linecap="round"><path d="M110 62v-12M110 54l-7-8M110 54l7-8M110 62l-4 8M110 62l4 8"/></g><circle cx="110" cy="46" r="3" fill="#120c0a"/></svg>';
+  var CASES={
+    1:{b:S('#fff','5cqw 6cqw','<div style="border:.25cqw solid #333;padding:2.2cqw 2.6cqw;width:64%;font-size:2.2cqw;line-height:1.55;color:#222"><div style="color:#b00;font-weight:800;text-align:center;font-size:2.4cqw">Espresso</div>・義式濃縮咖啡最早起源於義大利<br>・使用 9 倍大氣壓蒸氣高壓萃取<br>・最佳的水溫為 92 度上下<br>・標準萃取時間為 25 秒<br>・每次僅萃取 30cc 濃縮精華</div>'),
+       a:'<div class="in" style="background:radial-gradient(circle at 28% 60%,#8a6240,#2a1a10 72%)">'+CUP+D('position:absolute;right:5cqw;top:5cqw;color:#fff;'+SANS,'<div style="display:inline-block;background:#000;padding:.5cqw 1.6cqw;font-size:4.2cqw;font-weight:800">Espresso</div><div style="font-size:2.6cqw;margin-top:1cqw">義式濃縮咖啡</div><div style="font-size:5.8cqw;font-weight:800;line-height:1.2;margin-top:1cqw"><span style="color:#FFC000">9</span> Bar<br><span style="color:#FFC000">92</span>°C<br><span style="color:#FFC000">25</span> sec<br><span style="color:#FFC000">30</span> cc</div>')+'</div>',
+       n:['純條列：每行都是整句，看不出重點。','改法：把數字抽出來放大（9 Bar、92°C、25 sec、30 cc），單位縮小。','加一張相關的圖，圖文相符。']},
+    2:{b:S('#0b3a4a','5cqw 6cqw','<div style="text-align:center;color:#d5eef5;font-size:2.4cqw;line-height:1.7;margin-top:6cqw">錄取心目中第一志願的大學校系<br>⇧<br><span style="color:#FFC000;font-size:3.2cqw;font-weight:700">以終為始的思考</span><br>⇩<br>規劃現在要走的路</div>'),
+       a:SUMMIT+D('position:absolute;left:0;top:0;bottom:0;width:58%;background:rgba(36,40,82,.78);padding:6cqw 5cqw;color:#fff;'+SANS,'<div style="font-size:9.5cqw;font-weight:800;line-height:1.2">以終為始</div><div style="font-size:3cqw;margin-top:3cqw;line-height:1.6">先想好要到哪裡，<br>再決定現在怎麼走。</div>'),
+       n:['圖少字少：字小、沒有視覺焦點。','改法：用一張有情緒的大圖當背景，標題放大。','圖上的字底下加半透明色塊，字才讀得清楚。']},
+    3:{b:S('#fff','3cqw 4cqw',D('font-size:2.6cqw;font-weight:800;color:#222','線上報名操作流程')+'<div style="display:flex;gap:2cqw;margin-top:1.4cqw;align-items:flex-start"><div style="flex:none;width:11cqw;height:11cqw;background:repeating-conic-gradient(#222 0 25%,#fff 0 50%) 0 0/2cqw 2cqw"></div><div style="flex:1;display:grid;gap:.8cqw">'+['手機掃描左側 QR Code 前往連結','輸入子女的身分證字號','詳讀報名說明與同意事項','勾選子女的接種意願','填寫家長基本資料及電話','簽名','完成送出'].map(function(t){return '<div style="border:.2cqw solid #36c;border-radius:.6cqw;padding:.5cqw 1cqw;font-size:1.5cqw;color:#235;text-align:center">'+t+'</div>'}).join('')+'</div></div>'),
+       a:S('#fff','5cqw 5cqw',D('font-size:4.6cqw;font-weight:800;color:#1F4E79;margin-bottom:3cqw','線上報名，6 步完成')+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw">'+[['1','掃 QR Code','#E53935'],['2','輸入學生資料','#FB8C00'],['3','勾選意願','#43A047'],['4','填家長資料','#1E88E5'],['5','簽名','#5E35B1'],['6','完成送出','#00897B']].map(function(s){return '<div style="background:'+s[2]+';color:#fff;border-radius:1.2cqw;padding:2cqw 1.6cqw"><div style="font-size:4.4cqw;font-weight:800;line-height:1">'+s[0]+'</div><div style="font-size:2.6cqw;font-weight:700;margin-top:.8cqw">'+s[1]+'</div></div>'}).join('')+'</div>'),
+       n:['流程圖原本像說明書：框很多、字很小。','改法：拆成步驟，每步一個動詞加一個編號。','用色塊區分每一步，順序一眼就懂。']},
+    4:{b:S('#fff','3.5cqw 4cqw',D('font-size:2.6cqw;font-weight:800;color:#222;margin-bottom:1.5cqw','運動會報名統計')+'<table style="width:100%;border-collapse:collapse;font-size:1.7cqw;color:#222"><tr>'+['項目','報名人數','男','女','備註'].map(function(t){return '<th style="border:.2cqw solid #888;padding:.5cqw;background:#eee">'+t+'</th>'}).join('')+'</tr>'+[['100 公尺','48','27','21','含預賽'],['大隊接力','96','50','46','每班 8 人'],['拔河','128','70','58','每班 10 人'],['跳遠','31','18','13','']].map(function(r){return '<tr>'+r.map(function(t){return '<td style="border:.2cqw solid #888;padding:.5cqw">'+t+'</td>'}).join('')+'</tr>'}).join('')+'</table>'),
+       a:S('#242852','5cqw 6cqw',D('color:#fff;'+SANS,'<div style="font-size:3cqw;opacity:.85">運動會報名</div><div style="font-size:15cqw;font-weight:800;color:#FFC000;line-height:1.1">303<span style="font-size:5cqw;color:#fff"> 人次</span></div><div style="font-size:3.4cqw;margin-top:2cqw">拔河最熱門：<b style="color:#FFC000">128</b> 人</div>')),
+       n:['表格：資料都在，但眼睛不知道看哪裡。','改法：先問「這頁要讓人記住哪個數字？」，只留一個。','大數字加一句結論，細節放備份頁或口說。']},
+    5:{b:S('#fff','4cqw 5cqw',D('font-size:2.8cqw;font-weight:800;color:#222','校慶當天流程')+D('font-size:2cqw;line-height:1.7;color:#333;margin-top:1.5cqw','8:00 師生到校集合，8:30 升旗典禮及校長致詞，9:00 園遊會開始營業，同時於大禮堂進行社團成果展演，11:30 午餐時間，13:00 進行拔河比賽及趣味競賽，15:30 頒獎及閉幕，16:00 開始場地整理與回收。')),
+       a:S('#f3f4f6','5cqw 5cqw',D('font-size:4.6cqw;font-weight:800;color:#242852;margin-bottom:5cqw','校慶當天流程')+'<div style="position:relative;display:flex;justify-content:space-between"><div style="position:absolute;left:4%;right:4%;top:2.2cqw;height:.7cqw;background:#4A66AC"></div>'+[['8:00','集合'],['9:00','園遊會'],['11:30','午餐'],['13:00','比賽'],['15:30','頒獎']].map(function(s){return '<div style="position:relative;text-align:center;width:18%"><div style="width:4.6cqw;height:4.6cqw;border-radius:50%;background:#FFC000;border:.6cqw solid #242852;margin:0 auto"></div><div style="font-size:3.2cqw;font-weight:800;color:#242852;margin-top:1.4cqw">'+s[0]+'</div><div style="font-size:2.6cqw;color:#444">'+s[1]+'</div></div>'}).join('')+'</div>'),
+       n:['一整段時間表，要讀完才知道順序。','改法：時間點抽出來，用時間軸排成一行。','每個節點只留一個詞，細節用講的。']},
+    6:{b:S('#fff','4cqw 5cqw',D('font-size:2.8cqw;font-weight:800;color:#222','自我介紹')+D('font-size:2cqw;line-height:1.75;color:#333;margin-top:1.5cqw','大家好，我叫小美，今年 16 歲，就讀應用英語科二年級。我平常的興趣是看電影、聽音樂、畫畫以及烘焙，也喜歡和朋友一起出去玩。我的個性比較外向，但有時候也會有點害羞。未來我想要成為一名英語導遊，帶外國朋友認識台灣。')),
+       a:S('#FFF4D6','5cqw 6cqw','<div style="display:flex;gap:5cqw;align-items:center;height:100%"><div style="flex:none;width:24cqw;height:24cqw;border-radius:50%;background:#4A66AC;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11cqw;font-weight:800">美</div><div>'+D('font-size:7cqw;font-weight:800;color:#242852;line-height:1.1','小美')+D('font-size:2.8cqw;color:#555;margin:1cqw 0 2.5cqw','應用英語科二年級')+'<div style="display:flex;gap:1.6cqw;flex-wrap:wrap">'+['🎬 電影','🎨 畫畫','🧁 烘焙'].map(function(t){return '<span style="background:#fff;border:.3cqw solid #242852;border-radius:5cqw;padding:.8cqw 2.2cqw;font-size:3cqw;font-weight:700;color:#242852">'+t+'</span>'}).join('')+'</div>'+D('font-size:3.2cqw;font-weight:800;color:#C2410C;margin-top:2.5cqw','夢想：英語導遊')+'</div></div>'),
+       n:['整段自我介紹：聽眾邊讀邊聽，兩邊都漏掉。','改法：一個姓名、三個關鍵字、一個夢想。','把「我是誰」變成能一秒記住的畫面。']},
+    7:{b:S('#fff','4cqw 5cqw',D('font-size:2.8cqw;font-weight:800;color:#222','方案比較')+D('font-size:2cqw;line-height:1.7;color:#333;margin-top:1.5cqw','方案 A 是參加一日遊，費用大約 1,200 元，優點是行程簡單，缺點是時間比較短；方案 B 是自由行，費用大約 2,500 元，優點是行程自由，缺點是需要自己規劃交通與住宿，準備比較花時間。')),
+       a:S('#f3f4f6','4cqw 5cqw',D('font-size:4cqw;font-weight:800;color:#242852;margin-bottom:3cqw','兩個方案，怎麼選？')+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:3cqw">'+[['A 一日遊','1,200','省事、行程簡單','#4A66AC'],['B 自由行','2,500','自由、要自己規劃','#C2410C']].map(function(x){return '<div style="background:#fff;border-top:1.2cqw solid '+x[3]+';border-radius:1cqw;padding:2.5cqw"><div style="font-size:3.2cqw;font-weight:800;color:'+x[3]+'">'+x[0]+'</div><div style="font-size:8cqw;font-weight:800;color:#222;line-height:1.2">'+x[1]+'<span style="font-size:2.6cqw"> 元</span></div><div style="font-size:2.6cqw;color:#555;margin-top:1cqw">'+x[2]+'</div></div>'}).join('')+'</div>'),
+       n:['比較的內容寫成一段，讀者要自己在腦中分組。','改法：左右兩欄，同樣的項目放在同樣的位置。','最關鍵的數字放大，其他縮小。']},
+    8:{b:S('#fff','3.5cqw 4.5cqw',D('font-size:2.6cqw;font-weight:800;color:#222','Why Learn English?')+D('font-size:1.65cqw;line-height:1.6;color:#333;margin-top:1.2cqw','English is spoken by more than 1.5 billion people around the world, and it is the main language used in business, science, technology, travel and the internet. Learning English can help you get a better job, make friends from different countries, understand movies and songs without subtitles, and study abroad in the future. Moreover, it also helps you think in a different way and become more confident when you meet new people.')),
+       a:S('#242852','5cqw 6cqw',D('color:#fff;'+SANS,'<div style="font-size:6.2cqw;font-weight:800;margin-bottom:3.5cqw">Why Learn English?</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2.5cqw">'+[['🌍','1.5B','people speak it'],['💼','Jobs','better careers'],['✈️','Travel','friends worldwide']].map(function(x){return '<div style="background:rgba(255,255,255,.1);border-radius:1.4cqw;padding:2.5cqw;text-align:center"><div style="font-size:6cqw">'+x[0]+'</div><div style="font-size:5.2cqw;font-weight:800;color:#FFC000;line-height:1.2">'+x[1]+'</div><div style="font-size:2.5cqw;margin-top:.6cqw">'+x[2]+'</div></div>'}).join('')+'</div>')),
+       n:['字多的英文簡報：整段課文貼上，觀眾只會低頭讀。','改法：從段落挑出 3 個關鍵詞，每個配一個圖示和一個大字。','原本的整段文字，放在講稿裡用說的。']},
+    9:{b:S('#fff','3cqw 4cqw',D('font-size:2.6cqw;font-weight:800;color:#222','環保行動方案')+D('font-size:1.7cqw;line-height:1.55;color:#222;margin-top:1cqw','1. 減少一次性用品<br>　1.1 自備環保杯、餐具、購物袋<br>　1.2 拒絕使用塑膠吸管<br>2. 資源回收<br>　2.1 紙類、塑膠、金屬分類<br>　2.2 廚餘另外處理<br>3. 節約能源<br>　3.1 隨手關燈、拔插頭<br>　3.2 冷氣設定 26 度以上<br>4. 綠色交通<br>　4.1 多搭乘大眾運輸　4.2 短程騎腳踏車或步行')),
+       a:S('#f3f4f6','4.5cqw 5cqw',D('font-size:4.4cqw;font-weight:800;color:#1F4E79;margin-bottom:3cqw','環保行動 4 招')+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5cqw">'+[['♻️','少用一次性','#43A047'],['🗑️','分類回收','#1E88E5'],['💡','節約能源','#FB8C00'],['🚲','綠色交通','#8E24AA']].map(function(x){return '<div style="background:'+x[2]+';color:#fff;border-radius:1.4cqw;padding:2.2cqw 2.6cqw;display:flex;align-items:center;gap:2cqw"><span style="font-size:6cqw">'+x[0]+'</span><span style="font-size:3.4cqw;font-weight:800">'+x[1]+'</span></div>'}).join('')+'</div>'),
+       n:['多層條列：分了好幾層，看不出哪個最重要。','改法：只留最上層的 4 個重點，各配一個圖示和色塊。','第二層的細節，留到講的時候說，或另做備份頁。']},
+    10:{b:S('#fff','3cqw 4cqw',D('font-size:2.6cqw;font-weight:800;color:#222','各科平均分數與分析')+'<div style="display:flex;gap:1.5cqw;align-items:flex-end;height:20cqw;margin-top:2cqw;border-bottom:.2cqw solid #333">'+[[62,'#e53935'],[71,'#fb8c00'],[55,'#43a047'],[80,'#1e88e5'],[48,'#8e24aa'],[67,'#00897b'],[74,'#6d4c41'],[59,'#546e7a']].map(function(v,i){return '<div style="flex:1;height:'+v[0]*.25+'cqw;background:'+v[1]+'"></div>'}).join('')+'</div>'+D('font-size:1.5cqw;color:#444;margin-top:1cqw','國文 62　英文 71　數學 55　社會 80　自然 48　體育 67　藝術 74　綜合 59。其中社會科最高，自然科最低，其餘科目介於 55 到 74 之間，整體平均 64.5。')),
+       a:S('#fff','4.5cqw 5.5cqw',D('font-size:4.8cqw;font-weight:800;color:#242852','社會科最高，自然科最低')+'<div style="display:flex;gap:2cqw;align-items:flex-end;height:24cqw;margin-top:4cqw;border-bottom:.3cqw solid #333">'+[[62,0],[71,0],[55,0],[80,1],[48,2],[67,0],[74,0],[59,0]].map(function(v){var c=v[1]==1?'#FFC000':v[1]==2?'#C2410C':'#C9CFDC';return '<div style="flex:1;height:'+v[0]*.3+'cqw;background:'+c+'"></div>'}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:3.4cqw;font-weight:800;margin-top:2cqw"><span style="color:#8a6a00">80 分　社會</span><span style="color:#C2410C">48 分　自然</span></div>'),
+       n:['每根長條都不同色，眼睛不知道要看哪一根。','改法：其他長條改成同一種灰，只用強調色標出最高與最低。','標題直接寫結論，不要只寫「各科平均分數」。']},
+    11:{b:S('#fff','3cqw 3.5cqw',D('font-size:2.6cqw;font-weight:800;color:#222;margin-bottom:1cqw','京都三日遊')+'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1cqw">'+['#cfd8dc','#b0bec5','#cfd8dc','#b0bec5','#b0bec5','#cfd8dc','#b0bec5','#cfd8dc'].map(function(c){return '<div style="aspect-ratio:4/3;background:'+c+'"></div>'}).join('')+'</div>'+D('font-size:1.55cqw;line-height:1.5;color:#333;margin-top:1.2cqw','第一天：清水寺、二年坂、三年坂、八坂神社。第二天：金閣寺、龍安寺、嵐山竹林、渡月橋。第三天：伏見稻荷大社、錦市場、京都車站。住宿：京都車站附近，交通便利。')),
+       a:SUMMIT+D('position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(transparent,rgba(20,20,40,.85));','')+D('position:absolute;left:6cqw;bottom:5cqw;color:#fff;'+SANS,'<div style="font-size:8cqw;font-weight:800;line-height:1.1">京都三日遊</div><div style="font-size:3.2cqw;margin-top:1cqw;color:#FFC000">古寺・竹林・錦市場</div>'),
+       n:['圖片小又多、文字又長，每張圖都搶不到注意力。','改法：選一張最能代表主題的大圖，滿版當背景。','底部加漸層色塊，字放上去才讀得清楚；行程細節放後面幾頁。']},
+    12:{b:S('#fff','4cqw','<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:7cqw;font-weight:800;color:#333;border:.3cqw dashed #bbb"><div style="text-align:center">Thank you!<br><span style="font-size:3cqw;font-weight:400">謝謝大家，請多指教</span></div></div>'),
+       a:S('#242852','6cqw 7cqw',D('color:#fff;'+SANS+'height:100%;display:flex;flex-direction:column;justify-content:center;gap:2.5cqw','<div style="font-size:3cqw;color:#FFC000;font-weight:700">今天帶走一件事</div><div style="font-size:7.6cqw;font-weight:800;line-height:1.2">想的清楚，<br>才能講的清楚</div><div style="font-size:3cqw;opacity:.9">下一步：挑一頁自己的投影片，改一次。</div>')),
+       n:['只有 Thank you：浪費了最後、也最容易被記住的一頁。','改法：結尾放一句最想讓人記住的話，回扣開頭。','加一個明確的下一步（行動呼籲）。']}
+  };
+  function cs(n){var c=CASES[n];return {html:'<div data-case="'+n+'"></div><ul class="dot" style="margin-top:12px">'+c.n.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>',init:function(p){var h=$('[data-case]',p);mkCompare(h).set(c.b,c.a)}}}
+  var labs5=['#1 純條列式','#2 圖少字少','#3 流程圖','#4 表格數字','#5 時間表','#6 自我介紹','#7 方案比較','#8 字多：英文課文','#9 字多：多層條列','#10 圖表太花','#11 圖小字多','#12 只有 Thank you'];
+  mkTs($('#tscase'),labs5.map(function(l,i){var t=cs(i+1);t.label=l;return t}));
+
+  /* QR */
+  $('#qrgo').onclick=function(){
+    var u=$('#qrurl').value.trim(),out=$('#qrout');out.innerHTML='';
+    if(!u){out.textContent='請先貼上網址。';return}
+    if(!window.QRCode){out.textContent='QR Code 工具沒有載入，請確認網路後重新整理。';return}
+    var d=el('<div class="qrimg"></div>');out.appendChild(d);
+    try{new QRCode(d,{text:u,width:220,height:220,correctLevel:QRCode.CorrectLevel.M})}catch(e){out.textContent='產生失敗，請確認網址。'}
+  };
+
+  /* 健檢清單 */
+  var CL=[['色彩',['主要顏色不超過 3 種','文字與背景對比明顯','沒有紅配綠，沒有大面積螢光色','重點不只靠顏色']],['字型',['字型不超過 2 種','標題 36pt 以上、內文 24pt 以上','行距約 1.2 到 1.5 倍','中英文混排看起來協調']],['圖片',['圖片清晰、沒有變形','已裁切，主體突出','圖片與內容有關','已標註出處或授權']],['版面',['一頁一重點，文字精簡','內容有對齊','有足夠留白，不貼邊','整份風格一致（母片）','動畫與轉場有節制','退後三步仍然看得清楚']]];
+  var tot=0,clh=$('#cl');
+  clh.innerHTML=CL.map(function(g){return '<div><h4 style="margin-bottom:6px">'+g[0]+'</h4>'+g[1].map(function(t){tot++;return '<label class="ck"><input type="checkbox"><span>'+t+'</span></label>'}).join('')+'</div>'}).join('');
+  var cins=$$('input',clh);
+  progress(cins,$('#clbar'),$('#clout'),tot,function(n,t){return n===t?'全部通過！可以放心上台了。':'已完成 '+n+' / '+t+' 項'});
+  $('#clrs').onclick=function(){cins.forEach(function(c){c.checked=false});cins[0].dispatchEvent(new Event('change'))};
+})();
+
+/* ================= 留白藝術 ================= */
+(function(){
+  var h=$('#wscmp');if(!h)return;
+  var bad=S('#fff','2cqw 2.5cqw',D('border:.2cqw solid #bbb;padding:1.4cqw 1.6cqw;height:100%;box-sizing:border-box;color:#222;font-size:2.1cqw;line-height:1.25','<div style="font-size:3.4cqw;font-weight:800;color:#b00">學習英文的 5 個好方法</div>・每天聽英文廣播至少三十分鐘以上<br>・多看有字幕的英文影集與電影<br>・準備一本筆記本，把不懂的單字記下來<br>・找朋友一起練習對話，互相糾正發音<br>・使用手機 APP 每天背十個新單字<br><span style="color:#36c">資料來源：某某英語教學網站　2024</span>'));
+  var good=S('#fff','10cqw 12cqw',D('height:100%;display:flex;flex-direction:column;justify-content:center;gap:3cqw','<div style="font-size:3cqw;color:#4A66AC;font-weight:700">學英文</div><div style="font-size:8.5cqw;font-weight:800;color:#242852;line-height:1.15">每天<span style="color:#C2410C">10 分鐘</span><br>比一週一次更有效</div>'));
+  mkCompare(h).set(bad,good);
+  var T=[
+   {label:'概念',sub:'Why',html:'<ul class="dot"><li><b>主動留白</b>：把空間留給重點，不是剩下才空。</li><li><b>留白不一定是白色</b>：背景任何單純的顏色或模糊的圖，都能當留白。</li><li><b>字少、圖大</b>，空間自然就出來。</li><li>想塞更多東西時，先問：這句話觀眾一定要在這頁看到嗎？不用就刪，或拆成下一頁。</li></ul>'},
+   {label:'PowerPoint',sub:'技巧',html:'<ul class="dot"><li><b>顯示參考線</b>：「檢視」勾選「參考線」（Windows 可按 Alt＋F9），拉出四周邊界，內容都不要越線。</li><li><b>在母片設定位置</b>：「檢視 → 投影片母片」，標題和內文的位置與字級一次定好，之後每頁都一致。</li><li><b>對齊與均分</b>：選取多個物件，「對齊」裡選「水平均分」或「垂直均分」，物件間距就相同。</li><li><b>行距與段距</b>：「段落」設定行距「多行」1.2 到 1.5，段後間距 6 到 12 pt。</li><li><b>不要縮字去塞</b>：文字方塊關掉「縮小文字以適應文字方塊」，字太多就拆頁。</li><li><b>裁切圖片</b>：用「裁剪」去掉不重要的部分，讓主體旁邊留出空間。</li></ul>'},
+   {label:'Canva',sub:'技巧',html:'<ul class="dot"><li><b>顯示邊距</b>：在檔案選單打開「顯示邊距」，文字和重點圖不要越過這條線。</li><li><b>尺規與參考線</b>：打開尺規，從邊緣拉參考線，每頁的邊界一致。</li><li><b>均分間距</b>：選取多個元素，在「位置」面板用對齊、均分，間距就整齊。</li><li><b>文字間距</b>：選取文字，在「間距」調整字距與行距，大標題略縮、內文略放。</li><li><b>範本先減後加</b>：套用範本後，先刪掉用不到的元素與文字，再填自己的內容。</li><li><b>滿版背景圖＋色塊</b>：圖放滿版，上面疊一塊單色半透明色塊再放字，留白會自然出現。</li></ul>'},
+   {label:'檢查清單',sub:'Check',html:'<ul class="dot"><li>四周都有留邊嗎？</li><li>整頁只有一個最大的東西嗎？</li><li>兩個元素之間的距離一致嗎？</li><li>用手指蓋住 1/3 的內容，還看得懂嗎？能蓋住的，通常可以刪。</li></ul>'}
+  ];
+  mkTs($('#wstips'),T);
+})();
+
+/* ================= Takeaway ================= */
+(function(){
+  var host=$('#tkpr');
+  if(host&&window.__AI){
+    mkTs(host,window.__AI.map(function(a){
+      return {label:a.label,sub:a.sub,html:a.prs.map(function(){return '<div class="pi"><b></b><pre class="pr"></pre><button type="button" class="cbtn">複製</button></div>'}).join(''),
+        init:function(p){$$('.pi',p).forEach(function(w,i){var t=a.prs[i];$('b',w).textContent=t[0];var pre=$('.pr',w);pre.textContent=t[1];var bt=$('.cbtn',w);bt.onclick=function(){copyText(t[1],bt,pre)}})}};
+    }));
+  }
+})();
+
+(function(){var bt=$('#tkurlcp'),a=$('#tkurl');if(!bt)return;bt.onclick=function(){var u=a.href;function ok(t){bt.textContent=t;setTimeout(function(){bt.textContent='複製網址'},2000)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){ok('已複製')},function(){ok('請長按網址複製')})}else ok('請長按網址複製')}})();
+
+/* 導覽列高度（兩行）：讓固定在上方的元件知道要避開多高 */
+(function(){var t=$('.top');if(!t)return;function s(){document.documentElement.style.setProperty('--hh',t.offsetHeight+'px')}s();window.addEventListener('resize',s);window.addEventListener('load',s);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(s)})();
+
+/* ================= 分頁路由、目錄 ================= */
+(function(){
+  var pgs=$$('.pg'),ids=pgs.map(function(p){return p.id});
+  var CHM={'1':['一','簡報力'],'2':['二','設計力'],'3':['三','影響力'],'4':['四','AI 助攻'],'5':['五','實戰改造'],'6':['六','Q&A'],'t':['帶','Takeaway']};
+  var CHF={'1':'一、簡報力，就是你的競爭力！','2':'二、簡報設計力：讓你的內容一眼就懂！','3':'三、表達影響力：讓觀眾願意聽、記得住！','4':'四、AI 神助攻：打造你的高效簡報！','5':'五、簡報即戰力：實戰改造挑戰！','6':'六、Q&A：交流與分享','t':'Takeaway：帶走這些'};
+  var order=['1','2','3','4','5','6','t'];
+  var first={};pgs.forEach(function(p){var c=p.getAttribute('data-ch');if(!first[c])first[c]=p.id});
+  // 導覽
+  var nav=$('#nav');
+  order.forEach(function(c){var a=el('<a href="#'+first[c]+'" data-ch="'+c+'">'+CHM[c][1]+'</a>');nav.appendChild(a)});
+  // 首頁章節索引
+  $('#idx').innerHTML=order.map(function(c){return '<li><a href="#'+first[c]+'"><span class="bub">'+CHM[c][0]+'</span>'+CHF[c].replace(/^[一二三四五六]、/,'')+'</a></li>'}).join('');
+  // 目錄
+  var dl=$('#dlist'),h='';
+  h+='<a class="dpg" href="#p0" data-id="p0">首頁</a>';
+  order.forEach(function(c){
+    h+='<div class="dch">'+CHF[c]+'</div>';
+    pgs.forEach(function(p){if(p.getAttribute('data-ch')===c)h+='<a class="dpg" href="#'+p.id+'" data-id="'+p.id+'">'+p.getAttribute('data-t')+'</a>'});
+  });
+  dl.innerHTML=h;
+  function openD(){$('#drawer').hidden=false;var c=$('.dpg.cur',dl);if(c)c.scrollIntoView({block:'center'});$('#dclose').focus()}
+  function closeD(){$('#drawer').hidden=true;$('#menu').focus()}
+  $('#menu').onclick=openD;$('#dclose').onclick=closeD;$('#dback').onclick=closeD;
+  dl.addEventListener('click',function(e){if(e.target.closest('.dpg'))$('#drawer').hidden=true});
+  var cur=0;
+  function show(){
+    var id=location.hash.replace('#','');var i=ids.indexOf(id);if(i<0)i=0;cur=i;
+    pgs.forEach(function(p,j){p.hidden=j!==i});
+    var ch=pgs[i].getAttribute('data-ch');
+    $$('a',nav).forEach(function(a){a.classList.toggle('cur',a.getAttribute('data-ch')===ch)});
+    var ca=$('a.cur',nav);if(ca){try{nav.scrollTo({left:ca.offsetLeft-12})}catch(e){}}
+    $$('.dpg',dl).forEach(function(a){a.classList.toggle('cur',a.getAttribute('data-id')===ids[i])});
+    $('#pnum').textContent=(i+1)+' / '+ids.length;
+    $('#pname').textContent=pgs[i].getAttribute('data-t');
+    $('#pgprog').style.width=((i+1)/ids.length*100)+'%';
+    $('#pprev').disabled=i===0;$('#pnext').disabled=i===ids.length-1;
+    $('#pnext').textContent=i===0?'開始 ›':'下一頁 ›';
+    window.scrollTo(0,0);
+    var t=$('.ptitle',pgs[i]);if(t){try{t.focus({preventScroll:true})}catch(e){}}
+  }
+  function goto(i){if(i<0||i>=ids.length)return;location.hash='#'+ids[i]}
+  function idx(){var i=ids.indexOf(location.hash.replace('#',''));return i<0?0:i}
+  $('#pprev').onclick=function(){goto(idx()-1)};$('#pnext').onclick=function(){goto(idx()+1)};
+  window.addEventListener('hashchange',show);
+  document.addEventListener('keydown',function(e){
+    if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey)return;
+    if(e.key==='Escape'&&!$('#drawer').hidden){closeD();return}
+    var t=e.target,tag=(t.tagName||'').toLowerCase();
+    if(tag==='input'||tag==='textarea'||tag==='select'||t.getAttribute('role')==='tab')return;
+    if(e.key==='ArrowRight')goto(idx()+1);else if(e.key==='ArrowLeft')goto(idx()-1);
+  });
+  show();
+})();
+})();
+
+</script>
+</body></html>
