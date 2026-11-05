@@ -355,6 +355,12 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .urlbox{display:grid;gap:6px;justify-items:start}
 .urlt{font-size:clamp(18px,3.2vw,26px);font-weight:800;color:var(--brand);word-break:break-all;line-height:1.4}
 
+.tl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.tl li{display:grid;grid-template-columns:7.5em 1fr;gap:2px 12px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+
 
 
 
@@ -624,6 +630,22 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
       <div class="prog"><i id="tbar"></i></div>
       <div class="rrow" style="width:100%;max-width:420px"><button type="button" class="btn" id="tgo">開始</button><button type="button" class="btn ghost" id="trs">重設</button></div>
     </div>
+  </div>
+  <h3 class="sh">時間安排建議</h3>
+  <div class="card">
+    <h4>7 分鐘怎麼分？（三個重點的版本）</h4>
+    <ul class="tl">
+      <li><span class="tm">0:00–0:45</span><b>前言</b><small>問候、主題、這場要讓你們得到什麼</small></li>
+      <li><span class="tm">0:45–2:35</span><b>重點一</b><small>一個重點約 1 分 50 秒：說結論、舉例、小結</small></li>
+      <li><span class="tm">2:35–4:25</span><b>重點二</b><small>同上，換人時說一句銜接的話</small></li>
+      <li><span class="tm">4:25–6:15</span><b>重點三</b><small>同上，最重要的放最後</small></li>
+      <li><span class="tm">6:15–7:00</span><b>結論</b><small>呼應開頭，一句話收尾，加上行動呼籲</small></li>
+    </ul>
+    <p class="note" style="margin-top:12px">一頁大約 1 分鐘，7 分鐘大約 7 到 8 頁。多人報告時，每個人先抓好自己的分鐘數。</p>
+  </div>
+  <div class="two" style="margin-top:14px">
+    <div class="card"><h4>準備時間怎麼排？</h4><ul class="dot"><li><b>前期：想清楚。</b>先定目的、觀眾、大綱，不要急著開軟體。</li><li><b>中期：做投影片。</b>先搭框架，再填內容，最後才設計。</li><li><b>後期：練習。</b>至少完整講 3 次，最好留一半以上的時間給練習。</li><li>報告前一天只做小修，不要大改。</li></ul></div>
+    <div class="card"><h4>練習與當天</h4><ul class="dot"><li>第 1 次：照稿講，量時間。第 2 次：只看關鍵字。第 3 次：找人聽，請他回饋。</li><li>超過時間就刪中間，不要刪結尾。</li><li>當天提早到場，先測試投影與電腦。</li><li>上台前深呼吸，開場前 3 句話先背熟。</li></ul></div>
   </div>
 </div></section>
 
@@ -1495,10 +1517,17 @@ mkCompare($('#heroCmp')).set(gItem('講稿全貼 → 重點三條').b,gItem('講
 (function(){
   var R=['為什麼<em>要這麼麻煩</em>呢？','AI？<br>模版？','因為其它人用的都是<em>傳統</em>的方式','因為其它人用的都是<em>一樣</em>的方式','工具只是配角，<br><em>你</em>，才是真正的主角'];
   var host=$('#reveal'),i=0;
-  host.innerHTML='<div class="reveal" aria-live="polite"><div id="rtx"></div></div><div class="dots" id="rdots"></div><div class="rrow"><button type="button" class="btn" id="rnx"></button></div>';
+  host.innerHTML='<div class="reveal" aria-live="polite"><div id="rtx"></div></div><div class="dots" id="rdots"></div><div class="rrow"><button type="button" class="btn" id="rnx"></button><button type="button" class="btn ghost" id="rpl"></button></div>';
   var dots=$('#rdots');R.forEach(function(){dots.appendChild(document.createElement('i'))});
   function draw(){$('#rtx').innerHTML=R[i];$$('i',dots).forEach(function(d,j){d.classList.toggle('on',j===i)});$('#rnx').textContent=i===R.length-1?'再看一次':'下一步 →'}
-  $('#rnx').onclick=function(){i=(i+1)%R.length;draw()};draw();
+  var rt=null,auto=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function rnext(){i=(i+1)%R.length;draw()}
+  function rtick(){if(host.offsetParent!==null)rnext()}
+  function rstart(){clearInterval(rt);if(auto)rt=setInterval(rtick,4000)}
+  function rlabel(){$('#rpl').textContent=auto?'暫停自動播放':'自動播放'}
+  $('#rnx').onclick=function(){rnext();rstart()};
+  $('#rpl').onclick=function(){auto=!auto;if(!auto)clearInterval(rt);else rstart();rlabel()};
+  rlabel();rstart();draw();
 
   var AI=window.__AI=[
     {label:'事前準備',sub:'Prepare',help:['把主題拆成大綱','列出聽眾可能問的問題','整理資料重點'],own:['決定目的與聽眾','查證資料來源','取捨要講什麼'],prs:[
