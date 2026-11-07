@@ -355,6 +355,12 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .urlbox{display:grid;gap:6px;justify-items:start}
 .urlt{font-size:clamp(18px,3.2vw,26px);font-weight:800;color:var(--brand);word-break:break-all;line-height:1.4}
 
+.tl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.tl li{display:grid;grid-template-columns:7.5em 1fr;gap:2px 12px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+
 .tkh{scroll-margin-top:140px}
 section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
 .hero2{background:var(--navy);color:var(--on-navy);padding-block:clamp(28px,6vw,60px)}
@@ -362,14 +368,14 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
 .hero2 h1 em{font-style:normal;color:var(--hi)}
 .hero2 p{margin:10px 0 0;color:var(--navy-mute);font-size:clamp(17px,2.4vw,20px)}
 .top{height:auto}.top .wrap{height:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px;padding-block:8px}
-.nav{display:flex;gap:6px;flex:none}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
 .nav a{min-height:38px}
 .cpall{margin:0 0 14px}
 
 </style>
 <header class="top"><div class="wrap">
   <span class="logo">簡報<b>即戰力</b> Takeaway</span>
-  <nav class="nav" aria-label="段落"><a href="#k1">重點</a><a href="#k2">AI 指令</a><a href="#k3">練習</a></nav>
+  <nav class="nav" aria-label="段落"><a href="#k1">重點</a><a href="#k2">AI 指令</a><a href="#k3">練習</a><a href="#k4">確認表</a><a href="#k5">書單</a><a href="#k6">資源</a><a href="#k7">聯絡</a></nav>
 </div></header>
 <div class="hero2"><div class="wrap"><h1>簡報即戰力：<br><em>帶走這些</em></h1><p>今天的重點、AI 指令、練習連結，都在這一頁。</p></div></div>
 <main class="wrap">
@@ -405,6 +411,40 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
   <h3 class="sh">怎麼練</h3>
   <ol class="dot" style="padding-left:1.4em"><li>先玩一遍練習站，每個分頁都拖動看前後差別。</li><li>拿自己的投影片，對著健檢清單一項一項檢查。</li><li>每次只改一個地方，改完比較前後。</li><li>改完計時 7 分鐘，講給同學聽。</li></ol>
 
+</section>
+<section class="tks" id="k4">
+  <h2 class="ptitle">簡報確認表</h2>
+  <p class="lead">做完簡報後逐項檢查。可以直接在網頁上勾選，也能複製、下載後貼到自己的文件。</p>
+  <div class="card">
+    <div class="prog"><i id="clbar"></i></div>
+    <p class="diagout" id="clout"></p>
+    <div class="grid g2" id="cl"></div>
+    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="clcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="cldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="clrs" style="max-width:200px">全部清除</button></div>
+    <p class="note" id="clmsg" aria-live="polite" style="margin-top:10px"></p>
+  </div>
+</section>
+<section class="tks" id="k5">
+  <h2 class="ptitle">書籍推薦</h2>
+  <div class="books">
+    <div class="book"><img src="ex/books/infographic.jpg" alt="《資訊圖表設計術》書封" loading="lazy"><div class="bt"><b>《資訊圖表設計術》</b><span>讓人秒懂的資訊圖表。Re-lab 團隊。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E8%B3%87%E8%A8%8A%E5%9C%96%E8%A1%A8%E8%A8%AD%E8%A8%88%E8%A1%93%20Re-lab/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/logic.jpg" alt="《簡報邏輯》書封" loading="lazy"><div class="bt"><b>《簡報邏輯》</b><span>The Logic of Presentation。鄭冠中。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E7%B0%A1%E5%A0%B1%E9%82%8F%E8%BC%AF%20%E9%84%AD%E5%86%A0%E4%B8%AD/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/wangxing.jpg" alt="《忘形流簡報思考術》書封" loading="lazy"><div class="bt"><b>《忘形流簡報思考術》</b><span>找對思考邏輯，讓你的想法被看見。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%BF%98%E5%BD%A2%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%80%9D%E8%80%83%E8%A1%93/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/chicken.jpg" alt="《如何幫雞洗澡》書封" loading="lazy"><div class="bt"><b>《如何幫雞洗澡》</b><span>How to Wash a Chicken。提姆・寇金斯（Tim Calkins）。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%A6%82%E4%BD%95%E5%B9%AB%E9%9B%9E%E6%B4%97%E6%BE%A1%20%E5%AF%87%E9%87%91%E6%96%AF/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+  </div>
+  <p class="note" style="margin-top:10px">購買連結是博客來的書名搜尋結果，請以實際版本與價格為準。</p>
+</section>
+<section class="tks" id="k6">
+  <h2 class="ptitle">學習資源</h2>
+  <ul class="res">
+    <li><a href="https://www.bfa.com.tw/" target="_blank" rel="noopener">BFA 簡報<small>bfa.com.tw</small></a></li>
+    <li><a href="https://artofslide.blogspot.com/" target="_blank" rel="noopener">SlideArtToasters 簡報藝術烘焙坊<small>artofslide.blogspot.com</small></a></li>
+    <li><a href="https://www.facebook.com/groups/1080149785351887/?locale=zh_TW" target="_blank" rel="noopener">10 分鐘學簡報交流社團<small>Facebook 社團</small></a></li>
+    <li><a href="https://www.facebook.com/slidenovice/?locale=zh_TW" target="_blank" rel="noopener">簡報初學者<small>Facebook 粉絲專頁</small></a></li>
+    <li><a href="https://www.youtube.com/channel/UC7J5oNMG7Yo9elaj4U32c6w" target="_blank" rel="noopener">鄭冠中 培訓師<small>YouTube 頻道</small></a></li>
+    <li><a href="https://www.youtube.com/@papayaclass" target="_blank" rel="noopener">Papaya 電腦教室<small>YouTube 頻道</small></a></li>
+  </ul>
+</section>
+<section class="tks" id="k7">
   <h3 class="sh">送給你的話</h3>
   <div class="big-say" style="font-size:clamp(20px,4vw,32px)">每一份好簡報，<br>都是從<em>不完美的第一版</em>改出來的。</div>
   <ul class="dot enc" style="margin-top:16px">
@@ -414,6 +454,8 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
     <li><b>不用做到完美，先上台。</b>每一次站上去，都是在累積實力。</li>
   </ul>
   <p class="big-say" style="margin-top:16px;font-size:clamp(20px,4vw,30px)">工具只是配角，<em>你</em>，才是真正的主角。</p>
+  <h3 class="sh">聯絡我</h3>
+  <div class="card urlbox"><p style="margin:0;font-size:20px"><b>柴怡萱 Sandy Chai</b></p><a class="urlt" id="mail" href="mailto:chaifish@gmail.com">chaifish@gmail.com</a><button type="button" class="cbtn" id="mailcp">複製信箱</button></div>
 </section>
 </main>
 <footer style="padding:32px 0 48px"></footer>
@@ -486,6 +528,21 @@ mkTs(host,AI.map(function(a){
 }));
 function qr(id,aid,url){var h=$('#'+id),a=$('#'+aid);a.href=url;a.textContent=url.replace('https://','');
   if(window.QRCode){try{new QRCode(h,{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){h.textContent='請改用下方連結'}}else h.textContent='請使用下方連結'}
+var CL=[['色彩',['主要顏色不超過 3 種','文字與背景對比明顯','沒有紅配綠，沒有大面積螢光色','重點不只靠顏色']],['字型',['字型不超過 2 種','標題 36pt 以上、內文 24pt 以上','行距約 1.2 到 1.5 倍','中英文混排看起來協調']],['圖片',['圖片清晰、沒有變形','已裁切，主體突出','圖片與內容有關','已標註出處或授權']],['版面',['一頁一重點，文字精簡','內容有對齊','有足夠留白，不貼邊','整份風格一致（母片）','動畫與轉場有節制','退後三步仍然看得清楚']]];
+var tot=0,clh=$('#cl');
+clh.innerHTML=CL.map(function(g){return '<div><h4 style="margin-bottom:6px">'+g[0]+'</h4>'+g[1].map(function(x){tot++;return '<label class="ck"><input type="checkbox"><span>'+x+'</span></label>'}).join('')+'</div>'}).join('');
+var cins=$$('input',clh);
+function clupd(){var n=cins.filter(function(c){return c.checked}).length;$('#clbar').style.width=(n/tot*100)+'%';$('#clout').textContent=n===tot?'全部通過！可以放心上台了。':'已完成 '+n+' / '+tot+' 項'}
+cins.forEach(function(c){c.addEventListener('change',clupd)});clupd();
+function cltext(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s}
+function msg(t){$('#clmsg').textContent=t}
+function copyAny(text,ok){
+  function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){ok(true)},fb)}else fb()}
+$('#clcp').onclick=function(){copyAny(cltext(),function(r){msg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
+$('#cldl').onclick=function(){try{var b=new Blob(['\ufeff'+cltext()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);msg('已下載 presentation-checklist.txt。')}catch(e){msg('這個瀏覽器無法下載，請改用複製。')}};
+$('#clrs').onclick=function(){cins.forEach(function(c){c.checked=false});clupd();msg('')};
+$('#mailcp').onclick=function(){var b=this,o=b.textContent;copyAny('chaifish@gmail.com',function(r){b.textContent=r?'已複製':'請長按信箱複製';setTimeout(function(){b.textContent=o},2000)})};
 })();
 
 </script>
