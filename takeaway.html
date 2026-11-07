@@ -360,8 +360,8 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
 @media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+.cpall{margin:0 0 14px}
 
-.tkh{scroll-margin-top:140px}
 section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
 .hero2{background:var(--navy);color:var(--on-navy);padding-block:clamp(28px,6vw,60px)}
 .hero2 h1{margin:0;font-size:clamp(28px,6vw,48px);line-height:1.25}
@@ -416,11 +416,11 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
   <h2 class="ptitle">簡報確認表</h2>
   <p class="lead">做完簡報後逐項檢查。可以直接在網頁上勾選，也能複製、下載後貼到自己的文件。</p>
   <div class="card">
-    <div class="prog"><i id="clbar"></i></div>
-    <p class="diagout" id="clout"></p>
-    <div class="grid g2" id="cl"></div>
-    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="clcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="cldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="clrs" style="max-width:200px">全部清除</button></div>
-    <p class="note" id="clmsg" aria-live="polite" style="margin-top:10px"></p>
+    <div class="prog"><i id="tkclbar"></i></div>
+    <p class="diagout" id="tkclout"></p>
+    <div class="grid g2" id="tkcl"></div>
+    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="tkclcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="tkcldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="tkclrs" style="max-width:200px">全部清除</button></div>
+    <p class="note" id="tkclmsg" aria-live="polite" style="margin-top:10px"></p>
   </div>
 </section>
 <section class="tks" id="k5">
@@ -445,7 +445,7 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
   </ul>
 </section>
 <section class="tks" id="k7">
-  <h3 class="sh">送給你的話</h3>
+  <h2 class="ptitle">送給你的話</h2>
   <div class="big-say" style="font-size:clamp(20px,4vw,32px)">每一份好簡報，<br>都是從<em>不完美的第一版</em>改出來的。</div>
   <ul class="dot enc" style="margin-top:16px">
     <li><b>緊張，代表你在乎。</b>把它變成多練一次的力氣。</li>
@@ -455,7 +455,7 @@ section.tks{padding-block:clamp(28px,5vw,48px) 8px;scroll-margin-top:140px}
   </ul>
   <p class="big-say" style="margin-top:16px;font-size:clamp(20px,4vw,30px)">工具只是配角，<em>你</em>，才是真正的主角。</p>
   <h3 class="sh">聯絡我</h3>
-  <div class="card urlbox"><p style="margin:0;font-size:20px"><b>柴怡萱 Sandy Chai</b></p><a class="urlt" id="mail" href="mailto:chaifish@gmail.com">chaifish@gmail.com</a><button type="button" class="cbtn" id="mailcp">複製信箱</button></div>
+  <div class="card urlbox"><p style="margin:0;font-size:20px"><b>柴怡萱 Sandy Chai</b></p><a class="urlt" id="tkmail" href="mailto:chaifish@gmail.com">chaifish@gmail.com</a><button type="button" class="cbtn" id="tkmailcp">複製信箱</button></div>
 </section>
 </main>
 <footer style="padding:32px 0 48px"></footer>
@@ -516,33 +516,43 @@ function copyText(text,btn,pre){
       ['模擬 Q&A','請你扮演台下觀眾，針對下面這份簡報提出 5 個尖銳的問題，並替我草擬 30 秒的回答。我會自己改成自己的話。\n\n【貼上簡報重點】'],
       ['想結尾','請給我 3 種結尾：呼應開頭、一句行動呼籲、一個畫面。主題是【主題】，每種寫一句示範。']]}
   ];
-var host=$('#tkpr');
-var all=AI.map(function(a){return '【'+a.label+'】\n'+a.prs.map(function(t){return t[0]+'\n'+t[1]}).join('\n\n')}).join('\n\n----------\n\n');
-var cb=el('<button type="button" class="cbtn cpall">複製全部指令</button>');
-cb.onclick=function(){var o=cb.textContent;function ok(m){cb.textContent=m;setTimeout(function(){cb.textContent=o},2000)}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(all).then(function(){ok('已複製全部')},function(){ok('請逐則複製')})}else ok('請逐則複製')};
-host.parentNode.insertBefore(cb,host);
-mkTs(host,AI.map(function(a){
-  return {label:a.label,sub:a.sub,html:a.prs.map(function(){return '<div class="pi"><b></b><pre class="pr"></pre><button type="button" class="cbtn">複製</button></div>'}).join(''),
-    init:function(p){$$('.pi',p).forEach(function(w,i){var t=a.prs[i];$('b',w).textContent=t[0];var pre=$('.pr',w);pre.textContent=t[1];var bt=$('.cbtn',w);bt.onclick=function(){copyText(t[1],bt,pre)}})}};
-}));
-function qr(id,aid,url){var h=$('#'+id),a=$('#'+aid);a.href=url;a.textContent=url.replace('https://','');
-  if(window.QRCode){try{new QRCode(h,{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){h.textContent='請改用下方連結'}}else h.textContent='請使用下方連結'}
-var CL=[['色彩',['主要顏色不超過 3 種','文字與背景對比明顯','沒有紅配綠，沒有大面積螢光色','重點不只靠顏色']],['字型',['字型不超過 2 種','標題 36pt 以上、內文 24pt 以上','行距約 1.2 到 1.5 倍','中英文混排看起來協調']],['圖片',['圖片清晰、沒有變形','已裁切，主體突出','圖片與內容有關','已標註出處或授權']],['版面',['一頁一重點，文字精簡','內容有對齊','有足夠留白，不貼邊','整份風格一致（母片）','動畫與轉場有節制','退後三步仍然看得清楚']]];
-var tot=0,clh=$('#cl');
-clh.innerHTML=CL.map(function(g){return '<div><h4 style="margin-bottom:6px">'+g[0]+'</h4>'+g[1].map(function(x){tot++;return '<label class="ck"><input type="checkbox"><span>'+x+'</span></label>'}).join('')+'</div>'}).join('');
-var cins=$$('input',clh);
-function clupd(){var n=cins.filter(function(c){return c.checked}).length;$('#clbar').style.width=(n/tot*100)+'%';$('#clout').textContent=n===tot?'全部通過！可以放心上台了。':'已完成 '+n+' / '+tot+' 項'}
-cins.forEach(function(c){c.addEventListener('change',clupd)});clupd();
-function cltext(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s}
-function msg(t){$('#clmsg').textContent=t}
-function copyAny(text,ok){
-  function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){ok(true)},fb)}else fb()}
-$('#clcp').onclick=function(){copyAny(cltext(),function(r){msg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
-$('#cldl').onclick=function(){try{var b=new Blob(['\ufeff'+cltext()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);msg('已下載 presentation-checklist.txt。')}catch(e){msg('這個瀏覽器無法下載，請改用複製。')}};
-$('#clrs').onclick=function(){cins.forEach(function(c){c.checked=false});clupd();msg('')};
-$('#mailcp').onclick=function(){var b=this,o=b.textContent;copyAny('chaifish@gmail.com',function(r){b.textContent=r?'已複製':'請長按信箱複製';setTimeout(function(){b.textContent=o},2000)})};
+window.__AI=AI;
+
+/*TK-START*/
+(function(){
+  var AIs=window.__AI;
+  var host=$('#tkpr');
+  if(host&&AIs){
+    mkTs(host,AIs.map(function(a){
+      return {label:a.label,sub:a.sub,html:a.prs.map(function(){return '<div class="pi"><b></b><pre class="pr"></pre><button type="button" class="cbtn">複製</button></div>'}).join(''),
+        init:function(p){$$('.pi',p).forEach(function(w,i){var t=a.prs[i];$('b',w).textContent=t[0];var pre=$('.pr',w);pre.textContent=t[1];var bt=$('.cbtn',w);bt.onclick=function(){copyText(t[1],bt,pre)}})}};
+    }));
+    var all=AIs.map(function(a){return '【'+a.label+'】\n'+a.prs.map(function(t){return t[0]+'\n'+t[1]}).join('\n\n')}).join('\n\n----------\n\n');
+    var cb=el('<button type="button" class="cbtn cpall">複製全部指令</button>');
+    cb.onclick=function(){var o=cb.textContent;function ok(x){cb.textContent=x;setTimeout(function(){cb.textContent=o},2000)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(all).then(function(){ok('已複製全部')},function(){ok('請逐則複製')})}else ok('請逐則複製')};
+    host.parentNode.insertBefore(cb,host);
+  }
+  var CL=[['色彩',['主要顏色不超過 3 種','文字與背景對比明顯','沒有紅配綠，沒有大面積螢光色','重點不只靠顏色']],['字型',['字型不超過 2 種','標題 36pt 以上、內文 24pt 以上','行距約 1.2 到 1.5 倍','中英文混排看起來協調']],['圖片',['圖片清晰、沒有變形','已裁切，主體突出','圖片與內容有關','已標註出處或授權']],['版面',['一頁一重點，文字精簡','內容有對齊','有足夠留白，不貼邊','整份風格一致（母片）','動畫與轉場有節制','退後三步仍然看得清楚']]];
+  var tot=0,clh=$('#tkcl');
+  if(clh){
+    clh.innerHTML=CL.map(function(g){return '<div><h4 style="margin-bottom:6px">'+g[0]+'</h4>'+g[1].map(function(x){tot++;return '<label class="ck"><input type="checkbox"><span>'+x+'</span></label>'}).join('')+'</div>'}).join('');
+    var cins=$$('input',clh);
+    var upd=function(){var n=cins.filter(function(c){return c.checked}).length;$('#tkclbar').style.width=(n/tot*100)+'%';$('#tkclout').textContent=n===tot?'全部通過！可以放心上台了。':'已完成 '+n+' / '+tot+' 項'};
+    cins.forEach(function(c){c.addEventListener('change',upd)});upd();
+    var text=function(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s};
+    var msg=function(t){$('#tkclmsg').textContent=t};
+    var cp=function(tx,ok){var fb=function(){var ta=document.createElement('textarea');ta.value=tx;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){ok(true)},fb)}else fb()};
+    $('#tkclcp').onclick=function(){cp(text(),function(r){msg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
+    $('#tkcldl').onclick=function(){try{var bl=new Blob(['﻿'+text()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);msg('已下載 presentation-checklist.txt。')}catch(e){msg('這個瀏覽器無法下載，請改用複製。')}};
+    $('#tkclrs').onclick=function(){cins.forEach(function(c){c.checked=false});upd();msg('')};
+  }
+  var mc=$('#tkmailcp');
+  if(mc)mc.onclick=function(){var b=this,o=b.textContent;var tx='chaifish@gmail.com';var fb=function(r){b.textContent=r?'已複製':'請長按信箱複製';setTimeout(function(){b.textContent=o},2000)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){fb(true)},function(){fb(false)})}else fb(false)};
+})();
+
 })();
 
 </script>

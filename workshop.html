@@ -361,6 +361,7 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
 @media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+.cpall{margin:0 0 14px}
 
 
 
@@ -714,7 +715,8 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
     <div class="prog"><i id="clbar"></i></div>
     <p class="diagout" id="clout"></p>
     <div class="grid g2" id="cl"></div>
-    <div class="rrow"><button type="button" class="btn ghost" id="clrs" style="max-width:220px">全部清除</button></div>
+    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="clcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="cldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="clrs" style="max-width:200px">全部清除</button></div>
+    <p class="note" id="clmsg" aria-live="polite" style="margin-top:10px"></p>
   </div>
   <h3 class="sh">5 分鐘改造挑戰</h3>
   <div class="grid g3">
@@ -769,6 +771,7 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
   <div class="ptop"><span class="bub">六</span><span class="pchap">Q&amp;A：交流與分享</span></div>
   <h2 class="ptitle" tabindex="-1">謝謝大家，歡迎交流</h2>
   <div class="big-say">工具只是配角，<br><em>你</em>，才是真正的主角。</div>
+  <div class="card urlbox" style="margin-top:18px"><p style="margin:0;font-size:20px"><b>柴怡萱 Sandy Chai</b></p><a class="urlt" href="mailto:chaifish@gmail.com">chaifish@gmail.com</a></div>
   <p class="muted" style="margin-top:18px;font-size:15px">內容整合自原簡報〈簡報力大爆發：打造超吸睛簡報〉。簡報的定義引自「簡報。小學堂」，5 個簡報原則出自 Nancy Duarte。</p>
 </div></section>
 
@@ -782,11 +785,11 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
     <div class="kpi"><span class="bub">三</span><div><b>表達：想的清楚才講的清楚</b><p>先定目的、再看觀眾，開口前 3 句背熟，用計時器練習。</p></div></div>
     <div class="kpi"><span class="bub">四</span><div><b>AI 是助手，不是替身</b><p>拆大綱、濃縮文字、模擬提問交給 AI；取捨、查證、說自己的話自己來。</p></div></div>
     <div class="kpi"><span class="bub">五</span><div><b>動手改，才會真的會</b><p>拿自己的投影片，用健檢清單一次改一個地方，看前後差別。</p></div></div>
-    <div class="kpi"><span class="bub">六</span><div><b>工具只是配角，你才是主角</b><p>遇到問題，回到 Q&amp;A 找答案。</p></div></div>
+    <div class="kpi"><span class="bub">六</span><div><b>工具只是配角，你才是主角</b><p>遇到問題，回頭找老師或同學交流。</p></div></div>
   </div>
   <div class="two" style="margin-top:18px">
-    <div class="card"><span class="tag-h me">給老師</span><ul class="dot"><li>示範時，一次只改一個地方，讓學生說出差在哪。</li><li>用範例牆與簡報大改造，讓學生先挑毛病再動手。</li><li>作業：交一張「改造前後對照」。</li></ul></div>
-    <div class="card"><span class="tag-h ai">給學生</span><ul class="dot"><li>挑一頁自己做過的投影片，當作練習材料。</li><li>改完用 7 分鐘計時，講給同學聽。</li><li>卡住時，用 AI 指令專區的提示詞幫忙。</li></ul></div>
+    <div class="card"><span class="tag-h me">給老師</span><ul class="dot"><li>示範時，一次只改一個地方，讓學生說出差在哪。</li><li>讓學生先挑毛病再動手改。</li><li>作業：交一張「改造前後對照」。</li></ul></div>
+    <div class="card"><span class="tag-h ai">給學生</span><ul class="dot"><li>挑一頁自己做過的投影片當練習材料。</li><li>改完用 7 分鐘計時，講給同學聽。</li><li>卡住時，用下面的 AI 指令幫忙。</li></ul></div>
   </div>
 </div></section>
 
@@ -796,21 +799,63 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
   <p class="lead">把【 】換成你自己的內容，貼給任何 AI 就能用。依 4P 分成四組。</p>
   <div class="card" style="margin-bottom:14px"><h4>好指令的 4 個要素</h4><p><b>角色</b>（你是誰）＋<b>情境</b>（對誰、多久）＋<b>任務</b>（要做什麼）＋<b>格式</b>（幾頁、幾字）。不夠好就追問：「再短一點」「換成更口語」「給我另外 3 種」。</p></div>
   <div id="tkpr"></div>
+  <p class="note" style="margin-top:14px">AI 的回答可能有錯，數字與出處一定要自己查證，並遵守老師或課程的規定。</p>
 </div></section>
 
-<section class="pg" id="pt-3" data-ch="t" data-t="練習專區與 QR" hidden><div class="wrap">
+<section class="pg" id="pt-3" data-ch="t" data-t="練習專區" hidden><div class="wrap">
   <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
   <h2 class="ptitle" tabindex="-1">練習專區</h2>
   <p class="lead">回家後再練一次。老師拿去示範，學生拿去自學。</p>
   <div class="two">
-    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/lab.html" target="_blank" rel="noopener"><span class="tkic">📱</span><b>手機版練習站</b><span>色彩、字型、圖片、版面、找問題。單手就能做。</span><i>開啟 ↗</i></a>
+    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/lab.html" target="_blank" rel="noopener"><span class="tkic">📱</span><b>手機版練習站</b><span>色彩、字型、圖片、版面、找問題。單手就能做，每個分頁都能看前後對照。</span><i>開啟 ↗</i></a>
     <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/practice.html" target="_blank" rel="noopener"><span class="tkic">💻</span><b>網站版練習區</b><span>電腦大畫面的練習頁：現場練習區、簡報大改造 12 題、簡報健檢清單。</span><i>開啟 ↗</i></a>
-    <a class="tkcard" href="https://chaifish-teacher.github.io/slideworkshop/practice.html#k2" target="_blank" rel="noopener"><span class="tkic">🔧</span><b>簡報大改造 12 題</b><span>字太多、圖表太花、只有 Thank you…，拖曳看前後。</span><i>開啟 ↗</i></a>
-    <a class="tkcard" href="#p6-2"><span class="tkic">📚</span><b>書籍與學習資源</b><span>四本書加上好用的社團與頻道。</span><i>前往 →</i></a>
   </div>
-  <h3 class="sh">Takeaway 網址</h3>
-  <div class="card urlbox"><p class="muted" style="margin:0 0 6px">把今天帶走的重點、AI 指令、練習連結，都放在這一頁。</p><a class="urlt" id="tkurl" href="https://chaifish-teacher.github.io/slideworkshop/takeaway.html" target="_blank" rel="noopener">https://chaifish-teacher.github.io/slideworkshop/takeaway.html</a><button type="button" class="cbtn" id="tkurlcp">複製網址</button></div>
-  <h3 class="sh">送給你的話</h3>
+  <h3 class="sh">怎麼練</h3>
+  <ol class="dot" style="padding-left:1.4em"><li>先玩一遍練習站，每個分頁都拖動看前後差別。</li><li>拿自己的投影片，對著健檢清單一項一項檢查。</li><li>每次只改一個地方，改完比較前後。</li><li>改完計時 7 分鐘，講給同學聽。</li></ol>
+
+</div></section>
+
+<section class="pg" id="pt-4" data-ch="t" data-t="簡報確認表" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">簡報確認表</h2>
+  <p class="lead">做完簡報後逐項檢查。可以直接在網頁上勾選，也能複製、下載後貼到自己的文件。</p>
+  <div class="card">
+    <div class="prog"><i id="tkclbar"></i></div>
+    <p class="diagout" id="tkclout"></p>
+    <div class="grid g2" id="tkcl"></div>
+    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="tkclcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="tkcldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="tkclrs" style="max-width:200px">全部清除</button></div>
+    <p class="note" id="tkclmsg" aria-live="polite" style="margin-top:10px"></p>
+  </div>
+</div></section>
+
+<section class="pg" id="pt-5" data-ch="t" data-t="書籍推薦" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">書籍推薦</h2>
+  <div class="books">
+    <div class="book"><img src="ex/books/infographic.jpg" alt="《資訊圖表設計術》書封" loading="lazy"><div class="bt"><b>《資訊圖表設計術》</b><span>讓人秒懂的資訊圖表。Re-lab 團隊。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E8%B3%87%E8%A8%8A%E5%9C%96%E8%A1%A8%E8%A8%AD%E8%A8%88%E8%A1%93%20Re-lab/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/logic.jpg" alt="《簡報邏輯》書封" loading="lazy"><div class="bt"><b>《簡報邏輯》</b><span>The Logic of Presentation。鄭冠中。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E7%B0%A1%E5%A0%B1%E9%82%8F%E8%BC%AF%20%E9%84%AD%E5%86%A0%E4%B8%AD/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/wangxing.jpg" alt="《忘形流簡報思考術》書封" loading="lazy"><div class="bt"><b>《忘形流簡報思考術》</b><span>找對思考邏輯，讓你的想法被看見。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%BF%98%E5%BD%A2%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%80%9D%E8%80%83%E8%A1%93/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+    <div class="book"><img src="ex/books/chicken.jpg" alt="《如何幫雞洗澡》書封" loading="lazy"><div class="bt"><b>《如何幫雞洗澡》</b><span>How to Wash a Chicken。提姆・寇金斯（Tim Calkins）。</span><a class="buy" href="https://search.books.com.tw/search/query/key/%E5%A6%82%E4%BD%95%E5%B9%AB%E9%9B%9E%E6%B4%97%E6%BE%A1%20%E5%AF%87%E9%87%91%E6%96%AF/cat/all" target="_blank" rel="noopener">到博客來查看／購買 ↗</a></div></div>
+  </div>
+  <p class="note" style="margin-top:10px">購買連結是博客來的書名搜尋結果，請以實際版本與價格為準。</p>
+</div></section>
+
+<section class="pg" id="pt-6" data-ch="t" data-t="學習資源" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">學習資源</h2>
+  <ul class="res">
+    <li><a href="https://www.bfa.com.tw/" target="_blank" rel="noopener">BFA 簡報<small>bfa.com.tw</small></a></li>
+    <li><a href="https://artofslide.blogspot.com/" target="_blank" rel="noopener">SlideArtToasters 簡報藝術烘焙坊<small>artofslide.blogspot.com</small></a></li>
+    <li><a href="https://www.facebook.com/groups/1080149785351887/?locale=zh_TW" target="_blank" rel="noopener">10 分鐘學簡報交流社團<small>Facebook 社團</small></a></li>
+    <li><a href="https://www.facebook.com/slidenovice/?locale=zh_TW" target="_blank" rel="noopener">簡報初學者<small>Facebook 粉絲專頁</small></a></li>
+    <li><a href="https://www.youtube.com/channel/UC7J5oNMG7Yo9elaj4U32c6w" target="_blank" rel="noopener">鄭冠中 培訓師<small>YouTube 頻道</small></a></li>
+    <li><a href="https://www.youtube.com/@papayaclass" target="_blank" rel="noopener">Papaya 電腦教室<small>YouTube 頻道</small></a></li>
+  </ul>
+</div></section>
+
+<section class="pg" id="pt-7" data-ch="t" data-t="送給你的話與聯絡" hidden><div class="wrap">
+  <div class="ptop"><span class="bub">帶</span><span class="pchap">Takeaway：帶走這些</span></div>
+  <h2 class="ptitle" tabindex="-1">送給你的話</h2>
   <div class="big-say" style="font-size:clamp(20px,4vw,32px)">每一份好簡報，<br>都是從<em>不完美的第一版</em>改出來的。</div>
   <ul class="dot enc" style="margin-top:16px">
     <li><b>緊張，代表你在乎。</b>把它變成多練一次的力氣。</li>
@@ -819,7 +864,12 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
     <li><b>不用做到完美，先上台。</b>每一次站上去，都是在累積實力。</li>
   </ul>
   <p class="big-say" style="margin-top:16px;font-size:clamp(20px,4vw,30px)">工具只是配角，<em>你</em>，才是真正的主角。</p>
+  <h3 class="sh">聯絡我</h3>
+  <div class="card urlbox"><p style="margin:0;font-size:20px"><b>柴怡萱 Sandy Chai</b></p><a class="urlt" id="tkmail" href="mailto:chaifish@gmail.com">chaifish@gmail.com</a><button type="button" class="cbtn" id="tkmailcp">複製信箱</button></div>
+  <h3 class="sh">Takeaway 網址</h3>
+  <div class="card urlbox"><p class="muted" style="margin:0 0 6px">把今天帶走的重點、AI 指令、確認表、書單，都放在這一頁。</p><a class="urlt" id="tkurl" href="https://chaifish-teacher.github.io/slideworkshop/takeaway.html" target="_blank" rel="noopener">https://chaifish-teacher.github.io/slideworkshop/takeaway.html</a><button type="button" class="cbtn" id="tkurlcp">複製網址</button></div>
 </div></section>
+
 
 </main>
 
@@ -1559,6 +1609,12 @@ mkCompare($('#heroCmp')).set(gItem('講稿全貼 → 重點三條').b,gItem('講
   var cins=$$('input',clh);
   progress(cins,$('#clbar'),$('#clout'),tot,function(n,t){return n===t?'全部通過！可以放心上台了。':'已完成 '+n+' / '+t+' 項'});
   $('#clrs').onclick=function(){cins.forEach(function(c){c.checked=false});cins[0].dispatchEvent(new Event('change'))};
+  function cltext(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s}
+  function cmsg(t){var e=$('#clmsg');if(e)e.textContent=t}
+  function ccopy(text,ok){function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){ok(true)},fb)}else fb()}
+  $('#clcp').onclick=function(){ccopy(cltext(),function(r){cmsg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
+  $('#cldl').onclick=function(){try{var bl=new Blob(['﻿'+cltext()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);cmsg('已下載 presentation-checklist.txt。')}catch(e){cmsg('這個瀏覽器無法下載，請改用複製。')}};
 })();
 
 /* ================= 留白藝術 ================= */
@@ -1577,15 +1633,41 @@ mkCompare($('#heroCmp')).set(gItem('講稿全貼 → 重點三條').b,gItem('講
 })();
 
 /* ================= Takeaway ================= */
+/*TK-START*/
 (function(){
+  var AIs=window.__AI;
   var host=$('#tkpr');
-  if(host&&window.__AI){
-    mkTs(host,window.__AI.map(function(a){
+  if(host&&AIs){
+    mkTs(host,AIs.map(function(a){
       return {label:a.label,sub:a.sub,html:a.prs.map(function(){return '<div class="pi"><b></b><pre class="pr"></pre><button type="button" class="cbtn">複製</button></div>'}).join(''),
         init:function(p){$$('.pi',p).forEach(function(w,i){var t=a.prs[i];$('b',w).textContent=t[0];var pre=$('.pr',w);pre.textContent=t[1];var bt=$('.cbtn',w);bt.onclick=function(){copyText(t[1],bt,pre)}})}};
     }));
+    var all=AIs.map(function(a){return '【'+a.label+'】\n'+a.prs.map(function(t){return t[0]+'\n'+t[1]}).join('\n\n')}).join('\n\n----------\n\n');
+    var cb=el('<button type="button" class="cbtn cpall">複製全部指令</button>');
+    cb.onclick=function(){var o=cb.textContent;function ok(x){cb.textContent=x;setTimeout(function(){cb.textContent=o},2000)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(all).then(function(){ok('已複製全部')},function(){ok('請逐則複製')})}else ok('請逐則複製')};
+    host.parentNode.insertBefore(cb,host);
   }
+  var CL=[['色彩',['主要顏色不超過 3 種','文字與背景對比明顯','沒有紅配綠，沒有大面積螢光色','重點不只靠顏色']],['字型',['字型不超過 2 種','標題 36pt 以上、內文 24pt 以上','行距約 1.2 到 1.5 倍','中英文混排看起來協調']],['圖片',['圖片清晰、沒有變形','已裁切，主體突出','圖片與內容有關','已標註出處或授權']],['版面',['一頁一重點，文字精簡','內容有對齊','有足夠留白，不貼邊','整份風格一致（母片）','動畫與轉場有節制','退後三步仍然看得清楚']]];
+  var tot=0,clh=$('#tkcl');
+  if(clh){
+    clh.innerHTML=CL.map(function(g){return '<div><h4 style="margin-bottom:6px">'+g[0]+'</h4>'+g[1].map(function(x){tot++;return '<label class="ck"><input type="checkbox"><span>'+x+'</span></label>'}).join('')+'</div>'}).join('');
+    var cins=$$('input',clh);
+    var upd=function(){var n=cins.filter(function(c){return c.checked}).length;$('#tkclbar').style.width=(n/tot*100)+'%';$('#tkclout').textContent=n===tot?'全部通過！可以放心上台了。':'已完成 '+n+' / '+tot+' 項'};
+    cins.forEach(function(c){c.addEventListener('change',upd)});upd();
+    var text=function(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s};
+    var msg=function(t){$('#tkclmsg').textContent=t};
+    var cp=function(tx,ok){var fb=function(){var ta=document.createElement('textarea');ta.value=tx;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){ok(true)},fb)}else fb()};
+    $('#tkclcp').onclick=function(){cp(text(),function(r){msg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
+    $('#tkcldl').onclick=function(){try{var bl=new Blob(['﻿'+text()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);msg('已下載 presentation-checklist.txt。')}catch(e){msg('這個瀏覽器無法下載，請改用複製。')}};
+    $('#tkclrs').onclick=function(){cins.forEach(function(c){c.checked=false});upd();msg('')};
+  }
+  var mc=$('#tkmailcp');
+  if(mc)mc.onclick=function(){var b=this,o=b.textContent;var tx='chaifish@gmail.com';var fb=function(r){b.textContent=r?'已複製':'請長按信箱複製';setTimeout(function(){b.textContent=o},2000)};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){fb(true)},function(){fb(false)})}else fb(false)};
 })();
+/*TK-END*/
 
 (function(){var bt=$('#tkurlcp'),a=$('#tkurl');if(!bt)return;bt.onclick=function(){var u=a.href;function ok(t){bt.textContent=t;setTimeout(function(){bt.textContent='複製網址'},2000)}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){ok('已複製')},function(){ok('請長按網址複製')})}else ok('請長按網址複製')}})();

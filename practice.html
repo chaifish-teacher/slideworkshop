@@ -355,6 +355,13 @@ main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .urlbox{display:grid;gap:6px;justify-items:start}
 .urlt{font-size:clamp(18px,3.2vw,26px);font-weight:800;color:var(--brand);word-break:break-all;line-height:1.4}
 
+.tl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.tl li{display:grid;grid-template-columns:7.5em 1fr;gap:2px 12px;align-items:baseline;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.tl .tm{font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl small{grid-column:2;color:var(--muted);font-size:15px;line-height:1.5}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}.tl small{grid-column:1}}
+.cpall{margin:0 0 14px}
+
 
 
 
@@ -463,7 +470,8 @@ input[type=range]{display:block;width:100%;height:40px;margin:0;accent-color:var
     <div class="prog"><i id="clbar"></i></div>
     <p class="diagout" id="clout"></p>
     <div class="grid g2" id="cl"></div>
-    <div class="rrow"><button type="button" class="btn ghost" id="clrs" style="max-width:220px">全部清除</button></div>
+    <div class="rrow" style="gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="clcp" style="max-width:200px">複製確認表</button><button type="button" class="btn" id="cldl" style="max-width:200px">下載（.txt）</button><button type="button" class="btn ghost" id="clrs" style="max-width:200px">全部清除</button></div>
+    <p class="note" id="clmsg" aria-live="polite" style="margin-top:10px"></p>
   </div>
   <h3 class="sh">5 分鐘改造挑戰</h3>
   <div class="grid g3">
@@ -962,6 +970,8 @@ function checks(host,list,onchange){
   var ins=$$('input',host);ins.forEach(function(c){c.addEventListener('change',onchange)});return ins;
 }
 
+
+/* ================= 五 ================= */
 (function(){
   var CUP='<svg viewBox="0 0 120 90" style="position:absolute;left:6%;top:20%;width:46%;height:auto" aria-hidden="true"><ellipse cx="55" cy="78" rx="48" ry="9" fill="#e9e4dc"/><path d="M15 38h80c0 28-14 40-40 40S15 66 15 38z" fill="#f4f1ea"/><ellipse cx="55" cy="38" rx="40" ry="8" fill="#5b3418"/><ellipse cx="55" cy="38" rx="34" ry="5.5" fill="#a8693a"/><path d="M95 44c16-2 18 14 2 20" fill="none" stroke="#f4f1ea" stroke-width="6" stroke-linecap="round"/></svg>';
   var SUMMIT='<svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><defs><linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f43"/><stop offset=".6" stop-color="#ffd48a"/><stop offset="1" stop-color="#fff1cf"/></linearGradient></defs><rect width="160" height="90" fill="url(#sk2)"/><circle cx="118" cy="42" r="14" fill="#fff6d8" opacity=".9"/><path d="M0 90V62l30-14 28 18 30-26 32 30 40-22V90z" fill="#3b2f2a"/><path d="M96 90V70l12-8 16 6v22z" fill="#241a17"/><g stroke="#120c0a" stroke-width="2" stroke-linecap="round"><path d="M110 62v-12M110 54l-7-8M110 54l7-8M110 62l-4 8M110 62l4 8"/></g><circle cx="110" cy="46" r="3" fill="#120c0a"/></svg>';
@@ -1015,7 +1025,15 @@ function checks(host,list,onchange){
   var cins=$$('input',clh);
   progress(cins,$('#clbar'),$('#clout'),tot,function(n,t){return n===t?'全部通過！可以放心上台了。':'已完成 '+n+' / '+t+' 項'});
   $('#clrs').onclick=function(){cins.forEach(function(c){c.checked=false});cins[0].dispatchEvent(new Event('change'))};
+  function cltext(){var i=0,s='簡報確認表\n（簡報即戰力：柴怡萱 Sandy Chai）\n\n';CL.forEach(function(g){s+='【'+g[0]+'】\n';g[1].forEach(function(x){s+=(cins[i++].checked?'☑ ':'☐ ')+x+'\n'});s+='\n'});return s}
+  function cmsg(t){var e=$('#clmsg');if(e)e.textContent=t}
+  function ccopy(text,ok){function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);ok(r)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){ok(true)},fb)}else fb()}
+  $('#clcp').onclick=function(){ccopy(cltext(),function(r){cmsg(r?'已複製，可以貼到文件或訊息裡。':'複製失敗，請改用下載。')})};
+  $('#cldl').onclick=function(){try{var bl=new Blob(['﻿'+cltext()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='presentation-checklist.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href)},1000);cmsg('已下載 presentation-checklist.txt。')}catch(e){cmsg('這個瀏覽器無法下載，請改用複製。')}};
 })();
+
+
 })();
 
 </script>
